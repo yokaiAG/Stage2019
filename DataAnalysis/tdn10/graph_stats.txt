@@ -1,0 +1,63 @@
+Number of nodes: 167295
+Number of edges: 152495
+
+----- Stats for degrees -----
+Mean:  1.823067037269494
+Median:  1.0
+Min:  1
+Max:  55514
+25% <= 1.0
+75% <= 1.0
+90% <= 1.0
+95% <= 2.0
+99% <= 9.0
+
+----- Stats for in_degrees -----
+Mean:  0.911533518634747
+Median:  1.0
+Min:  0
+Max:  3
+25% <= 1.0
+75% <= 1.0
+90% <= 1.0
+95% <= 1.0
+99% <= 1.0
+
+----- Stats for out_degrees -----
+Mean:  0.911533518634747
+Median:  0.0
+Min:  0
+Max:  55514
+25% <= 0.0
+75% <= 0.0
+90% <= 0.0
+95% <= 1.0
+99% <= 9.0
+
+
+Number of weakly connected components: 15092 (calculated in 2.8922507762908936)
+Number of strongly connected components: 167295 (calculated in 2.8922507762908936)
+
+----- Stats for weakly connected components sizes -----
+Mean:  11.085011926848662
+Median:  2.0
+Min:  2
+Max:  97898
+25% <= 2.0
+75% <= 4.0
+90% <= 8.0
+95% <= 14.0
+99% <= 37.0
+
+----- Stats for strongly connected components sizes -----
+Mean:  1.0
+Median:  1.0
+Min:  1
+Max:  1
+25% <= 1.0
+75% <= 1.0
+90% <= 1.0
+95% <= 1.0
+99% <= 1.0
+
+

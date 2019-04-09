@@ -1,0 +1,42 @@
+----- Stats for tweets per user -----
+Total:  10428275
+Mean:  1.7965180030371861
+Median:  0.0
+Min:  0
+Max: 23777 (user [682613])
+25% <= 0.0
+75% <= 1.0
+90% <= 3.0
+95% <= 6.0
+99% <= 22.0
+Nb users with at least 1:  2317293
+Nb users with 0:  3487422
+
+----- Stats for retweets per user -----
+Total:  15249762
+Mean:  2.6271336318837357
+Median:  1.0
+Min:  0
+Max: 12769 (user [119928])
+25% <= 1.0
+75% <= 2.0
+90% <= 5.0
+95% <= 9.0
+99% <= 30.0
+Nb users with at least 1:  4482857
+Nb users with 0:  1321858
+
+----- Stats for retweeted per user -----
+Total:  11339937
+Mean:  1.9535734312537307
+Median:  0.0
+Min:  0
+Max: 735009 (user [11604])
+25% <= 0.0
+75% <= 0.0
+90% <= 0.0
+95% <= 1.0
+99% <= 7.0
+Nb users with at least 1:  405236
+Nb users with 0:  5399479
+

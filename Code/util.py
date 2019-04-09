@@ -14,7 +14,7 @@ lambda, mu, total_time = get_activity(data_path, RTU, cascade, divide_by_time=Tr
 Get graph in networkx format :
 G = get_nx_graph(data_path, RTU, cascade, truegraph)
 
-Get graph in dicts format (DOESN'T WORK PROPERLY):
+Get graph in dicts format :
 LeadGraph, FollowGraph = get_graph(data_path, RTU, cascade, truegraph)
 """
 
@@ -251,8 +251,6 @@ def get_graph(data_path, RTU, cascade, truegraph,  Author=None):
     
     """ returns LeadGraph, FollowGraph (dictionaries)"""
 
-    print("WARNING! Function get_graph doesn't work properly.")
-
     LeadGraph = dict()
     FollowGraph = dict()
     
@@ -274,71 +272,65 @@ def get_graph(data_path, RTU, cascade, truegraph,  Author=None):
             if v not in FollowGraph:
                 FollowGraph[v] = set()
 
-    # sinon on utilise une trace avec rtu, cascade ou rtid
-    else:
+    # si rtu
+    elif RTU:
+        for tweet in open(data_path, 'r'):
+            tweet = tweet.split()
+            uid, rtu = int(tweet[2]), int(tweet[-1])
+            if uid not in LeadGraph:
+                LeadGraph[uid] = set()
+            if uid not in FollowGraph:
+                FollowGraph[uid] = set()
+            if rtu != -1 :
+                LeadGraph[uid].add(rtu)
+                if rtu not in LeadGraph:
+                    LeadGraph[rtu] = set()
+                if rtu not in FollowGraph:
+                    FollowGraph[rtu] = set()
+                FollowGraph[rtu].add(uid)
 
-        # si on utilise des rtu
-        if RTU:
-            for tweet in open(data_path, 'r'):
-                tweet = tweet.split()
-                uid, rtu = int(tweet[2]), int(tweet[-1])
-                if uid not in LeadGraph:
-                    LeadGraph[uid] = set()
-                if uid not in FollowGraph:
-                    FollowGraph[uid] = set()
-                if rtu != -1 :
+    # si on utilise cascade (avec rtid donc)
+    elif cascade:
+        # last publisher dict
+        LastPublisher = dict(Author)
+        del Author
+        # create edges
+        for tweet in open(data_path, 'r'):
+            tweet = tweet.split()
+            uid, rtid = int(tweet[2]), int(tweet[-1])
+            if uid not in LeadGraph:
+                LeadGraph[uid] = set()
+            if uid not in FollowGraph:
+                FollowGraph[uid] = set()
+            if rtid != -1:
+                if rtid in LastPublisher:
+                    rtu = LastPublisher[rtid]
                     LeadGraph[uid].add(rtu)
                     if rtu not in LeadGraph:
                         LeadGraph[rtu] = set()
                     if rtu not in FollowGraph:
                         FollowGraph[rtu] = set()
                     FollowGraph[rtu].add(uid)
+                LastPublisher[rtid] = uid
 
-        # si on utilise cascade (avec rtid donc)
-        elif cascade:
-
-            # last publisher dict
-            LastPublisher = dict(Author)
-            del Author
-
-            # create edges
-            for tweet in open(data_path, 'r'):
-                tweet = tweet.split()
-                uid, rtid = int(tweet[2]), int(tweet[-1])
-                if uid not in LeadGraph:
-                    LeadGraph[uid] = set()
-                if uid not in FollowGraph:
-                    FollowGraph[uid] = set()
-                if rtid != -1:
-                    if rtid in LastPublisher:
-                        rtu = LastPublisher[rtid]
-                        LeadGraph[uid].add(rtu)
-                        if rtu not in LeadGraph:
-                            LeadGraph[rtu] = set()
-                        if rtu not in FollowGraph:
-                            FollowGraph[rtu] = set()
-                        FollowGraph[rtu].add(uid)
-                    LastPublisher[rtid] = uid
-
-        # dernier cas : rtid simple (sans cascade)
-        else: 
-
-            # create edges
-            for tweet in open(data_path, 'r'):
-                tweet = tweet.split()
-                uid, rtid = int(tweet[2]), int(tweet[-1])
-                if uid not in LeadGraph:
-                    LeadGraph[uid] = set()
-                if uid not in FollowGraph:
-                    FollowGraph[uid] = set()
-                if rtid != -1 and rtid in Author:
-                    rtu = Author[rtid]
-                    LeadGraph[uid].add(rtu)
-                    if rtu not in LeadGraph:
-                        LeadGraph[rtu] = set()
-                    if rtu not in FollowGraph:
-                        FollowGraph[rtu] = set()
-                    FollowGraph[rtu].add(uid)
+    # dernier cas : rtid simple (sans cascade)
+    else: 
+        # create edges
+        for tweet in open(data_path, 'r'):
+            tweet = tweet.split()
+            uid, rtid = int(tweet[2]), int(tweet[-1])
+            if uid not in LeadGraph:
+                LeadGraph[uid] = set()
+            if uid not in FollowGraph:
+                FollowGraph[uid] = set()
+            if rtid != -1 and rtid in Author:
+                rtu = Author[rtid]
+                LeadGraph[uid].add(rtu)
+                if rtu not in LeadGraph:
+                    LeadGraph[rtu] = set()
+                if rtu not in FollowGraph:
+                    FollowGraph[rtu] = set()
+                FollowGraph[rtu].add(uid)
 
     # end
     return LeadGraph, FollowGraph

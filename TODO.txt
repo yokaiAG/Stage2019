@@ -1,0 +1,19 @@
+------------------------
+stats graphe sur vrai graphe
+
+------------------------
+regression psi_model fct psi_emul ou inverse
+tau kendall
+distance moyenne (rangs 6 5 2 2 2 1 0 pour psi 12 11 10 10 10 7 4)
+nb de users en commun sur les N premiers psi (ou sur tous les psis >cste choisie)
+		=====> ne pas recalculer l'intersection à chaque fois !!! méthode intelligente: quand on passe de N à N+1, on update les sets emul et model et on ajoute 0, 1 ou 2 à la taille de l'intersection en fct  de si le nouvel user emul est dans model et si le nouvel user model est dans emul
+
+créer un fichier avec les sorties:
+N | psi_dernier | tau_kendall | distance_moyenne | %age_users_communs_intersection
+
++ plots!
+
+------------------------
+refaire ça pour les nouveaux datasets (calculer model sur woolthorpe)
+
+------------------------

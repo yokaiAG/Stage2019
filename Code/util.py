@@ -8,7 +8,7 @@
 
 """ 
 Load dataset :
-data_path, out_path, RTU, truegraph = load_data(dataset, cascade)
+data_path, RTU, truegraph = load_data(dataset, cascade)
 
 Get activity :
 lambda, mu, total_time = get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
@@ -38,61 +38,51 @@ def load_data(dataset, cascade=False):
 
     # wcano
     if dataset == 'wcano':
-        data_path = "../Datsets/wcano/tweets.tronques.sorted22n.txt"
-        out_path = "../DataAnalysis/wcano/"
+        data_path = "../Datasets/wcano/tweets.tronques.sorted22n.txt"
         RTU = False
         truegraph = False
 
     # russian
     elif dataset == 'russian_rtu':
         data_path = "../Datasets/russian/russian_election_2018_rtu.txt"
-        out_path = "../DataAnalysis/russian/"
         RTU = True
         truegraph = False
     elif dataset == 'russian_rtid':
         data_path = "../Datasets/russian/russian_election_2018_rtid.txt"
-        out_path = "../DataAnalysis/russian/"
         RTU = False
         truegraph = False
 
     # weibo
     elif dataset == 'weibo_rtu':
         data_path = "../Datasets/weibo/total_rtu.txt"
-        out_path = "../DataAnalysis/weibo/"
         RTU = True
         truegraph = False
     elif dataset == 'weibo_rtid':
         data_path = "../Datasets/weibo/total_rtid.txt"
-        out_path = "../DataAnalysis/wdeibo/"
         RTU = False
         truegraph = False
 
     # tdn
     elif dataset == 'tdn10':
-        data_path = "../Datasets/tdn/tdn10/tweets2010_clean.txt"
-        out_path = "../DataAnalysis/tdn/tdn10/"
+        data_path = "../Datasets/tdn/tweets2010_clean.txt"
         RTU = True
         truegraph = False
     elif dataset == 'tdn11':
-        data_path = "../Datasets/tdn/tdn11/tweets2011_clean.txt"
-        out_path = "../DataAnalysis/tdn/tdn11/"
+        data_path = "../Datasets/tdn/tweets2011_clean.txt"
         RTU = True
         truegraph = False
     elif dataset == 'tdnT':
-        data_path = "../Datasets/tdn/tdnT/adjacency_list.txt"
-        out_path = "../DataAnalysis/tdn/tdnT/"
+        data_path = "../Datasets/tdn/tdnT_adjacency_list.txt"
         RTU = False
         truegraph = True
 
     # test
     elif dataset == 'test_rtu':
         data_path = "../Datasets/test/test_rtu.txt"
-        out_path = "../DataAnalysis/test/"
         RTU = True
         truegraph = False
     elif dataset == 'test_rtid':
         data_path = "../Datasets/test/test_rtid.txt"
-        out_path = "../DataAnalysis/test/"
         RTU = False
         truegraph = False
 
@@ -100,7 +90,7 @@ def load_data(dataset, cascade=False):
         print("Non existing dataset.")
         return None
         
-    return data_path, out_path, RTU, truegraph
+    return data_path, RTU, truegraph
 
 
 # ## Get $\lambda, \mu$

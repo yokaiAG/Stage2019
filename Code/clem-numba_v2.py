@@ -208,7 +208,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
 
 # The following function is the general iteration to derive the solution on the Walls, Newsfeeds and the metric of Influence \Psi, for all users i=1...N
 @jit
-def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,fp,fq,fpsi,begin, end,it = 1000, eps = .001):
+def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,fpsi,it = 1000, eps = .001):
     # The fixed point solution is slow because the fixed point needs to be 
     # calculated for each label i separately.
     #
@@ -290,7 +290,7 @@ def user_influence_v2(user,N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,it = 100, eps
 # COMPUTE VALUES
 print("Computing p, q and psi...")
 if iend==-1:
-    iend = len(Lusers)
+    iend = N
 
 fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
 fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')

@@ -27,9 +27,10 @@ from numba import jit
 # INIT
 print("init...")
 dataset = str(sys.argv[1])
-cascade = bool(sys.argv[2])
-ibegin = str(sys.argv[3])
-iend = str(sys.argv[4])
+cascade = bool(int(sys.argv[2]))
+ibegin = int(sys.argv[3])
+iend = int(sys.argv[4])
+print("Cascade : ", cascade)
 
 data_path, RTU, truegraph = util.load_data(dataset)
 if RTU : 
@@ -287,6 +288,9 @@ def user_influence_v2(user,N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,it = 100, eps
 
 # COMPUTE VALUES
 print("Computing p, q and psi...")
+if iend==-1:
+    iend = len(Lusers)
+
 fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
 fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
 
@@ -295,8 +299,6 @@ if dataset == 'wcano':
 else:
     fpsi = open(out_path + "Psi_model_%d_%d.txt" %(ibegin,iend), 'w')
 
-if iend==-1:
-    iend = len(Lusers)
 (pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,ibegin,iend,fp,fq,fpsi)
 
 fpsi.close()

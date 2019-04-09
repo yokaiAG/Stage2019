@@ -58,6 +58,7 @@ LeadGraph, FollowGraph = util.get_graph(data_path, RTU, cascade, truegraph, Auth
 # list of users
 Lusers = list(Rtweet.keys())
 Lusers.sort()
+N = len(Lusers)
 
 
 # ## 3. Performance evaluation

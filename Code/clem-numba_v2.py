@@ -220,7 +220,8 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
     l=0  #just a counter (could be used for parallelization)
     for i in range(begin,end):
         user = Lusers[i]
-        # print(l)
+        sys.stdout.flush()
+        sys.stdout.write("Computing p,q,PSi for user {} / {}...\r".format(l, end-begin))
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som)
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)
@@ -305,3 +306,5 @@ else:
 fpsi.close()
 fq.close()
 fp.close()
+
+print("Success !")

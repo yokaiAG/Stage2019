@@ -1,17 +1,15 @@
 
 # coding: utf-8
 
-# # <center> Utilitary functions </center>
-
-# In[ ]:
-
-
 """ 
 Load dataset :
 data_path, RTU, truegraph = load_data(dataset, cascade)
 
+Get authors/last Publisher dict:
+Author = get_authors(data_path)
+
 Get activity :
-lambda, mu, total_time = get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
+lambda, mu, total_time = get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False)
 
 Get graph in networkx format :
 G = get_nx_graph(data_path, RTU, cascade, truegraph)
@@ -25,10 +23,6 @@ import networkx as nx
 
 
 # ## Get dataset
-
-# In[1]:
-
-
 def load_data(dataset, cascade=False):
     
     """ Choose dataset between (string):
@@ -93,12 +87,18 @@ def load_data(dataset, cascade=False):
     return data_path, RTU, truegraph
 
 
+# ## Create author dict
+def get_authors(data_path):
+    Author = dict()
+    for tweet in open(data_path):
+        tweet = tweet.split()
+        twid, uid = int(tweet[0]), int(tweet[2])
+        Author[twid] = uid
+    return Author
+
+
 # ## Get $\lambda, \mu$
-
-# In[2]:
-
-
-def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
+def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False,  Author=None):
     
     """ returns lambda, mu, total_time
     if retweeted : returns lambda, mu, nu, total_time
@@ -106,12 +106,11 @@ def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
     
     users = set()
     count = {'tweets':dict(), 'retweets':dict(), 'retweeted':dict()}
-    tweets = open(data_path, 'r')
 
     if RTU:
 
         # parcourt tweets
-        for i,tweet in enumerate(tweets):
+        for i,tweet in enumerate(open(data_path)):
             tweet = tweet.split()
             ts, uid, rtu = int(tweet[1]), int(tweet[2]), int(tweet[-1])
 
@@ -139,25 +138,13 @@ def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
 
     else:
 
-        # si cascade on doit recréer le LastPublisher dict
+        # si cascade le author dict est en fait un LastPublisher dict
         if cascade:
-            LastPublisher = dict()
-            for tweet in tweets:
-                tweet = tweet.split()
-                twid, uid = int(tweet[0]), int(tweet[2])
-                LastPublisher[twid] = uid
-
-        # sinon on recrée le author dict
-        else:
-            Author = dict()
-            for tweet in tweets:
-                tweet = tweet.split()
-                twid, uid = int(tweet[0]), int(tweet[2])
-                Author[twid] = uid
+            LastPublisher = dict(Author)
+            del Author
 
         # parcourt tweets
-        tweets.seek(0)
-        for i,tweet in enumerate(tweets):
+        for i,tweet in enumerate(open(data_path)):
             tweet = tweet.split()
             ts, uid, rtid = int(tweet[1]), int(tweet[2]), int(tweet[-1])
 
@@ -197,7 +184,6 @@ def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
 
     # end
     total_time = ts - firstT
-    tweets.close()
     
     if divide_by_time:
         for activity_type in count:
@@ -212,11 +198,7 @@ def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False):
 
 
 # ## Get networkx graph
-
-# In[3]:
-
-
-def get_nx_graph(data_path, RTU, cascade, truegraph):
+def get_nx_graph(data_path, RTU, cascade, truegraph, Author=None):
 
     """ returns networkx graph """
     
@@ -231,12 +213,9 @@ def get_nx_graph(data_path, RTU, cascade, truegraph):
     # sinon on utilise une trace avec rtu, cascade ou rtid
     else:
 
-        # get data
-        tweets = open(data_path, 'r')
-
         # si on utilise des rtu
         if RTU:
-            for tweet in tweets:
+            for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 uid, rtu = int(tweet[2]), int(tweet[-1])
                 if rtu != -1 :
@@ -244,17 +223,9 @@ def get_nx_graph(data_path, RTU, cascade, truegraph):
 
         # si on utilise cascade (avec rtid donc)
         elif cascade:
-
-            # last publisher dict
-            LastPublisher = dict()
-            for tweet in tweets:
-                tweet = tweet.split()
-                twid, uid = int(tweet[0]), int(tweet[2])
-                LastPublisher[twid] = uid
-
-            # create edges
-            tweets.seek(0)
-            for tweet in tweets:
+            LastPublisher = dict(Author)
+            del Author
+            for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 twid, uid, rtid = int(tweet[0]), int(tweet[2]), int(tweet[-1])
                 if rtid != -1:
@@ -263,41 +234,24 @@ def get_nx_graph(data_path, RTU, cascade, truegraph):
                     LastPublisher[rtid] = uid
 
         # dernier cas : rtid simple (sans cascade)
-        else: 
-
-            # author dict
-            Author = dict()
-            for tweet in tweets:
-                tweet = tweet.split()
-                twid, uid = int(tweet[0]), int(tweet[2])
-                Author[twid] = uid
-
-            # create edges
-            tweets.seek(0)
-            for tweet in tweets:
+        else:
+            for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 twid, uid, rtid = int(tweet[0]), int(tweet[2]), int(tweet[-1])
                 if rtid != -1:
                     if rtid in Author:
                         G.add_edge(Author[rtid], uid)
 
-        # close
-        tweets.close()
-
     # end
     return G
 
 
 # ## Get Leadgraph and Followgraph dicts
-
-# In[ ]:
-
-
-def get_graph(data_path, RTU, cascade, truegraph):
+def get_graph(data_path, RTU, cascade, truegraph,  Author=None):
     
     """ returns LeadGraph, FollowGraph (dictionaries)"""
 
-    LeadGraph = dict
+    LeadGraph = dict()
     FollowGraph = dict()
     
     # si on étudie un vrai graphe (adjacency list)
@@ -312,17 +266,18 @@ def get_graph(data_path, RTU, cascade, truegraph):
             if v in LeadGraph:
                 LeadGraph[v].add(u)
             else:
-                Leadgraph[v] = {u}
+                LeadGraph[v] = {u}
+            if u not in LeadGraph:
+                LeadGraph[u] = set()
+            if v not in FollowGraph:
+                FollowGraph[v] = set()
 
     # sinon on utilise une trace avec rtu, cascade ou rtid
     else:
 
-        # get data
-        tweets = open(data_path, 'r')
-
         # si on utilise des rtu
         if RTU:
-            for tweet in tweets:
+            for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 uid, rtu = int(tweet[2]), int(tweet[-1])
                 if rtu != -1 :
@@ -334,21 +289,21 @@ def get_graph(data_path, RTU, cascade, truegraph):
                     if v in LeadGraph:
                         LeadGraph[v].add(u)
                     else:
-                        Leadgraph[v] = {u}
+                        LeadGraph[v] = {u}
+                    if u not in LeadGraph:
+                        LeadGraph[u] = set()
+                    if v not in FollowGraph:
+                        FollowGraph[v] = set()
 
         # si on utilise cascade (avec rtid donc)
         elif cascade:
 
             # last publisher dict
-            LastPublisher = dict()
-            for tweet in tweets:
-                tweet = tweet.split()
-                twid, uid = int(tweet[0]), int(tweet[2])
-                LastPublisher[twid] = uid
+            LastPublisher = dict(Author)
+            del Author
 
             # create edges
-            tweets.seek(0)
-            for tweet in tweets:
+            for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 twid, uid, rtid = int(tweet[0]), int(tweet[2]), int(tweet[-1])
                 if rtid != -1:
@@ -361,22 +316,18 @@ def get_graph(data_path, RTU, cascade, truegraph):
                         if v in LeadGraph:
                             LeadGraph[v].add(u)
                         else:
-                            Leadgraph[v] = {u}
+                            LeadGraph[v] = {u}
+                        if u not in LeadGraph:
+                            LeadGraph[u] = set()
+                        if v not in FollowGraph:
+                            FollowGraph[v] = set()
                     LastPublisher[rtid] = uid
 
         # dernier cas : rtid simple (sans cascade)
         else: 
 
-            # author dict
-            Author = dict()
-            for tweet in tweets:
-                tweet = tweet.split()
-                twid, uid = int(tweet[0]), int(tweet[2])
-                Author[twid] = uid
-
             # create edges
-            tweets.seek(0)
-            for tweet in tweets:
+            for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 twid, uid, rtid = int(tweet[0]), int(tweet[2]), int(tweet[-1])
                 if rtid != -1:
@@ -389,11 +340,11 @@ def get_graph(data_path, RTU, cascade, truegraph):
                         if v in LeadGraph:
                             LeadGraph[v].add(u)
                         else:
-                            Leadgraph[v] = {u}
-
-        # close
-        tweets.close()
+                            LeadGraph[v] = {u}
+                        if u not in LeadGraph:
+                            LeadGraph[u] = set()
+                        if v not in FollowGraph:
+                            FollowGraph[v] = set()
 
     # end
     return LeadGraph, FollowGraph
-

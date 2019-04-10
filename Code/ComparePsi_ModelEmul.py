@@ -41,23 +41,23 @@ Psi = dict()
 start = time()
 
 # emul
-with open(outpath + "Psi_emul.txt") as psi_list:
+with open(psiemul) as psi_list:
     for i,line in enumerate(psi_list):
         line = line.split()
         current_user = int(line[0])
         current_psi = float(line[1])
         if current_psi==0:
-            break
+            continue
         Psi[current_user] = [current_psi, 0]
 
 # model
-with open(outpath + "Psi_model.txt") as psi_list:
+with open(psimodel) as psi_list:
     for i,line in enumerate(psi_list):
         line = line.split()
         current_user = int(line[0])
         current_psi = float(line[1])
         if current_psi==0:
-            break
+            continue
         if current_user in Psi.keys():
             Psi[current_user][-1] = current_psi
         else:

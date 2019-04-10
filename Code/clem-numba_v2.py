@@ -50,10 +50,16 @@ if not RTU:
 
 
 # GET LAMBDAS MUS AND GRAPH
-print("Getting lambdas and mus...")
-Rtweet, Rrtweet, total_time = util.get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False, Author=Author)
-print("Getting leaders and followers...")
-LeadGraph, FollowGraph = util.get_graph(data_path, RTU, cascade, truegraph, Author=Author)
+if RTU:
+    print("Getting lambdas and mus...")
+    Rtweet, Rrtweet, total_time = util.get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False, Author=None)
+    print("Getting leaders and followers...")
+    LeadGraph, FollowGraph = util.get_graph(data_path, RTU, cascade, truegraph, Author=None)
+else:
+    print("Getting lambdas and mus...")
+    Rtweet, Rrtweet, total_time = util.get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False, Author=Author)
+    print("Getting leaders and followers...")
+    LeadGraph, FollowGraph = util.get_graph(data_path, RTU, cascade, truegraph, Author=Author)
 
 # list of users
 Lusers = list(Rtweet.keys())

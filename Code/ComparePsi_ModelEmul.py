@@ -93,8 +93,8 @@ print("Psimodel en fct de Psiemul")
 start = time()
 
 # cut extreme values
-emul_to_plot = emul[:N][np.where(emul[:N]<0.01)]
-model_to_plot = model_sortby_emul[:N][np.where(emul[:N]<0.01)]
+emul_to_plot = emul[:N]
+model_to_plot = model_sortby_emul[:N]
 
 # regression
 reg = LinearRegression().fit(emul_to_plot.reshape(-1,1), model_to_plot.reshape(-1,1))
@@ -121,14 +121,14 @@ start = time()
 
 plt.scatter(emul_to_plot, model_to_plot, marker='.', alpha=0.1, label="measured values")
 plt.plot(emul_to_plot, regression(emul_to_plot), c='r', ls=':', label="regression line")
-plt.xlim(0, 0.001)
-plt.ylim(0, 0.005)
+# plt.xlim(0, 0.001)
+# plt.ylim(0, 0.005)
 # plt.xticks([k/10000 for k in range(0,21,5)])
 plt.xlabel("Psi emul")
 plt.ylabel("Psi model")
 plt.legend(loc='best', shadow=True)
 plt.title(title)
-plt.savefig(outpath + "Psi_model_fct_psi_emul_zoom.png")
+plt.savefig(outpath + "Psi_model_fct_psi_emul.png")
 plt.show()
 plt.close()
 

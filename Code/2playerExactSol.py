@@ -3,7 +3,7 @@
 
 # In[1]:
 
-
+import sys
 import numpy as np
 from sympy import *
 import networkx as nx
@@ -16,8 +16,8 @@ import networkx as nx
 
 N = 2 # nb users
 users = range(N)
-K = 1
-M = 1
+K = int(sys.argv[1])
+M = int(sys.argv[2])
 S = (K+1)**2 * (M+1)**2
 
 
@@ -135,10 +135,6 @@ for i in range(S):
 # In[24]:
 
 
-for i,q in enumerate(Q):
-    if q != 0:
-        print(Q_theo[i], q)
-
 
 # Create $U$ (vector of stationary probability).
 
@@ -153,7 +149,7 @@ for k1 in range(K+1):
                 U.append(Symbol('Pi_%d%d%d%d'%(k1, m1, k2, m2)))
 # U = Matrix([U])
 
-
+print(U)
 # In[26]:
 
 
@@ -183,10 +179,15 @@ sol = linsolve((Q_aug, b), U)
 
 # In[ ]:
 
+out = open("2playersol_K{}M{}.txt".format(K,M), "w")
+for S in sol:
+    for i,s in enumerate(list(sol)[0]):
+        # print(U[i], s)
+        out.write("{} : {}\n".format(U[i], simplify(s)))
+    out.write("\n\n\n")
+out.close()
 
-for i,s in enumerate(list(sol)[0]):
-    print(U[i], s)
-
+sys.exit()
 
 # ## Graphe
 

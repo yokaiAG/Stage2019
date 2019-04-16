@@ -46,34 +46,16 @@ print("Memes users model et emul ? {}".format(set(Psi['model'].keys()) == set(Ps
 
 
 # ### 3.1 Correlations
-outdegs = list()
-lambdas = list()
-nus = list()
 psis_model = list()
 psis_emul = list()
 
 for u in Psi['model']:
-    outdegs.append(G.out_degree[u])
-    lambdas.append(Lambda[u])
-    nus.append(Nu[u])
     psis_model.append(Psi['model'][u])
     psis_emul.append(Psi['emul'][u])
 
-outdegs = np.array(outdegs).reshape(-1,1)
-lambdas = np.array(lambdas).reshape(-1,1)
-nus = np.array(nus).reshape(-1,1)
 psis_model = np.array(psis_model).reshape(-1,1)
 psis_emul = np.array(psis_emul).reshape(-1,1)
 
-# outdeg
-corr = np.corrcoef(np.concatenate((outdegs, psis_model), axis=1), rowvar=False)[0,1]
-outfile.write("Correlation coeff between outdeg and psi_model : {}\n".format(corr))
-# lambda
-corr = np.corrcoef(np.concatenate((lambdas, psis_model), axis=1), rowvar=False)[0,1]
-outfile.write("Correlation coeff between lambda and psi_model : {}\n".format(corr))
-# nu
-corr = np.corrcoef(np.concatenate((nus, psis_model), axis=1), rowvar=False)[0,1]
-outfile.write("Correlation coeff between nu and psi_model : {}\n".format(corr))
 # psis
 corr = np.corrcoef(np.concatenate((psis_emul, psis_model), axis=1), rowvar=False)[0,1]
 outfile.write("Correlation coeff between psi_emul and psi_model : {}\n".format(corr))

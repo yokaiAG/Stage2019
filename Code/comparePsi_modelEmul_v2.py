@@ -21,7 +21,7 @@ mpl.rc('font', family = 'serif')
 psiemul = str(sys.argv[1])
 psimodel = str(sys.argv[2])
 outpath = str(sys.argv[3])
-nb_top_influencers = 20
+nb_top_influencers = str(sys.argv[4])
 if not outpath.endswith("/"):
     outpath += "/"
 outfile = open(outpath + "compare_psimodelemul_v2.txt")
@@ -42,7 +42,7 @@ for line in open(psimodel):
         Psi['model'][user] = psi
 
 
-print("Memes users model et emul ? {}".format(set(Psi['model'].keys()) == set(Psi['emul'].keys()))
+print("Memes users model et emul ? {}".format(set(Psi['model'].keys()) == set(Psi['emul'].keys())))
 
 
 # ### 3.1 Correlations

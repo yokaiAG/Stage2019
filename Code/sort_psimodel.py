@@ -22,5 +22,5 @@ psi_model = sorted(psi_model, key=itemgetter(1), reverse=True)
 # write to out
 out = open(outfile, 'w')
 for user, psi in psi_model:
-    out.write("{} {}".format(user, psi))
+    out.write("{} {}\n".format(user, psi))
 out.close()

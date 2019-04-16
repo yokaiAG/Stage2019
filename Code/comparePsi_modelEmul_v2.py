@@ -24,7 +24,7 @@ outpath = str(sys.argv[3])
 nb_top_influencers = str(sys.argv[4])
 if not outpath.endswith("/"):
     outpath += "/"
-outfile = open(outpath + "compare_psimodelemul_v2.txt")
+outfile = open(outpath + "compare_psimodelemul_v2.txt", "w")
 
 # Load influences into dicts.
 Psi = {'emul':dict(), 'model':dict()}

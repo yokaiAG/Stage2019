@@ -21,7 +21,7 @@ mpl.rc('font', family = 'serif')
 psiemul = str(sys.argv[1])
 psimodel = str(sys.argv[2])
 outpath = str(sys.argv[3])
-nb_top_influencers = str(sys.argv[4])
+nb_top_influencers = int(sys.argv[4])
 if not outpath.endswith("/"):
     outpath += "/"
 outfile = open(outpath + "compare_psimodelemul_v2.txt", "w")
@@ -68,7 +68,7 @@ fig, ax = plt.subplots()
 
 # labels and legend
 plt.xlabel(r"$\psi$")
-plt.ylabel(r"Nb. users with $\Psi \geq \psi$".format(origin))
+plt.ylabel(r"Nb. users with $\Psi \geq \psi$")
 
 # to remember first plot for zoom
 old = True

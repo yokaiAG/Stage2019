@@ -362,7 +362,7 @@ for n in range(2, N):
             nb_users_seen += 1
     
     # on update les listes
-    common_users_prop.append(current_intersect / nb_users_seen)
+    common_users_prop.append(current_intersect / n)
     seen_users_emul.add(current_user_emul)
     seen_users_model.add(current_user_model)
 

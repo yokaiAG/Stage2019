@@ -9,13 +9,13 @@ Get authors/last Publisher dict:
 Author = get_authors(data_path)
 
 Get activity :
-lambda, mu, total_time = get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False)
+lambda, mu, total_time = get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False, Author=Author)
 
 Get graph in networkx format :
-G = get_nx_graph(data_path, RTU, cascade, truegraph)
+G = get_nx_graph(data_path, RTU, cascade, truegraph, Author=Author)
 
 Get graph in dicts format :
-LeadGraph, FollowGraph = get_graph(data_path, RTU, cascade, truegraph)
+LeadGraph, FollowGraph = get_graph(data_path, RTU, cascade, truegraph, Author=Author)
 """
 
 
@@ -126,11 +126,12 @@ def get_activity(data_path, RTU, cascade, divide_by_time=True, retweeted=False, 
             # si retweet update nb_retweets et nb_retweeted, ajoute rtu à users
             else:
                 count['retweets'][uid] += 1
-                if rtu not in users:
-                    users.add(rtu)
-                    count['tweets'][rtu], count['retweets'][rtu], count['retweeted'][rtu] = 0, 0, 1
-                else:
-                    count['retweeted'][rtu] += 1
+                if rtu in Author.values(): # si rtu est un noeud du graphe d'utilisateurs
+                    if rtu not in users:
+                        users.add(rtu)
+                        count['tweets'][rtu], count['retweets'][rtu], count['retweeted'][rtu] = 0, 0, 1
+                    else:
+                        count['retweeted'][rtu] += 1
 
             # on enregistre le ts du 1er tweet
             if i==0:
@@ -206,7 +207,7 @@ def get_nx_graph(data_path, RTU, cascade, truegraph, Author=None):
     
     # si on étudie un vrai graphe (adjacency list)
     if truegraph:
-        for i,line in enumerate(open(data_path, 'r')):
+        for line in open(data_path, 'r'):
             line = line.split()
             G.add_edge(int(line[0]), int(line[1]))
 
@@ -218,7 +219,9 @@ def get_nx_graph(data_path, RTU, cascade, truegraph, Author=None):
             for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
                 uid, rtu = int(tweet[2]), int(tweet[-1])
-                if rtu != -1 :
+                if uid not in G.nodes:
+                    G.add_node(uid)
+                if rtu != -1 and rtu in Author.values():
                     G.add_edge(rtu, uid)
 
         # si on utilise cascade (avec rtid donc)
@@ -227,7 +230,9 @@ def get_nx_graph(data_path, RTU, cascade, truegraph, Author=None):
             del Author
             for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
-                twid, uid, rtid = int(tweet[0]), int(tweet[2]), int(tweet[-1])
+                uid, rtid = int(tweet[2]), int(tweet[-1])
+                if uid not in G.nodes:
+                    G.add_node(uid)
                 if rtid != -1:
                     if rtid in LastPublisher:
                         G.add_edge(LastPublisher[rtid], uid)
@@ -237,7 +242,9 @@ def get_nx_graph(data_path, RTU, cascade, truegraph, Author=None):
         else:
             for tweet in open(data_path, 'r'):
                 tweet = tweet.split()
-                twid, uid, rtid = int(tweet[0]), int(tweet[2]), int(tweet[-1])
+                uid, rtid = int(tweet[2]), int(tweet[-1])
+                if uid not in G.nodes:
+                    G.add_node(uid)
                 if rtid != -1:
                     if rtid in Author:
                         G.add_edge(Author[rtid], uid)
@@ -281,7 +288,7 @@ def get_graph(data_path, RTU, cascade, truegraph,  Author=None):
                 LeadGraph[uid] = set()
             if uid not in FollowGraph:
                 FollowGraph[uid] = set()
-            if rtu != -1 :
+            if rtu != -1 and rtu in Author.values():
                 LeadGraph[uid].add(rtu)
                 if rtu not in LeadGraph:
                     LeadGraph[rtu] = set()

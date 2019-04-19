@@ -28,8 +28,9 @@ from numba import jit
 print("init...")
 dataset = str(sys.argv[1])
 cascade = bool(int(sys.argv[2]))
-ibegin = int(sys.argv[3])
-iend = int(sys.argv[4])
+save_news_wall = bool(int(sys.argv[3]))
+ibegin = int(sys.argv[4])
+iend = int(sys.argv[5])
 print("Cascade : ", cascade)
 
 data_path, RTU, truegraph = util.load_data(dataset)
@@ -246,17 +247,18 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
         #if command can be used to break the routine at l==1000 or some other number.
         #if l == 1000:
         #    return (pNews,qWall,Psi)
-        fp.write("%d "%user)
-        for news in pNews[user]:
-            fp.write("%d %g "%(news,pNews[user][news]))
-        fp.write("\n")
-        fq.write("%d "%user)
-        for wall in qWall[user]:
-            fq.write("%d %g "%(wall,qWall[user][wall]))
-        fq.write("\n")
+        if save_news_wall:
+            fp.write("%d "%user)
+            for news in pNews[user]:
+                fp.write("%d %g "%(news,pNews[user][news]))
+            fp.write("\n")
+            fq.write("%d "%user)
+            for wall in qWall[user]:
+                fq.write("%d %g "%(wall,qWall[user][wall]))
+            fq.write("\n")
+            fp.flush()
+            fq.flush()
         fpsi.write("%d %g\n"%(user,Psi[user]))
-        fp.flush()
-        fq.flush()
         fpsi.flush()
     #
     return (pNews,qWall,Psi)

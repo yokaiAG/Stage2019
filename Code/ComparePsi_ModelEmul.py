@@ -326,8 +326,8 @@ users_model = [ user for user,psi in sorted(rank_model.items(), key=itemgetter(1
 seen_users_emul = set(users_emul[:2])
 seen_users_model = set(users_model[:2])
 
-# le nombre courant d'utilisateurs (uniques) qu'on a vu
-nb_users_seen = len(seen_users_emul.union(seen_users_model))
+# le nombre courant d'utilisateurs emul qu'on a vu
+nb_users_seen = len(seen_users_emul)
 
 # la taille de l'intersection courante et liste des proportions d'users communs
 current_intersect = len(seen_users_emul.intersection(seen_users_model))

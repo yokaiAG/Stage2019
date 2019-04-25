@@ -83,6 +83,10 @@ def load_data(dataset, cascade=False):
         data_path = "../Datasets/test/test_rtid.txt"
         RTU = False
         truegraph = False
+    elif dataset == 'test_T':
+        data_path = "../Datasets/test/test_graph.txt"
+        RTU = False
+        truegraph = True
 
     else:
         print("Non existing dataset.")

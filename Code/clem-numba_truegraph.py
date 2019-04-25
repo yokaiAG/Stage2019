@@ -32,15 +32,13 @@ cascade = bool(int(sys.argv[3]))
 save_news_wall = bool(int(sys.argv[4]))
 ibegin = int(sys.argv[5])
 iend = int(sys.argv[6])
+out_path = str(sys.argv[7])
 print("Cascade : ", cascade)
 
 data_path, RTU, truegraph = util.load_data(dataset)
 adjacency_path, RTU_adj, truegraph_adj = util.load_data(adjacency_list)
 if RTU : 
     cascade = False # en cas d'erreur d'inattention
-out_path = "../PsiResults/{}/".format(dataset)
-if cascade:
-    out_path = out_path[:-1] + "_cascade/" 
 
 
 # Author dict creation if not RTU

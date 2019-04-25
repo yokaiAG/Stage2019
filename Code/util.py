@@ -55,6 +55,10 @@ def load_data(dataset, cascade=False):
         data_path = "../Datasets/weibo/total_rtid.txt"
         RTU = False
         truegraph = False
+    elif dataset == 'weibo_T':
+        data_path = "../Datasets/weibo/true_adjacency_list.txt"
+        RTU = False
+        truegraph = True
 
     # tdn
     elif dataset == 'tdn10':

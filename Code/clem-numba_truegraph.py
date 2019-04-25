@@ -62,11 +62,30 @@ else:
     print("Getting leaders and followers...")
     LeadGraph, FollowGraph = util.get_graph(adjacency_path, RTU_adj, cascade, truegraph_adj, Author=None)
 
+# get common users between trace and real graph
+# we remove users with 0 activity or 0 edges
+common_users_old = set(Rtweet.keys()).intersection(set(LeadGraph.keys()))
+common_users = set()
+for u in common_users_old:
+    if Rtweet[u]==0 and Rrtweet[u]==0:
+        continue
+    elif LeadGraph[u]==set() and FollowGraph[u]==set():
+        continue
+    else:
+        common_users.add(u)
+del common_users_old
+
+# eliminate users that are not common between graph and twitter trace
+Rtweet = { u: Rtweet[u] for u in common_users }
+Rrtweet = { u: Rrtweet[u] for u in common_users }
+LeadGraph = { u: LeadGraph[u].intersection(common_users) for u in common_users }
+FollowGraph = { u: FollowGraph[u].intersection(common_users) for u in common_users }
+del common_users
+
 # list of users
 Lusers = list(Rtweet.keys())
 Lusers.sort()
 N = len(Lusers)
-
 
 # ## 3. Performance evaluation
 # From the Linear System solution, one realises that it is necessary to first populate the matrices $A$ and $C$, which are relevant for any solution process of the system. 
@@ -315,4 +334,4 @@ fpsi.close()
 fq.close()
 fp.close()
 
-print("Success !")
+print("\nSuccess !")

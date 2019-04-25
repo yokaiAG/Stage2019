@@ -1,0 +1,4 @@
+Proportion of users from oursin in real graph : 0.9999701674204365
+Proportion of users from real in oursin graph : 0.7502582416291101
+Proportion of edges in oursin present in real : 0.2617581017506095
+Proportion of edges in real present in oursin : 0.02065690460240778

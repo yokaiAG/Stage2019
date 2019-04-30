@@ -1,0 +1,4 @@
+there are users with emul=0 and model>0.
+there are NO users with emul>0 and model=0.
+
+emul : ../weibo_rtid/Psi_emul.txt

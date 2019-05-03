@@ -35,6 +35,18 @@ iend = int(sys.argv[6])
 out_path = str(sys.argv[7])
 print("Cascade : ", cascade)
 
+# to compute psi only for the nb_best most influent users from emul
+best_from_emul = bool(int(sys.argv[8]))
+if best_from_emul:
+    nb_best = int(sys.argv[9])
+    emul_path = str(sys.argv[10])
+    # save id of best users from emul
+    best_users_emul = set()
+    for i,line in enumerate(open(emul_path), 1):
+        best_users_emul.add(int(line.split()[0]))
+        if i==nb_best:
+            break
+
 data_path, RTU, truegraph = util.load_data(dataset)
 adjacency_path, RTU_adj, truegraph_adj = util.load_data(adjacency_list)
 if RTU : 
@@ -246,6 +258,9 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
     l=0  #just a counter (could be used for parallelization)
     for i in range(begin,end):
         user = Lusers[i]
+        if best_from_emul:
+            if user not in best_users_emul:
+                continue
         sys.stdout.flush()
         sys.stdout.write("Computing p,q,PSi for user {} / {}...\r".format(l, end-begin))
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som)

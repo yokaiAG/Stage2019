@@ -38,14 +38,17 @@ print("Cascade : ", cascade)
 # to compute psi only for the nb_best most influent users from emul
 best_from_emul = bool(int(sys.argv[8]))
 if best_from_emul:
-    nb_best = int(sys.argv[9])
-    emul_path = str(sys.argv[10])
+    best_start = int(sys.argv[9])
+    best_end = int(sys.argv[10])
+    emul_path = str(sys.argv[11])
     # save id of best users from emul
     best_users_emul = set()
-    for i,line in enumerate(open(emul_path), 1):
-        best_users_emul.add(int(line.split()[0]))
-        if i==nb_best:
+    for i,line in enumerate(open(emul_path)):
+        if i < best_start:
+            continue
+        if i > best_end:
             break
+        best_users_emul.add(int(line.split()[0]))
 
 data_path, RTU, truegraph = util.load_data(dataset)
 adjacency_path, RTU_adj, truegraph_adj = util.load_data(adjacency_list)

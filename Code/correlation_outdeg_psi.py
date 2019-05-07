@@ -1,7 +1,9 @@
 import sys
 import util
-import numpy as np 
+import numpy as np
+from operator import itemgetter
 
+# args
 dataset = str(sys.argv[1])
 psi_path = str(sys.argv[2])
 cascade = bool(int(sys.argv[3]))
@@ -25,5 +27,10 @@ for line in open(psi_path):
     psi[int(line[0])] = float(line[1])
 
 # correlation
+print("Same users outdeg and psi ? (just to make sure) {}".format(outdeg.keys() == psi.keys()))
 print("Computing correlation...")
-print(outdeg.keys() == psi.keys())
+outdeg = sorted(outdeg.items(), key=itemgetter(0))
+outdeg = np.array([x[1] for x in outdeg])
+psi = sorted(psi.items(), key=itemgetter(0))
+psi = np.array([x[1] for x in psi])
+print("Correlation coeff : {}".format(np.corrcoef(outdeg, psi))[1,0])

@@ -21,9 +21,12 @@ import matplotlib.pyplot as plt
 dataset = str(sys.argv[1])
 cascade = bool(int(sys.argv[2]))
 
+print("Cascade : {}".format(cascade))
+print("Loading data...")
 data_path, RTU, truegraph = util.load_data(dataset)
 
 # Author dict creation.
+print("Getting author dict...")
 if truegraph:
     Author = None
 else:
@@ -31,14 +34,18 @@ else:
 
 
 # ### Graph construction
+print("Getting user graph...")
 LeadGraph, FollowGraph = util.get_graph(data_path, RTU, cascade, truegraph, Author)
 
 
 # Custom wedge metric
+print("Computing wedge metric... \n")
 numerator = 0
 denominator = 0
 
-for i in LeadGraph:
+start = 0
+for count,i in enumerate(LeadGraph.keys()):
+    sys.stdout.write("User {}... elapsed time {:.3f}...".format(count, time-start))
     leaders = LeadGraph[i]
     followers = FollowGraph[i]
     friends = leaders.intersection(followers)
@@ -57,5 +64,4 @@ if denominator != 0:
 else:
     wedge_metric = 0
 
-
-print("Wedge_metric : ", wedge_metric)
+print("\nWedge_metric : ", wedge_metric)

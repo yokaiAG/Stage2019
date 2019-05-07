@@ -1,56 +1,56 @@
-Number of nodes: 93892
+Number of nodes: 181621
 Number of edges: 517421
 
 ----- Stats for degrees -----
-Mean:  11.021620585353384
-Median:  1.0
-Min:  1
-Max:  7868
-25% <= 1.0
-75% <= 4.0
-90% <= 16.0
-95% <= 33.0
-99% <= 131.0
-
------ Stats for in_degrees -----
-Mean:  5.510810292676692
+Mean:  5.697810275243501
 Median:  1.0
 Min:  0
+Max:  7868
+25% <= 0.0
+75% <= 2.0
+90% <= 6.0
+95% <= 16.0
+99% <= 77.0
+
+----- Stats for in_degrees -----
+Mean:  2.8489051376217507
+Median:  0.0
+Min:  0
 Max:  389
-25% <= 1.0
-75% <= 3.0
-90% <= 12.0
-95% <= 25.0
-99% <= 73.0
+25% <= 0.0
+75% <= 1.0
+90% <= 5.0
+95% <= 12.0
+99% <= 51.0
 
 ----- Stats for out_degrees -----
-Mean:  5.510810292676692
+Mean:  2.8489051376217507
 Median:  0.0
 Min:  0
 Max:  7833
 25% <= 0.0
 75% <= 0.0
-90% <= 1.0
-95% <= 4.0
-99% <= 66.0
+90% <= 0.0
+95% <= 1.0
+99% <= 21.0
 
 
-Number of weakly connected components: 1143 (calculated in 1.6089980602264404)
-Number of strongly connected components: 88948 (calculated in 1.6089980602264404)
+Number of weakly connected components: 88872 (calculated in 1.6871497631072998)
+Number of strongly connected components: 176677 (calculated in 1.6871497631072998)
 
 ----- Stats for weakly connected components sizes -----
-Mean:  82.14523184601924
-Median:  2.0
+Mean:  2.0436245386623457
+Median:  1.0
 Min:  1
 Max:  90922
-25% <= 2.0
-75% <= 2.0
-90% <= 4.0
-95% <= 5.0
-99% <= 12.579999999999927
+25% <= 1.0
+75% <= 1.0
+90% <= 1.0
+95% <= 1.0
+99% <= 2.0
 
 ----- Stats for strongly connected components sizes -----
-Mean:  1.0555830372802086
+Mean:  1.0279832689031396
 Median:  1.0
 Min:  1
 Max:  4833
@@ -61,15 +61,4 @@ Max:  4833
 99% <= 1.0
 
 
------ Stats for wedge metric -----
-Mean:  0.033267570957299375
-Median:  0.0
-Min:  0.0
-Max:  0.5
-25% <= 0.0
-75% <= 0.0
-90% <= 0.15441176470588236
-95% <= 0.25
-99% <= 0.5
-
-
+Wedge_metric : 0.02410021666441218

@@ -30,7 +30,6 @@ for line in open(psi_path):
 print("Same users outdeg and psi ? (just to make sure) {}".format(outdeg.keys() == psi.keys()))
 print("Computing correlation...")
 psi = sorted(psi.items(), key=itemgetter(1), reverse=True)[:1000] # 1000 best users only
-print(psi[:10])
 outdeg = np.array([outdeg[x[0]] for x in psi]) # outdeg for these users
 psi = np.array([x[1] for x in psi]) # psi to array
 print("Correlation coeff : {}".format(np.corrcoef(outdeg, psi)))

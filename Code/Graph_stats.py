@@ -45,7 +45,10 @@ denominator = 0
 
 start = 0
 for count,i in enumerate(LeadGraph.keys()):
+    # print state
     sys.stdout.write("User {}... elapsed time {:.3f}...".format(count, time-start))
+    count += 1
+    # computations
     leaders = LeadGraph[i]
     followers = FollowGraph[i]
     friends = leaders.intersection(followers)

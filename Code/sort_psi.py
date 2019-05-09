@@ -9,7 +9,7 @@ outfile = str(sys.argv[2])
 
 # load psis
 psi_model = set()
-for line in open("Psi_model_0_181621.txt"):
+for line in open(infile):
     line = line.split()
     user, psi = int(line[0]), float(line[1])
     psi_model.add((user, psi))

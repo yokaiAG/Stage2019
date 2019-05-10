@@ -46,9 +46,10 @@ if best_from_emul:
     for i,line in enumerate(open(emul_path)):
         if i < best_start:
             continue
-        if i > best_end:
-            break
-        best_users_emul.add(int(line.split()[0]))
+        else:
+            best_users_emul.add(int(line.split()[0]))
+            if i >= best_end:
+                break
 
 data_path, RTU, truegraph = util.load_data(dataset)
 adjacency_path, RTU_adj, truegraph_adj = util.load_data(adjacency_list)

@@ -1,7 +1,6 @@
 # imports
 import sys
 import util
-import matplotlib.pyplot as plt
 
 # args
 data_path = str(sys.argv[1])

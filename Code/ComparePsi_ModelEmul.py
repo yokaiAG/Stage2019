@@ -16,10 +16,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 
-# Où sont les listes de psis ? Elles doivent s'appeler `Psi_emul.txt` et `Psi_model.txt`.
-
-# In[22]:
-
+# Où sont les listes de psis ?
 psiemul = str(sys.argv[1])
 psimodel = str(sys.argv[2])
 outpath = str(sys.argv[3])
@@ -418,4 +415,3 @@ plt.close()
 
 print("Export dataframe...")
 df.to_csv(outpath + "compare_lists_df.txt", sep=",", index=False)
-

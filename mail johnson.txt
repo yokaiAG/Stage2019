@@ -1,7 +1,0 @@
-M. Johnson,
-
-I have been following the videos of the CS231n class you gave at Stanford University and have found them to be very helpful, giving me a better understanding of deep neural networks. As I was checking your page I saw that you were looking for students and therefore I am writing to you. I am currently studying Machine Learning in a Msc. 2 Data Science at Université Claude Bernard (Lyon, France) and I have already completed an Msc. 2 in Mathematical Modeling at Université Pierre et Marie Curie (Paris, France). This summer I will be working as a research assistant in LiP6 (Computer Science Lab at Paris VI) on markovian models for influence propagation on social networks – as I did last year. This work is supervised by Clémence Magnien, Anastasios Giovanidis, Bruno Baynat and will be presented at INFOCOM Conference 2019. Although modeling is a very interesting field, deep learning and generative models are the two subjects that attract me the most and I would like to pursue further studies in those fields. For example, I am currently working on music genre classification using neural networks.
-
-Kind regards,
-Antoine Vendeville
-

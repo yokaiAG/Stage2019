@@ -19,9 +19,6 @@ LeadGraph, FollowGraph = graph_from_adjList(data_path)
 """
 
 
-import networkx as nx
-
-
 # ## Create author dict
 def get_authors(data_path):
     Author = dict()
@@ -102,6 +99,7 @@ def get_activity(data_path, cascade, Author, divide_by_time=True, retweeted=Fals
 # ## Get networkx graph from adjacency_list
 def nxgraph_from_adjList(data_path):
     """ returns networkx graph """
+    import networkx as nx
     G = nx.DiGraph()
     for line in open(data_path, 'r'):
         line = line.split()
@@ -112,6 +110,7 @@ def nxgraph_from_adjList(data_path):
 def nxgraph_from_trace(data_path, cascade, Author):
 
     """ returns networkx graph """
+    import networkx as nx
     G = nx.DiGraph()
 
     # si on utilise cascade

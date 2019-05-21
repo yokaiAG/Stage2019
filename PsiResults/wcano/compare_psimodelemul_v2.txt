@@ -1,5 +1,0 @@
-Correlation coeff between psi_emul and psi_model : 0.9575184897459146
-alpha for psi_trace : 0.9803599783714482
-alpha for psi_model : 0.9785059262831296
-user 	 psi_em   psi_model   rank_emul   rank_model   outdeg 	 lambda
--------------------------------------------------------------------

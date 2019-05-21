@@ -7,8 +7,12 @@ data_path = str(sys.argv[1])
 adjList_path = str(sys.argv[2])
 out_path = str(sys.argv[3])
 
-# count number of rt
+# author
+print("Getting authors...")
 Author = util.get_authors(data_path)
+
+# count retweets
+print("Counting retweets...")
 countRT = dict()
 for line in open(data_path):
     line = line.split()
@@ -21,7 +25,8 @@ for line in open(data_path):
             countRT[(uid,rtu)] = 1
 del Author
 
-# real edges
+# compare with real edges
+print("Comparing with real edges...")
 countRT_vs_real = list()
 real_edges = set()
 for line in open(adjList_path):
@@ -36,8 +41,11 @@ for e in countRT:
     if e not in real_edges:
         countRT_vs_real.append((countRT[e], 0))
 
-# compare
+# wirte to out
+print("Writing to out...")
 out = open(out_path + "nb_rt_vs_real_edges.txt", "w")
 for nbrt, real in countRT_vs_real:
     out.write(str(nbrt) + " " + str(real) + "\n")
 out.close()
+
+print("Done !")

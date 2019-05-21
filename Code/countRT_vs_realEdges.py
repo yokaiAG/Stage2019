@@ -37,7 +37,7 @@ for e in countRT:
         countRT_vs_real.append((countRT[e], 0))
 
 # compare
-out = open(out_path + "count rt vs real edges.txt", "w")
+out = open(out_path + "nb_rt_vs_real_edges.txt", "w")
 for nbrt, real in countRT_vs_real:
     out.write(str(nbrt) + " " + str(real) + "\n")
 out.close()

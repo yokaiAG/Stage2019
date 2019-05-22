@@ -18,6 +18,7 @@ for line in open("nb_rt_vs_real_edges.txt"):
 
 x2plot = sorted(rt2edges.keys())
 y2plot = sorted(rt2edges.items(), key=itemgetter(0))[1]
+print(y2plot[:5])
 y2plot = [ y[0]/sum(y) for y in y2plot ]
 plt.plot(x2plot, y2plot)
 plt.xlabel("nb rt")

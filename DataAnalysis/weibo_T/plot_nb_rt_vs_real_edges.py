@@ -31,7 +31,7 @@ plt.show()
 plt.close()
 
 print("Histogram...")
-plt.hist(x2plot, y2plot, facecolor='yellow', edgecolor='red')
+plt.hist(y2plot, facecolor='yellow', edgecolor='red')
 plt.xlabel("nb rt")
 plt.ylabel("edge proba")
 plt.savefig("nbRT_vs_realEdges_hist.png")

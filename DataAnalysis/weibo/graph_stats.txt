@@ -35,8 +35,8 @@ Max:  455504
 99% <= 46.0
 
 
-Number of weakly connected components: 38 (calculated in 61.76626229286194)
-Number of strongly connected components: 1325415 (calculated in 61.76626229286194)
+Number of weakly connected components: 38 (calculated in 53.27365756034851)
+Number of strongly connected components: 1325415 (calculated in 53.27365756034851)
 
 ----- Stats for weakly connected components sizes -----
 Mean:  35284.63157894737

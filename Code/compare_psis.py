@@ -323,9 +323,6 @@ users_model = [ user for user,psi in sorted(rank_model.items(), key=itemgetter(1
 seen_users_emul = set(users_emul[:2])
 seen_users_model = set(users_model[:2])
 
-# le nombre courant d'utilisateurs emul qu'on a vu
-nb_users_seen = len(seen_users_emul)
-
 # la taille de l'intersection courante et liste des proportions d'users communs
 current_intersect = len(seen_users_emul.intersection(seen_users_model))
 common_users_prop = [ current_intersect / len(seen_users_emul) ]
@@ -341,7 +338,6 @@ for n in range(2, N):
     # si les 2 users sont les mêmes alors ils sont jamais vu et intersect+1 et users_seen+1
     if current_user_emul == current_user_model:
         current_intersect += 1
-        nb_users_seen += 1
         
     # sinon
     else:
@@ -349,14 +345,10 @@ for n in range(2, N):
         # si le user_emul a déjà été vu dans model ou pas
         if current_user_emul in seen_users_model:
             current_intersect += 1
-        else:
-            nb_users_seen += 1
         
         # si le user model a déjà été vu dans emul ou pas
         if current_user_model in seen_users_emul:
             current_intersect += 1
-        else:
-            nb_users_seen += 1
     
     # on update les listes
     seen_users_emul.add(current_user_emul)
@@ -373,7 +365,7 @@ df['common_users_prop'] = common_users_prop
 # In[40]:
 
 
-del n, common_users_prop, seen_users_emul, seen_users_model, current_intersect, nb_users_seen
+del n, common_users_prop, seen_users_emul, seen_users_model, current_intersect
 
 
 # In[41]:

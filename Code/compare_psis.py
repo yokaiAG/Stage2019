@@ -328,7 +328,7 @@ nb_users_seen = len(seen_users_emul)
 
 # la taille de l'intersection courante et liste des proportions d'users communs
 current_intersect = len(seen_users_emul.intersection(seen_users_model))
-common_users_prop = [ current_intersect / nb_users_seen ]
+common_users_prop = [ current_intersect / len(seen_users_emul) ]
 
 
 # on parcourt les users
@@ -359,9 +359,9 @@ for n in range(2, N):
             nb_users_seen += 1
     
     # on update les listes
-    common_users_prop.append(current_intersect / n)
     seen_users_emul.add(current_user_emul)
     seen_users_model.add(current_user_model)
+    common_users_prop.append(current_intersect / len(seen_users_emul))
 
     
 print("Tps ex : ", time()-start)

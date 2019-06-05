@@ -20,7 +20,7 @@ print("Searching for most followed users...")
 for (user, nb_follow) in sorted(((u, len(FollowGraph[u])) for u in FollowGraph), key=itemgetter(1), reverse=True):
     if nb_follow < max_nb_follow:
         break
-FollowGraph = {u: FollowGraph[u] for u in FollowGraph[user]}
+FollowGraph = {u: FollowGraph[u] for u in set(FollowGraph[user]).union({user})}
 
 # write adjlist among her and her followers
 print("writing new adjacency list...")

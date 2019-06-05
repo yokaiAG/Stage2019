@@ -37,8 +37,8 @@ print("writing new twitter trace...")
 Author = util.get_authors(trace_path)
 out = open("out_path" + "sub_trace.txt", "w")
 for line in open(trace_path):
-    line = line.split()
-    uid, rtid = int(line[2]), int(line[3])
+    line_ = line.split()
+    uid, rtid = int(line_[2]), int(line_[3])
     if uid in Author:
         if rtid not in Author: # covers the case rtid=-1
             out.write(line)

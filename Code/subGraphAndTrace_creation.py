@@ -35,7 +35,7 @@ out.close()
 # write new trace
 print("writing new twitter trace...")
 Author = util.get_authors(trace_path)
-out = open("out_path" + "sub_trace.txt", "w")
+out = open(out_path + "sub_trace.txt", "w")
 for line in open(trace_path):
     line_ = line.split()
     uid, rtid = int(line_[2]), int(line_[3])

@@ -12,5 +12,5 @@ trace_path = str(sys.argv[2])
 LeadGraph, FollowGraph = util.graph_from_adjList(adjlist_path)
 
 # get most followed user and relations among her followers
-most_influential_user = max(((u, len(FollowGraph[u])) for u in Followgraph), key=itemgetter(1))
+most_influential_user = max(((u, len(FollowGraph[u])) for u in FollowGraph), key=itemgetter(1))
 print(most_influential_user)

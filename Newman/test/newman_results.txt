@@ -1,0 +1,36 @@
+top 5 values for w and proportion
+0.077 1.0
+
+top 5 values for a and proportion
+0.462 1.0
+
+top 5 values for b and proportion
+0.089 1.0
+
+top 5 values for (w,a,b) and proportion
+(0.077, 0.462, 0.089) 1.0
+
+w, a, b = 0.077 0.462 0.089
+Expected degree observed : 7.552 with variance 0.028 and std_dev 0.168
+Expected degree estimated from real graph : 17.750
+Mean nb edges in Newman graph : 188.80274317183674
+Nb edges in oursin graph : 1344
+Nb edges in cascade graph : 1215
+Real nb edges : 275
+Mean prop of sample edges that are in real graph : 0.9405405405405406
+Mean prop of real edges that are in sample graph : 0.6327272727272727
+
+Mean prop of sample edges that are in oursin graph : 1.0
+Mean prop of oursin edges that are in sample graph : 0.13764880952380953
+
+Mean prop of sample edges that are in cascade graph : 0.9675675675675676
+Mean prop of cascade edges that are in sample graph : 0.14732510288065845
+
+Prop of oursin edges that are in real graph : 0.20461309523809523
+Prop of real edges that are in oursin graph : 1.0
+
+Prop of cascade edges that are in real graph : 0.22633744855967078
+Prop of real edges that are in cascade graph : 1.0
+
+Prop of oursin edges that are in cascade graph : 0.5424107142857143
+Prop of cascade edges that are in oursin graph : 0.6

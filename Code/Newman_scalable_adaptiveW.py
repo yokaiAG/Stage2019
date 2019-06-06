@@ -23,6 +23,12 @@ out_path = str(sys.argv[3])
 n_samples = int(sys.argv[4])
 verbose = bool(int(sys.argv[5]))
 
+print("trace_path : ", trace_path)
+print("real graph path : ", realGraph_path)
+print("out path : ", out_path)
+print("n samples : ", n_samples)
+print("verbose : ", verbose)
+
 # create outfile txt for printing infos
 outfile = open(out_path + "newman_results.txt")
 

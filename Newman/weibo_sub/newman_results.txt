@@ -2,17 +2,21 @@ top 5 values for w and proportion
 0.0 1.0
 
 top 5 values for a and proportion
-0.891 0.98
-0.067 0.02
+0.067 0.57
+0.891 0.41
+0.721 0.01
+0.068 0.01
 
 top 5 values for b and proportion
 0.067 1.0
 
 top 5 values for (w,a,b) and proportion
-(0.0, 0.891, 0.067) 0.98
-(0.0, 0.067, 0.067) 0.02
+(0.0, 0.067, 0.067) 0.57
+(0.0, 0.891, 0.067) 0.41
+(0.0, 0.068, 0.067) 0.01
+(0.0, 0.721, 0.067) 0.01
 
-w, a, b = 0.0 0.891 0.067
+w, a, b = 0.0 0.067 0.067
 Expected degree observed : 0.000 with variance 0.000 and std_dev 0.000
 Expected degree estimated from real graph : 411631.516
 Mean nb edges in Newman graph : 0.0

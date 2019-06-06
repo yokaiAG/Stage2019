@@ -94,8 +94,8 @@ for k in range(repetitions):
     
         # random initialization of the parameters
         w = random.uniform(0, 0.2)
-        a = random.uniform(0.5, 1)
-        b = random.uniform(0, 0.5)
+        a = random.uniform(0, 1)
+        b = random.uniform(0, 1)
         if verbose:
             print("init values ", w, a, b)
             print()

@@ -30,7 +30,7 @@ print("n samples : ", n_samples)
 print("verbose : ", verbose)
 
 # create outfile txt for printing infos
-outfile = open(out_path + "newman_results.txt")
+outfile = open(out_path + "newman_results.txt", "w")
 
 # Get authors adn set of users
 print("Getting authors...")

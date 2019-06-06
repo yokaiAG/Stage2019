@@ -32,10 +32,9 @@ print("verbose : ", verbose)
 # create outfile txt for printing infos
 outfile = open(out_path + "newman_results.txt", "w")
 
-# Get authors adn set of users
+# Get authors
 print("Getting authors...")
 Author = util.get_authors(trace_path)
-users = set(Author.values())
 
 # Useful function to flatten a list of lists or values from dict of dicts.
 def flatten(obj):
@@ -44,15 +43,8 @@ def flatten(obj):
     if type(obj) == dict:
         return [l for i in obj for l in obj[i].values()]
 
-# Number of nodes $n$ and list of all node pairs.
-print("Getting node pairs...")
-n = len(users)
-node_pairs = list()
-for i in range(n):
-    for j in range(n):
-        if i != j:
-            node_pairs.append((i,j))
-
+# Number of nodes n
+n = len(set(Author.values()))
 
 #### Compute E and N.
 print("Computing E and N...")
@@ -248,7 +240,7 @@ plt.close()
 print("Getting real graph...")
 
 G = nx.DiGraph()
-G.add_nodes_from(users)
+G.add_nodes_from(set(Author.values()))
 for line in open(realGraph_path):
     line = line.split()
     user = int(line[0])
@@ -301,11 +293,12 @@ for k in range(n_samples):
     
     # sample graph
     G_sample = nx.DiGraph()
-    G_sample.add_nodes_from(users)
-    for (i,j) in node_pairs:
-        if i in Q:
-            if j in Q[i] and random.random() < Q[i][j]:
-                G_sample.add_edge(j,i)
+    G_sample.add_nodes_from(set(Author.values()))
+    for i in range(n):
+        for j in range(n):
+            if i in Q:
+                if j in Q[i] and random.random() < Q[i][j]:
+                    G_sample.add_edge(j,i)
     sample_edges = set(G_sample.edges)
             
     # compare edges in sample with real graph

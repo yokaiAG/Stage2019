@@ -183,7 +183,7 @@ for key,val in results.items():
         valcount.append((v, val.count(v)/len(val)))
     valcount = sorted(valcount, key=itemgetter(1), reverse=True)
     for x in valcount[:5]:
-        outfile.write(x[0], x[1], '\n')
+        outfile.write("{} {}\n".format(x[0], x[1]))
     outfile.write('\n')
     
 outfile.write("top 5 values for (w,a,b) and proportion\n")
@@ -195,7 +195,7 @@ for v in set(val):
     valcount.append((v, val.count(v)/len(val)))
 valcount = sorted(valcount, key=itemgetter(1), reverse=True)
 for x in valcount[:5]:
-    outfile.write(x[0], x[1], '\n')
+    outfile.write("{} {}\n".format(x[0], x[1]))
 outfile.write('\n')
 
 
@@ -214,7 +214,7 @@ for i in E:
         Q[i][j] = qij
         
 # plot
-outfile.write("w, a, b = ", w,a,b,'\n')
+outfile.write("w, a, b = {} {} {}\n".format(w,a,b))
 plt.hist(flatten(Q), facecolor='yellow', edgecolor='red')
 plt.xlabel("Q distrib")
 plt.savefig(out_path + "Q_distrib.pdf")
@@ -268,10 +268,10 @@ G_cascade = util.nxgraph_from_trace(trace_path, True, Author)
 
 # Compare nb edges among all graphs.
 print("Comparing nb of edges between graphs...")
-outfile.write("Mean nb edges in Newman graph : ", 0.5*expected_deg*n, '\n')
-outfile.write("Nb edges in oursin graph : ", G_oursin.number_of_edges(), '\n')
-outfile.write("Nb edges in cascade graph : ", G_cascade.number_of_edges(), '\n')
-outfile.write("Real nb edges : ", G.number_of_edges(), '\n')
+outfile.write("Mean nb edges in Newman graph : {}\n".format(0.5*expected_deg*n))
+outfile.write("Nb edges in oursin graph : {}\n".format(G_oursin.number_of_edges()))
+outfile.write("Nb edges in cascade graph : {}\n".format(G_cascade.number_of_edges()))
+outfile.write("Real nb edges : {}\n".format(G.number_of_edges()))
 
 
 # Compare proportion of common edges.
@@ -325,23 +325,23 @@ oursin_in_cascade = len(oursin_edges.intersection(cascade_edges)) / len(oursin_e
 cascade_in_oursin = len(oursin_edges.intersection(cascade_edges)) / len(cascade_edges)
 
 # print results
-outfile.write("Mean prop of sample edges that are in real graph : ", np.mean(sample_in_real), '\n')
-outfile.write("Mean prop of real edges that are in sample graph : ", np.mean(real_in_sample), '\n')
+outfile.write("Mean prop of sample edges that are in real graph : {}\n".format(np.mean(sample_in_real)))
+outfile.write("Mean prop of real edges that are in sample graph : {}\n".format(np.mean(real_in_sample)))
 outfile.write('\n')
-outfile.write("Mean prop of sample edges that are in oursin graph : ", np.mean(sample_in_oursin), '\n')
-outfile.write("Mean prop of oursin edges that are in sample graph : ", np.mean(oursin_in_sample), '\n')
+outfile.write("Mean prop of sample edges that are in oursin graph : {}\n".format(np.mean(sample_in_oursin)))
+outfile.write("Mean prop of oursin edges that are in sample graph : {}\n".format(np.mean(oursin_in_sample)))
 outfile.write('\n')
-outfile.write("Mean prop of sample edges that are in cascade graph : ", np.mean(sample_in_cascade), '\n')
-outfile.write("Mean prop of cascade edges that are in sample graph : ", np.mean(cascade_in_sample), '\n')
+outfile.write("Mean prop of sample edges that are in cascade graph : {}\n".format(np.mean(sample_in_cascade)))
+outfile.write("Mean prop of cascade edges that are in sample graph : {}\n".format(np.mean(cascade_in_sample)))
 outfile.write('\n')
-outfile.write("Prop of oursin edges that are in real graph : ", oursin_in_real, '\n')
-outfile.write("Prop of real edges that are in oursin graph : ", real_in_oursin, '\n')
+outfile.write("Prop of oursin edges that are in real graph : {}\n".format(oursin_in_real))
+outfile.write("Prop of real edges that are in oursin graph : {}\n".format(real_in_oursin))
 outfile.write('\n')
-outfile.write("Prop of cascade edges that are in real graph : ", cascade_in_real, '\n')
-outfile.write("Prop of real edges that are in cascade graph : ", real_in_cascade, '\n')
+outfile.write("Prop of cascade edges that are in real graph : {}\n".format(cascade_in_real))
+outfile.write("Prop of real edges that are in cascade graph : {}\n".format(real_in_cascade))
 outfile.write('\n')
-outfile.write("Prop of oursin edges that are in cascade graph : ", oursin_in_cascade, '\n')
-outfile.write("Prop of cascade edges that are in oursin graph : ", cascade_in_oursin, '\n')
+outfile.write("Prop of oursin edges that are in cascade graph : {}\n".format(oursin_in_cascade))
+outfile.write("Prop of cascade edges that are in oursin graph : {}\n".format(cascade_in_oursin))
 
 # close outfile
 print("Done !")

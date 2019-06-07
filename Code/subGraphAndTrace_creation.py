@@ -23,8 +23,8 @@ for (user, nb_follow) in sorted(((u, len(FollowGraph[u])) for u in FollowGraph),
 FollowGraph = {u: FollowGraph[u] for u in set(FollowGraph[user]).union({user})}
 
 # write adjlist among her and her followers
-print("writing new adjacency list...")
-out = open(out_path + "sub_adjlist.txt", "w")
+print("Writing new adjacency list...")
+out = open(out_path + "subAdjlist.txt", "w")
 for u in FollowGraph[user]:
     out.write("{} {}\n".format(user, u))
     for v in FollowGraph[u]:
@@ -33,17 +33,20 @@ for u in FollowGraph[user]:
 out.close()
     
 # write new trace
-print("writing new twitter trace...")
+print("Getting authors for original twitter trace...")
 Author = util.get_authors(trace_path)
-out = open(out_path + "sub_trace.txt", "w")
+
+print("Writing new twitter trace...")
+out = open(out_path + "subTrace.txt", "w")
 for line in open(trace_path):
     line_ = line.split()
     uid, rtid = int(line_[2]), int(line_[3])
-    if uid in Author:
-        if rtid not in Author: # covers the case rtid=-1
+    if uid in FollowGraph:
+        if rtid == -1:
             out.write(line)
-        elif Author[rtid] in FollowGraph:
-            out.write(line)
+        elif rtid in Author:
+            if Author[rtid] in FollowGraph:
+                out.write(line)
 out.close()
 
 print("done!")

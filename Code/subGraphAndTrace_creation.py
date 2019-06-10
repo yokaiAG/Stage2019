@@ -8,24 +8,39 @@ from operator import itemgetter
 adjlist_path = str(sys.argv[1])
 trace_path = str(sys.argv[2])
 out_path = str(sys.argv[3])
-max_nb_follow = int(sys.argv[4])
+max_nb_retweetd = int(sys.argv[4])
+cascade = False
 
-# import graph 
-print("Importing user graph...")
-LeadGraph, FollowGraph = util.graph_from_adjList(adjlist_path)
-del LeadGraph
+print()
+print("adjlist path : ", adjlist_path)
+print("trace path : ", trace_path)
+print("out path : ", out_path)
+print("max nb retweeted : ", max_nb_retweetd)
+print("cascade : ", cascade)
 
-# get most followed user among those with <1000 followers
-print("Searching for a central user...")
-for (user, nb_follow) in sorted(((u, len(FollowGraph[u])) for u in FollowGraph), key=itemgetter(1), reverse=True):
-    if nb_follow < max_nb_follow:
-        break
-users = set(FollowGraph[user]).union({user})
-
-# write new trace and delete users that are not present in the trace
+# get authors
 print("Getting authors for original twitter trace...")
 Author = util.get_authors(trace_path)
 
+# get most retweeted user
+print("Searching for most retweeted user with maximum {} retweeted events...".format(max_nb_retweetd))
+nb_tweets, nb_retweets, nb_retweeted, total_time = util.get_activity(trace_path, cascade, Author, divide_by_time=False, retweeted=True)
+del nb_tweets, nb_retweets, total_time
+for (user, nb_rtd) in sorted(nb_retweeted.items(), key=itemgetter(1), reverse=True):
+    if nb_rtd < max_nb_retweetd:
+        break
+
+# import graph 
+print("Importing user graph and users of interest...")
+LeadGraph, FollowGraph = util.graph_from_adjList(adjlist_path)
+del LeadGraph
+users = set(FollowGraph[user]).union({user})
+
+# restrict user graph
+print("Restricting user graph...")
+FollowGraph = {u: FollowGraph[u] for u in users}
+
+# write new trace and delete users that are not present in the trace
 print("Writing new twitter trace...")
 trace_users = set()
 out = open(out_path + "subTrace.txt", "w")

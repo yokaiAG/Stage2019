@@ -31,13 +31,13 @@ for (user, nb_rtd) in sorted(nb_retweeted.items(), key=itemgetter(1), reverse=Tr
         break
 
 # import graph 
-print("Importing user graph and users of interest...")
+print("Importing user graph...")
 LeadGraph, FollowGraph = util.graph_from_adjList(adjlist_path)
 del LeadGraph
 users = set(FollowGraph[user]).union({user})
 
 # restrict user graph
-print("Restricting user graph...")
+print("Restricting user graph to users of interest...")
 FollowGraph = {u: FollowGraph[u] for u in users}
 
 # write new trace and delete users that are not present in the trace
@@ -61,9 +61,10 @@ for line in open(trace_path):
 out.close()
 print("Nb lines in new trace : {}".format(nb_lines))
 
-print("Restricting to active users...")
+print("Restricting graph to active users among users of interest...")
 users = set(trace_users)
 del trace_users
+print("Nb users of interest : ", len(users))
 
 # write adjlist among her and her followers
 print("Writing new adjacency list...")

@@ -20,6 +20,9 @@ from sklearn.linear_model import LinearRegression
 psiemul = str(sys.argv[1])
 psimodel = str(sys.argv[2])
 outpath = str(sys.argv[3])
+only_first_n_emul_users = bool(int(sys.argv[4]))
+if only_first_n_emul_users:
+    n_emul_users = int(sys.argv[5])
 
 
 
@@ -63,6 +66,9 @@ with open(psimodel) as psi_list:
 # to arrays
 emul = np.array([p[0] for p in Psi.values()])
 model_sortby_emul = np.array([p[1] for p in Psi.values()])
+if only_first_n_emul_users:
+    emul = emul[:n_emul_users]
+    model_sortby_emul = model_sortby_emul[:n_emul_users]
 model = - np.sort(-model_sortby_emul)
 
         

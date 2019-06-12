@@ -43,6 +43,9 @@ start = time()
 # emul
 with open(psiemul) as psi_list:
     for i,line in enumerate(psi_list):
+        if only_first_n_emul_users:
+            if i == n_emul_users:
+                break
         line = line.split()
         current_user = int(line[0])
         current_psi = float(line[1])
@@ -62,13 +65,11 @@ with open(psimodel) as psi_list:
             Psi[current_user][-1] = current_psi
         else:
             Psi[current_user] = [0, current_psi]
+        
             
 # to arrays
 emul = np.array([p[0] for p in Psi.values()])
 model_sortby_emul = np.array([p[1] for p in Psi.values()])
-if only_first_n_emul_users:
-    emul = emul[:n_emul_users]
-    model_sortby_emul = model_sortby_emul[:n_emul_users]
 model = - np.sort(-model_sortby_emul)
 
         

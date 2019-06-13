@@ -1,0 +1,11 @@
+URCHIN
+Correlation coeff between outdeg and psi_model : 0.974896171373471
+Correlation coeff between lambda and psi_model : 0.26928940664180484
+Correlation coeff between mu and psi_model : 0.07374364876932862
+Correlation coeff between psi_emul and psi_model : 0.9681908604077399
+
+CASCADE
+Correlation coeff between outdeg and psi_model : 0.8521475971995861
+Correlation coeff between lambda and psi_model : 0.8346583962629195
+Correlation coeff between mu and psi_model : 0.16660483530679182
+Correlation coeff between psi_emul and psi_model : 0.4933769331739718

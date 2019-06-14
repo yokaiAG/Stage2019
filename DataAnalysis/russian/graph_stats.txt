@@ -35,30 +35,6 @@ Max:  7833
 99% <= 21.0
 
 
-Number of weakly connected components: 88872 (calculated in 1.8277194499969482)
-Number of strongly connected components: 176677 (calculated in 1.8277194499969482)
+Number of weakly connected components: 88872 (calculated in 1.9995841979980469)
+Number of strongly connected components: 176677 (calculated in 1.9995841979980469)
 
------ Stats for weakly connected components sizes -----
-Mean:  2.0436245386623457
-Median:  1.0
-Min:  1
-Max:  90922
-25% <= 1.0
-75% <= 1.0
-90% <= 1.0
-95% <= 1.0
-99% <= 2.0
-
------ Stats for strongly connected components sizes -----
-Mean:  1.0279832689031396
-Median:  1.0
-Min:  1
-Max:  4833
-25% <= 1.0
-75% <= 1.0
-90% <= 1.0
-95% <= 1.0
-99% <= 1.0
-
-
-Wedge_metric : 0.02410021666441218

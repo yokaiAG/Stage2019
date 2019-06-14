@@ -34,6 +34,7 @@ max_outdeg = max((len(l) for l in FollowGraph.values()))
 print("------ max outdeg ok")
 
 # write to out
+print("Writing to out...")
 out = open(out_path + "simple_graph_stats.txt", 'w')
 out.write("nb nodes : {}\n".format(nb_nodes))
 out.write("nb edges : {}\n".format(nb_edges))

@@ -1,0 +1,5 @@
+nb nodes : 1787086
+nb edges : 423347905
+mean deg : 473.7857103687232
+max indeg : 8107
+max outdeg : 431385

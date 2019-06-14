@@ -26,7 +26,7 @@ from numba import jit
 
 # INIT
 print("init...")
-dataset = str(sys.argv[1])
+data_path = str(sys.argv[1])
 adjList_path = str(sys.argv[2])
 cascade = bool(int(sys.argv[3]))
 save_news_wall = bool(int(sys.argv[4]))

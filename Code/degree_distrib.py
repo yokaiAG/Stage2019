@@ -37,7 +37,9 @@ print("Getting degrees for truegraph...")
 LeadGraph, FollowGraph = util.graph_from_adjList(adjlist_path)
 outdeg['real'] = [len(FollowGraph[u]) for u in FollowGraph]
 indeg['real'] = [len(LeadGraph[u]) for u in LeadGraph]
-del LeadGraph, FollowGraph
+
+# clean for memory
+del Author, LeadGraph, FollowGraph, trace_path, adjlist_path
 
 # plot style
 colors = {'urchin': 'blue', 'cascade':'red', 'real':'green'}
@@ -47,7 +49,7 @@ linestyle = {'urchin': ':', 'cascade':'--', 'real':'-.'}
 for graph in outdeg:
     print("Outdeg distribution for {}...".format(graph))
 
-    print(">>> Cumul...")
+    print("--> Cumul...")
     # on récupère les valeurs
     outdeg_unique = sorted(set(outdeg[graph]))
     
@@ -57,10 +59,13 @@ for graph in outdeg:
         cumul.append(len([x for x in outdeg[graph] if x>=val]))
 
     # plot
-    print(">>> Plot...")
+    print("--> Plot...")
     plt.loglog(outdeg_unique, cumul, ls=linestyle[graph], label=graph)
     plt.xlabel(r"Out-degree $\delta_{out}$")
     plt.ylabel(r"Number of users with out-degree $\geq \delta_{out}$")
+
+# clean
+del outdeg, outdeg_unique
 
 # save & show
 print("Saving...")
@@ -71,7 +76,7 @@ plt.close()
 for graph in indeg:
     print("Outdeg distribution for {}...".format(graph))
 
-    print(">>> Cumul...")
+    print("--> Cumul...")
     # on récupère les valeurs
     indeg_unique = sorted(set(indeg[graph]))
     
@@ -81,7 +86,7 @@ for graph in indeg:
         cumul.append(len([x for x in indeg[graph] if x>=val]))
 
     # plot
-    print(">>> Plot...")
+    print("--> Plot...")
     plt.loglog(indeg_unique, cumul, ls=linestyle[graph], label=graph)
     plt.xlabel(r"In-degree $\delta_{in}$")
     plt.ylabel(r"Number of users with In-degree $\geq \delta_{in}$")

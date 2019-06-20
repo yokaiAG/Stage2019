@@ -14,8 +14,10 @@ G = nxgraph_from_adjList(data_path)
 
 ->>> Get graph in dicts format :
 LeadGraph, FollowGraph = graph_from_trace(data_path, cascade, Author)
+LeadGraph = leadgraph_from_trace(data_path, cascade, Author)
 ou
 LeadGraph, FollowGraph = graph_from_adjList(data_path)
+LeadGraph = leadgraph_from_adjList(data_path)
 """
 
 
@@ -170,6 +172,28 @@ def graph_from_adjList(data_path):
     # end
     return LeadGraph, FollowGraph
 
+# ## Get Leadgraph from adjacency list
+def leadgraph_from_adjList(data_path):
+    
+    """ returns LeadGraph """
+
+    # init
+    LeadGraph = dict()
+
+    # process
+    for line in open(data_path, 'r'):
+        line = line.split()
+        u, v = int(line[0]), int(line[1])
+        if v in LeadGraph:
+            LeadGraph[v].add(u)
+        else:
+            LeadGraph[v] = {u}
+        if u not in LeadGraph:
+            LeadGraph[u] = set()
+
+    # end
+    return LeadGraph
+
     # ## Get Leadgraph and Followgraph dicts from trace
 
 def graph_from_trace(data_path, cascade,  Author):
@@ -224,3 +248,46 @@ def graph_from_trace(data_path, cascade,  Author):
 
     # end
     return LeadGraph, FollowGraph
+
+
+def leadgraph_from_trace(data_path, cascade,  Author):
+    
+    """ returns LeadGraph (dictionary)"""
+
+    LeadGraph = dict()
+    
+    # cascade
+    if cascade:
+        # last publisher dict
+        LastPublisher = dict(Author)
+        del Author
+        # create edges
+        for tweet in open(data_path, 'r'):
+            tweet = tweet.split()
+            uid, rtid = int(tweet[2]), int(tweet[-1])
+            if uid not in LeadGraph:
+                LeadGraph[uid] = set()
+            if rtid != -1:
+                if rtid in LastPublisher:
+                    rtu = LastPublisher[rtid]
+                    LeadGraph[uid].add(rtu)
+                    if rtu not in LeadGraph:
+                        LeadGraph[rtu] = set()
+                LastPublisher[rtid] = uid
+
+    # rtid simple (sans cascade)
+    else: 
+        # create edges
+        for tweet in open(data_path, 'r'):
+            tweet = tweet.split()
+            uid, rtid = int(tweet[2]), int(tweet[-1])
+            if uid not in LeadGraph:
+                LeadGraph[uid] = set()
+            if rtid != -1 and rtid in Author:
+                rtu = Author[rtid]
+                LeadGraph[uid].add(rtu)
+                if rtu not in LeadGraph:
+                    LeadGraph[rtu] = set()
+
+    # end
+    return LeadGraph

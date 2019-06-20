@@ -17,7 +17,7 @@ del FollowGraph_oursin
 # get cascade graph
 print("Getting cascade graph...")
 LeadGraph_cascade, FollowGraph_cascade = util.graph_from_trace(trace_path, True, Author)
-del FollowGraph_cascade
+del FollowGraph_cascade, Author
 
 # get real graph
 print("Getting real graph...")

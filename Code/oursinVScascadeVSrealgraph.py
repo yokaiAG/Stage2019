@@ -21,18 +21,8 @@ del FollowGraph_cascade
 
 # get real graph
 print("Getting real graph...")
-LeadGraph_real = dict()
-for i,line in enumerate(open(adjlist_path)):
-    if i%1000 == 0:
-        sys.stdout.flush()
-        sys.stdout.write("Line {}...\r".format(i))
-    line = line.split()
-    lead, follow = int(line[0]), int(line[1])
-    if lead in LeadGraph_oursin and follow in LeadGraph_oursin:
-        if follow in LeadGraph_real:
-            LeadGraph_real[follow].add(lead)
-        else:
-            LeadGraph_real[follow] = {lead}
+LeadGraph_real, FollowGraph_real = util.graph_from_adjList(adjlist_path)
+del FollowGraph_real
 
 # dict to contain edges lists
 edges = dict()

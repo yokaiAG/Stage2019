@@ -19,7 +19,7 @@ with open(outfile, 'w') as out:
 
     for i,line in enumerate(open(adjlist_path)):
 
-        if i%1000 == 0:
+        if i%1000000 == 0:
             sys.stdout.flush()
             sys.stdout.write("Line {}...\r".format(i))
 

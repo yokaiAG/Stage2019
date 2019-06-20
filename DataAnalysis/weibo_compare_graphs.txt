@@ -1,0 +1,19 @@
+nb edges oursin = 26 294 030
+nb edges real = 291 761 716
+nb edges cascade = 32 448 742
+
+Proportion of users from oursin in real graph : 0.9999701674204365
+Proportion of users from real in oursin graph : 0.7502582416291101
+
+prop edges from oursin present in real = 0.26175481658764366
+prop edges from real present in oursin = 0.023589760487973
+
+prop edges from oursin present in cascade = 0.010400649881360902
+prop edges from cascade present in oursin = 0.0084279076211953
+
+prop edges from cascade present in real = 0.018305763594779728
+prop edges from real present in cascade = 0.002035904532450721
+
+------------- on non filtered weibo adjlist ----------------
+nb edges real = 423 347 905
+nb nodes real = 1 787 086

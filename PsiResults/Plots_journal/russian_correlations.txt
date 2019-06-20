@@ -9,3 +9,20 @@ Correlation coeff between outdeg and psi_model : 0.5105662917070621
 Correlation coeff between lambda and psi_model : 0.3350505471723762
 Correlation coeff between mu and psi_model : 0.4912777441656535
 Correlation coeff between psi_emul and psi_model : 0.12287600699050849
+STAR
+Correlation coeff between outdeg and psi_model : 0.8212484673157335
+Correlation coeff between lambda and psi_model : 0.8780206949677248
+Correlation coeff between mu and psi_model : -0.028600327702118705
+Correlation coeff between psi_emul and psi_model : 0.9101779347199371
+
+CASCADE
+Correlation coeff between outdeg and psi_model : 0.8067018257196831
+Correlation coeff between lambda and psi_model : 0.8230753264135884
+Correlation coeff between mu and psi_model : -0.03203562861968167
+Correlation coeff between psi_emul and psi_model : 0.8152576407940787
+
+TRUEGRAPH
+Correlation coeff between outdeg and psi_model : 0.4676541983925072
+Correlation coeff between lambda and psi_model : 0.8788514187475376
+Correlation coeff between mu and psi_model : -0.005277269967620363
+Correlation coeff between psi_emul and psi_model : 0.8550519444794001

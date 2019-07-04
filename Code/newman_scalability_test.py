@@ -171,7 +171,7 @@ N = {u: max(flatten(E)) for u in users}
 
 ### iteratioooons ###
 print()
-print("Iterating...\n")
+print("Iterating...")
 eps = 0.001
 repetitions = 1000
 max_iter = 100
@@ -259,5 +259,10 @@ for k in range(repetitions):
         print(e)
         continue
 
+total_time = time.time()-start
 print()
-print("Newman time: ", time.time()-start)
+print("Newman time: ", total_time)
+
+# write to out
+with open("../Datasets/Newman/scalability_times.txt", "a") as out:
+    out.write("{} {}\n".format(N, total_time))

@@ -12,12 +12,12 @@ import util
 import numpy as np
 import networkx as nx
 import random as random
-from time import time
+import time
 from operator import itemgetter
 from random import choice
 
 # args
-N = str(sys.argv[1])
+N = int(sys.argv[1])
 
 # Choose out folder where the results will be written.
 out_folder = "../Datasets/Newman/"
@@ -66,7 +66,7 @@ print("Generating trace...")
 news = {i:list() for i in range(N)} # initialization of the newsfeeds
 M = 1 # newsfeeds max size
 next_twid = 1 # id of the next post
-time = 0 # time since the beginning
+T = 0 # time since the beginning
 Events = list() # list of events (output)
 
 while len(Events) < nb_events:
@@ -81,13 +81,13 @@ while len(Events) < nb_events:
     
     # if the next event is a post
     if min_post < min_repost:
-        time += min_post
+        T += min_post
         user = np.argmin(posting_time)
-        new_post = (next_twid, time, user, -1) # create new post
+        new_post = (next_twid, T, user, -1) # create new post
     
     # if repost
     elif min_repost < min_post:
-        time += min_repost
+        T += min_repost
         user = np.argmin(reposting_time)
         if len(news[user]) == 0: # skip step if nothing to repost in the user's newsfeed
             continue
@@ -97,7 +97,7 @@ while len(Events) < nb_events:
                 rtid = retweeted[0]
             else:
                 rtid = retweeted[-1]
-            new_post = (next_twid, time, user, rtid) # create new_post
+            new_post = (next_twid, T, user, rtid) # create new_post
             
             
     # append new post to the events list and update next_twid
@@ -180,7 +180,7 @@ verbose = False
 # at each repetition we save the values of w, a and b
 results = {'w':list(), 'a':list(), 'b':list()}
 
-start = time()
+start = time.time()
 for k in range(repetitions):
     
     # we may have divisions by zero
@@ -203,9 +203,9 @@ for k in range(repetitions):
             # print state
             sys.stdout.flush()
 #             sys.stdout.write("repetition {}/{} --- iteration {}/{} --- elapsed time {:.3f}\r"
-#                              .format(k+1, repetitions, l+1, max_iter, time()-start))
+#                              .format(k+1, repetitions, l+1, max_iter, time.time()-start))
             sys.stdout.write("repetition {}/{} --- elapsed time {:.3f}\r"
-                             .format(k+1, repetitions, time()-start))
+                             .format(k+1, repetitions, time.time()-start))
 
             old_w, old_a, old_b = w, a, b
 
@@ -260,4 +260,4 @@ for k in range(repetitions):
         continue
 
 print()
-print("Newman time: ", time()-start)
+print("Newman time: ", time.time()-start)

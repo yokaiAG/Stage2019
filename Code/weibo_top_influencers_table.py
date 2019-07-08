@@ -39,20 +39,20 @@ print("Getting authors...")
 Author = util.get_authors(trace_path)
 
 # load activity
-print("Getting activity")
+print("Getting activity...")
 Lambda, Mu, total_time = util.get_activity(trace_path, False, Author, divide_by_time=True, retweeted=False)
 del Mu, total_time
 Lambda = {u:Lambda[u] for u in Psi['real']}
 
 # load star graph
-print("Getting follow graph (star)")
+print("Getting follow graph (star)...")
 FollowGraph = dict()
 _ , FollowGraph['star'] = util.graph_from_trace(trace_path, False, Author)
 del _, Author
 FollowGraph['star'] = {u: {v for v in FollowGraph['star'][u] if v in Psi['real']} for u in Psi['real']}
 
 # load real graph
-print("Getting follow graph (real)")
+print("Getting follow graph (real)...")
 FollowGraph['real'] = dict()
 for line in open(adjlist_path):
     line = line.split()

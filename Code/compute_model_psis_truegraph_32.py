@@ -247,7 +247,8 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
     qWall = dict()
     # Influence metric
     Psi = dict()
-    for l,i in enumerate(range(begin,end)):
+    l = 0 # counter
+    for i in range(begin,end):
         user = Lusers[i]
         if best_from_emul:
             if user not in best_users_emul:
@@ -284,6 +285,7 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
             fq.flush()
         fpsi.write("%d %g\n"%(user,Psi[user]))
         fpsi.flush()
+        l += 1 # up counter
     #
     return (pNews,qWall,Psi)
 

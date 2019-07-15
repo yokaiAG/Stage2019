@@ -1,11 +1,3 @@
-
-# coding: utf-8
-
-# # <center> Get user graph for `Russian`
-
-# In[1]:
-
-
 import sys
 import util
 import json
@@ -21,6 +13,7 @@ OAUTH_TOKEN_SECRET = "iiD75H9ERtkATnd74pVRBfM7TI189BSmDasYzN2uUO123"
 
 
 # Get user set from rtu data.
+print("Getting authors...")
 users = util.get_authors("../Datasets/russian_rtid.txt")
 # users = list()
 # for line in open("../Datasets/russian_election2018_rtu.txt"):
@@ -28,13 +21,17 @@ users = util.get_authors("../Datasets/russian_rtid.txt")
 #     users.append(int(line[2]))
 #     users.append(int(line[3]))
 
+
 # init
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 FollowGraph = dict()
 outfile = "../Datasets/russian_adjList.txt"
 error_log = "../Datasets/russian_getfollowers_error_logs.txt"
 
+# iterate
 for i,u in enumerate(users):
+    sys.stdout.flush()
+    sys.stdout.write("User {} / {}...\r".format(u, len(users)))
     
     # reinit cursor
     cursor = -1
@@ -56,12 +53,12 @@ for i,u in enumerate(users):
             # wait if API rate limit has been reached
             calls_remaining = int(twitter.get_lastfunction_header('x-rate-limit-remaining'))
             if calls_remaining == 0:
-                time_to_wait = 15*60
+                time_to_wait = 15*60 + 5 # add 5 seconds just in case
                 start = time.time()
                 elapsed_time = 0
                 while elapsed_time < time_to_wait:
                     sys.stdout.flush()
-                    sys.stdout.write("User {} / {}... Rate limit reached... {} seconds to wait.\r".format(i, len(users), time_to_wait - elapsed_time))
+                    sys.stdout.write("User {} / {}... Rate limit reached... {} seconds to wait.\r".format(i, len(users), round(time_to_wait - elapsed_time)))
                     time.sleep(1)
                     elapsed_time = time.time() - start
                     

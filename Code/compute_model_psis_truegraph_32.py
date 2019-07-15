@@ -180,7 +180,7 @@ def fill_di_sparse_v2(useri,Lvec,Mvec):
 
 
 @jit
-def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = .001):
+def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 1000, eps = .001):
     # v2: This method resolves the fixed-point exploiting vector sparsity.
     #
     bi = fill_bi_sparse_v2(useri,Lvec,Som,Follow)
@@ -228,6 +228,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
         t += 1
         #Tracer()()
         #print("p_new",p_new)
+    iter_infos.write("user {}: nb iter {}\n".format(useri,t))
     #
     # print("t=",t,"\n")
     # print("diff_last=",normdiff,"\n")
@@ -238,7 +239,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
 
 # The following function is the general iteration to derive the solution on the Walls, Newsfeeds and the metric of Influence \Psi, for all users i=1...N
 @jit
-def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,fpsi,it = 1000, eps = .001):
+def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,fpsi,iter_infos,it = 1000, eps = .001):
     # The fixed point solution is slow because the fixed point needs to be 
     # calculated for each label i separately.
     #
@@ -255,7 +256,7 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
                 continue
         sys.stdout.flush()
         sys.stdout.write("Computing p,q,PSi for user {} / {}...\r".format(l+1, end-begin))
-        pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som)
+        pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)
         qWall[user]=dict()
@@ -330,8 +331,9 @@ if iend==-1:
 fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
 fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
 fpsi = open(out_path + "Psi_model_%d_%d.txt" %(ibegin,iend), 'w')
+iter_infos = open(out_path + "iter_infos.txt", 'w')
 
-(pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,ibegin,iend,fp,fq,fpsi)
+(pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,ibegin,iend,fp,fq,fpsi,iter_infos)
 
 fpsi.close()
 fq.close()

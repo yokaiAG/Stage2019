@@ -22,7 +22,7 @@ OAUTH_TOKEN_SECRET = "iiD75H9ERtkATnd74pVRBfM7TI189BSmDasYzN2uUO123"
 
 # Get user set from rtu data.
 users = list()
-for line in open("../Datasets/Preprocess/russian/russian_election_2018_rtu.txt"):
+for line in open("../Datasets/russian_election2018_rtu.txt"):
     line = line.split()
     users.append(int(line[2]))
     users.append(int(line[3]))

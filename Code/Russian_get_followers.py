@@ -21,11 +21,12 @@ OAUTH_TOKEN_SECRET = "iiD75H9ERtkATnd74pVRBfM7TI189BSmDasYzN2uUO123"
 
 
 # Get user set from rtu data.
-users = list()
-for line in open("../Datasets/russian_election2018_rtu.txt"):
-    line = line.split()
-    users.append(int(line[2]))
-    users.append(int(line[3]))
+users = util.get_authors("../Datasets/russian_rtid.txt")
+# users = list()
+# for line in open("../Datasets/russian_election2018_rtu.txt"):
+#     line = line.split()
+#     users.append(int(line[2]))
+#     users.append(int(line[3]))
 
 # init
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)

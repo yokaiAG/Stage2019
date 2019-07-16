@@ -20,7 +20,7 @@ users = list()
 for line in open("../Datasets/russian_election2018_rtu.txt"):
     line = line.split()
     users.append(int(line[2]))
-    # users.append(int(line[3]))
+users = list(set(users))
 
 
 # init

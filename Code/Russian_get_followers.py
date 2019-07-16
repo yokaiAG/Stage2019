@@ -42,13 +42,12 @@ for i,u in enumerate(users):
         try:
             # get followers
             result = twitter.get_followers_ids(id=u, cursor=cursor)
-            ids = result['ids']
-            cursor = result['next_cursor']
 
             # write to out
             with open(outfile, 'a') as out:
-                for v in ids:
+                for v in result['ids']:
                     out.write("{} {}\n".format(u,v))
+            cursor = result['next_cursor']
 
             # wait if API rate limit has been reached
             calls_remaining = int(twitter.get_lastfunction_header('x-rate-limit-remaining'))

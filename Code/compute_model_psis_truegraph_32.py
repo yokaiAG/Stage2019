@@ -229,6 +229,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 
         #Tracer()()
         #print("p_new",p_new)
     iter_infos.write("user {}: nb iter {}\n".format(useri,t))
+    iter_infos.flush()
     #
     # print("t=",t,"\n")
     # print("diff_last=",normdiff,"\n")
@@ -255,7 +256,7 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
             if user not in best_users_emul:
                 continue
         sys.stdout.flush()
-        sys.stdout.write("Computing p,q,PSi for user {} / {}...\r".format(l+1, end-begin))
+        sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l+1, end-begin))
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)
@@ -338,5 +339,6 @@ iter_infos = open(out_path + "iter_infos.txt", 'w')
 fpsi.close()
 fq.close()
 fp.close()
+iter_infos.close()
 
 print("\nSuccess !")

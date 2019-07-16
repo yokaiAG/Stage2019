@@ -13,14 +13,14 @@ OAUTH_TOKEN_SECRET = "iiD75H9ERtkATnd74pVRBfM7TI189BSmDasYzN2uUO123"
 
 
 # Get user set from rtu data.
-print("Getting authors...")
-users = util.get_authors("../Datasets/russian_rtid.txt")
-users = list(users.values())
-# users = list()
-# for line in open("../Datasets/russian_election2018_rtu.txt"):
-#     line = line.split()
-#     users.append(int(line[2]))
-#     users.append(int(line[3]))
+print("Getting users list...")
+# users = util.get_authors("../Datasets/russian_rtid.txt")
+# users = list(users.values())
+users = list()
+for line in open("../Datasets/russian_election2018_rtu.txt"):
+    line = line.split()
+    users.append(int(line[2]))
+    users.append(int(line[3]))
 
 
 # init
@@ -31,8 +31,6 @@ error_log = "../Datasets/russian_getfollowers_error_logs.txt"
 
 # iterate
 for i,u in enumerate(users):
-    sys.stdout.flush()
-    sys.stdout.write("User {} / {}...\r".format(i, len(users)))
     
     # reinit cursor
     cursor = -1
@@ -43,6 +41,9 @@ for i,u in enumerate(users):
         try:
             # get followers
             result = twitter.get_followers_ids(id=u, cursor=cursor)
+            sys.stdout.flush()
+            sys.stdout.write("User {} / {} ok...\r".format(i, len(users)))
+
 
             # write to out
             with open(outfile, 'a') as out:
@@ -65,5 +66,7 @@ for i,u in enumerate(users):
         except:
             with open(error_log, 'a') as out:
                 out.write("{} {}\n".format(u, cursor))
+                sys.stdout.flush()
+                sys.stdout.write("User {} / {} ERROR...\r".format(i, len(users)))
             cursor += 1
             continue

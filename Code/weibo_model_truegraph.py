@@ -8,16 +8,11 @@ import sys
 from numba import jit
 
 # INIT
-print("init...")
-data_path = str(sys.argv[1])
-adjList_path = str(sys.argv[2])
-out_path = str(sys.argv[3])
-
-# best from emul
-best_from_emul = bool(int(sys.argv[4]))
-best_start = int(sys.argv[5])
-best_end = int(sys.argv[6])
-emul_path = str(sys.argv[7])
+out_path = str(sys.argv[1])
+best_from_emul = bool(int(sys.argv[2]))
+best_start = int(sys.argv[3])
+best_end = int(sys.argv[4])
+emul_path = str(sys.argv[5])
 
 # save id of best users from emul
 best_users_emul = set()
@@ -30,16 +25,19 @@ for i,line in enumerate(open(emul_path)):
             break
 
 # get lambdas mus from txt file
+print("Getting lambdas...")
 Rtweet = dict()
 for line in open("weibo_input/lambdas.txt"):
     line = line.split()
     Rtweet[int(line[0])] = float(line[1])
+print("Getting mus...")
 Rrtweet = dict()
 for line in open("weibo_input/mus.txt"):
     line = line.split()
     Rrtweet[int(line[0])] = float(line[1])
 
 # get leaders from txt file
+print("Getting leaders...")
 LeadGraph = dict()
 for line in open("weibo_input/follow2lead.txt"):
     follow, lead = int(line.split()[0]), int(line.split()[1])
@@ -52,6 +50,7 @@ for u in Rtweet:
         LeadGraph[u] = set()
 
 # get followers from txt file
+print("Getting followers...")
 FollowGraph = dict()
 for line in open("weibo_input/follow2lead.txt"):
     follow, lead = int(line.split()[0]), int(line.split()[1])

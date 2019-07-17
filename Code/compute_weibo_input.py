@@ -67,11 +67,11 @@ from numba import jit
 Rtweet = dict()
 for line in open("weibo_input/lambdas.txt"):
     line = line.split()
-    Rtweet[int(line[0])]) = float(line[1])
+    Rtweet[int(line[0])] = float(line[1])
 Rrtweet = dict()
 for line in open("weibo_input/mus.txt"):
     line = line.split()
-    Rrtweet[int(line[0])]) = float(line[1])
+    Rrtweet[int(line[0])] = float(line[1])
 
 # get leaders from txt file
 LeadGraph = dict()

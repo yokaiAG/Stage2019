@@ -81,6 +81,9 @@ for line in open("weibo_input/follow2lead.txt"):
         LeadGraph[follow].add(lead)
     else:
         LeadGraph[follow] = {lead}
+for u in Rtweet:
+    if u not in LeadGraph:
+        LeadGraph[u] = set()
 
 
 # ### Build matrix A in sparse format

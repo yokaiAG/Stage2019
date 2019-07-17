@@ -51,7 +51,7 @@ lead2follow = open("weibo_input/leadgraph.txt", "w")
 follow2lead = open("weibo_input/followgraph.txt", "w")
 for i,u in enumerate(common_users):
     sys.stdout.flush()
-    sys.stdout.write(">>> user {} / {}...".format(i, N))
+    sys.stdout.write(">>> user {} / {}...\r".format(i, N))
     lambdas.write("{} {}\n".format(u, Rtweet[u]))
     mus.write("{} {}\n".format(u, Rrtweet[u]))
     for v in LeadGraph[u]:
@@ -125,15 +125,17 @@ print("Computing A...")
 A = fill_A_sparse(Rtweet,Rrtweet,LeadGraph,Som)
 print("Writing A to out...")
 with open("weibo_input/A.txt", "w") as out:
-    for key in A:
-        out.write("{} {}\n".format(key, A[key]))
+    for key1 in A:
+        for key2 in A[key1]:
+            out.write("{} {} {}\n".format(key1, key2, A[key1][key2]))
 
 print("Computing A_trans...")
 A_trans = fill_A_trans_sparse(Rtweet,Rrtweet,LeadGraph,Som)
 print("Writing A_trans to out...")
 with open("weibo_input/A_trans.txt", "w") as out:
-    for key in A_trans:
-        out.write("{} {}\n".format(key, A_trans[key]))
+    for key1 in A_trans:
+        for key2 in A_trans[key1]:
+            out.write("{} {} {}\n".format(key1, key2, A_trans[key1][key2]))
 
 print("Computing C...")
 C = fill_C_sparse(Rtweet,Rrtweet)

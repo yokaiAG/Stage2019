@@ -29,32 +29,39 @@ for i,line in enumerate(open(emul_path)):
         if i >= best_end:
             break
 
-# get lambdas mus
-print("Getting lambdas...")
+# get lambdas mus from txt file
 Rtweet = dict()
 for line in open("weibo_input/lambdas.txt"):
     line = line.split()
     Rtweet[int(line[0])] = float(line[1])
-print("Getting mus...")
 Rrtweet = dict()
 for line in open("weibo_input/mus.txt"):
     line = line.split()
     Rrtweet[int(line[0])] = float(line[1])
 
-# get leaders and followers
-print("Getting leaders and followers...")
-LeadGraph, FollowGraph = dict(), dict()
-for line in open("weibo_input/lead2follow.txt"):
-    line = line.split()
-    lead, follow = int(line[0]), int(line[1])
-    if lead in FollowGraph:
-        FollowGraph[lead].add(follow)
-    else:
-        FollowGraph[lead] = {follow}
+# get leaders from txt file
+LeadGraph = dict()
+for line in open("weibo_input/follow2lead.txt"):
+    follow, lead = int(line.split()[0]), int(line.split()[1])
     if follow in LeadGraph:
         LeadGraph[follow].add(lead)
     else:
         LeadGraph[follow] = {lead}
+for u in Rtweet:
+    if u not in LeadGraph:
+        LeadGraph[u] = set()
+
+# get followers from txt file
+FollowGraph = dict()
+for line in open("weibo_input/follow2lead.txt"):
+    follow, lead = int(line.split()[0]), int(line.split()[1])
+    if follow in FollowGraph:
+        FollowGraph[lead].add(follow)
+    else:
+        FollowGraph[lead] = {follow}
+for u in Rtweet:
+    if u not in FollowGraph:
+        FollowGraph[u] = set()
 
 # list of users
 Lusers = list(Rtweet.keys())
@@ -166,7 +173,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 
 
 # The following function is the general iteration to derive the solution on the Walls, Newsfeeds and the metric of Influence \Psi, for all users i=1...N
 @jit
-def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,fpsi,iter_infos,it = 1000, eps = .001):
+def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,fpsi,iter_infos,it = 1000, eps = .001):
     # The fixed point solution is slow because the fixed point needs to be 
     # calculated for each label i separately.
     #
@@ -207,17 +214,28 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
 
 
 # Calculation of the general input: dictionary Som and the three dictionaries A, A-trans, C for the matrices.
-print("Computing A and C matrices...")
-Som = som_sparse(Rtweet,Rrtweet,LeadGraph)
-A = fill_A_sparse(Rtweet,Rrtweet,LeadGraph,Som)
-A_trans = fill_A_trans_sparse(Rtweet,Rrtweet,LeadGraph,Som)
-C = fill_C_sparse(Rtweet,Rrtweet)
-
 print("Getting Som...")
 Som = dict()
 for line in open("weibo_input/Som.txt"):
     line = line.split()
-    Som[]
+    Som[int(line[0])] = float(line[1])
+print("Getting A...")
+A = dict()
+for line in open("weibo_input/A.txt"):
+    line = line.split()
+    A[int(line[0])] = dict()
+    A[int(line[0])][int(line[1])] = float(line[2])
+print("Getting A_trans...")
+A_trans = dict()
+for line in open("weibo_input/A_trans.txt"):
+    line = line.split()
+    A_trans[int(line[0])] = dict()
+    A_trans[int(line[0])][int(line[1])] = float(line[2])
+print("Getting C...")
+C = dict()
+for line in open("weibo_input/C.txt"):
+    line = line.split()
+    C[int(line[0])] = float(line[1])
 
 
 # This routine just calculates the influence of a specific user on the Wall and Newsfeed of others as well as its Influence metric \Psi[user].
@@ -244,19 +262,12 @@ def user_influence_v2(user,N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,it = 100, eps
 
 # COMPUTE VALUES
 print("Computing p, q and psi...")
-if iend==-1:
-    iend = N
-
-fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
-fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
-fpsi = open(out_path + "Psi_model_%d_%d.txt" %(ibegin,iend), 'w')
+fpsi = open(out_path + "Psi_model.txt", 'w')
 iter_infos = open(out_path + "iter_infos.txt", 'w')
 
-(pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,ibegin,iend,fp,fq,fpsi,iter_infos)
+(pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,fpsi,iter_infos)
 
 fpsi.close()
-fq.close()
-fp.close()
 iter_infos.close()
 
 print("\nSuccess !")

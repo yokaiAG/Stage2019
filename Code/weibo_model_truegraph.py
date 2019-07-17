@@ -54,7 +54,7 @@ print("Getting followers...")
 FollowGraph = dict()
 for line in open("weibo_input/follow2lead.txt"):
     follow, lead = int(line.split()[0]), int(line.split()[1])
-    if follow in FollowGraph:
+    if lead in FollowGraph:
         FollowGraph[lead].add(follow)
     else:
         FollowGraph[lead] = {follow}

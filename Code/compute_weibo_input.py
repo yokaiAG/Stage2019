@@ -7,61 +7,81 @@ import numpy as np
 import sys
 from numba import jit
 
-# INIT
-data_path = str(sys.argv[1])
-adjList_path = str(sys.argv[2])
-cascade = False
+# # INIT
+# data_path = str(sys.argv[1])
+# adjList_path = str(sys.argv[2])
+# cascade = False
 
-# Author dict creation if not RTU
-print("Author dict creation...")
-Author = util.get_authors(data_path)
+# # Author dict creation if not RTU
+# print("Author dict creation...")
+# Author = util.get_authors(data_path)
 
-# GET LAMBDAS MUS AND GRAPH
-print("Getting lambdas and mus...")
-Rtweet, Rrtweet, total_time = util.get_activity(data_path, cascade, Author, divide_by_time=True, retweeted=False)
-print("Getting leaders and followers...")
-LeadGraph, FollowGraph = util.graph_from_adjList(adjList_path)
+# # GET LAMBDAS MUS AND GRAPH
+# print("Getting lambdas and mus...")
+# Rtweet, Rrtweet, total_time = util.get_activity(data_path, cascade, Author, divide_by_time=True, retweeted=False)
+# print("Getting leaders and followers...")
+# LeadGraph, FollowGraph = util.graph_from_adjList(adjList_path)
 
-# get common users between trace and real graph
-# we remove users with 0 activity or 0 edges
-print("Getting common users between graph and trace...")
-common_users = set()
-for u in Rtweet:
-    if u in Rrtweet and u in LeadGraph and u in FollowGraph:
-        if Rtweet[u]==0 and Rrtweet[u]==0:
-            continue
-        elif LeadGraph[u]==set() and FollowGraph[u]==set():
-            continue
-        else:
-            common_users.add(u)
-N = len(common_users)
+# # get common users between trace and real graph
+# # we remove users with 0 activity or 0 edges
+# print("Getting common users between graph and trace...")
+# common_users = set()
+# for u in Rtweet:
+#     if u in Rrtweet and u in LeadGraph and u in FollowGraph:
+#         if Rtweet[u]==0 and Rrtweet[u]==0:
+#             continue
+#         elif LeadGraph[u]==set() and FollowGraph[u]==set():
+#             continue
+#         else:
+#             common_users.add(u)
+# N = len(common_users)
 
-# eliminate users that are not common between graph and twitter trace
-print("Filtering common users...")
-Rtweet = { u: Rtweet[u] for u in common_users }
-Rrtweet = { u: Rrtweet[u] for u in common_users }
-LeadGraph = { u: LeadGraph[u].intersection(common_users) for u in common_users }
-FollowGraph = { u: FollowGraph[u].intersection(common_users) for u in common_users }
+# # eliminate users that are not common between graph and twitter trace
+# print("Filtering common users...")
+# Rtweet = { u: Rtweet[u] for u in common_users }
+# Rrtweet = { u: Rrtweet[u] for u in common_users }
+# LeadGraph = { u: LeadGraph[u].intersection(common_users) for u in common_users }
+# FollowGraph = { u: FollowGraph[u].intersection(common_users) for u in common_users }
 
-# save lambdas, mus, user graph to out! for common users only
-print("Writing to out...")
-lambdas = open("weibo_input/lambdas.txt", "w")
-mus = open("weibo_input/mus.txt", "w")
-lead2follow = open("weibo_input/leadgraph.txt", "w")
-follow2lead = open("weibo_input/followgraph.txt", "w")
-for i,u in enumerate(common_users):
-    sys.stdout.flush()
-    sys.stdout.write(">>> user {} / {}...\r".format(i, N))
-    lambdas.write("{} {}\n".format(u, Rtweet[u]))
-    mus.write("{} {}\n".format(u, Rrtweet[u]))
-    for v in LeadGraph[u]:
-        lead2follow.write("{} {}\n".format(v,u))
-        follow2lead.write("{} {}\n".format(u,v))
-lambdas.close()
-mus.close()
-lead2follow.close()
-follow2lead.close()
-del common_users
+# # save lambdas, mus, user graph to out! for common users only
+# print("Writing to out...")
+# lambdas = open("weibo_input/lambdas.txt", "w")
+# mus = open("weibo_input/mus.txt", "w")
+# lead2follow = open("weibo_input/leadgraph.txt", "w")
+# follow2lead = open("weibo_input/followgraph.txt", "w")
+# for i,u in enumerate(common_users):
+#     sys.stdout.flush()
+#     sys.stdout.write(">>> user {} / {}...\r".format(i, N))
+#     lambdas.write("{} {}\n".format(u, Rtweet[u]))
+#     mus.write("{} {}\n".format(u, Rrtweet[u]))
+#     for v in LeadGraph[u]:
+#         lead2follow.write("{} {}\n".format(v,u))
+#         follow2lead.write("{} {}\n".format(u,v))
+# lambdas.close()
+# mus.close()
+# lead2follow.close()
+# follow2lead.close()
+# del common_users
+
+# get lambdas mus from txt file
+Rtweet = dict()
+for line in open("weibo_input/lambdas.txt"):
+    line = line.split()
+    Rtweet[int(line[0])]) = float(line[1])
+Rrtweet = dict()
+for line in open("weibo_input/mus.txt"):
+    line = line.split()
+    Rrtweet[int(line[0])]) = float(line[1])
+
+# get leaders from txt file
+LeadGraph = dict()
+for line in open("weibo_input/follow2lead.txt"):
+    follow, lead = int(line.split()[0]), int(line.split()[1])
+    if follow in LeadGraph:
+        LeadGraph[follow].add(lead)
+    else:
+        LeadGraph[follow] = {lead}
+
 
 # ### Build matrix A in sparse format
 def som_sparse(Lvec,Mvec,Lead):
@@ -116,10 +136,10 @@ def fill_C_sparse(Lvec,Mvec):
 # Calculation of the general input: dictionary Som and the three dictionaries A, A-trans, C for the matrices.
 print("Computing Som...")
 Som = som_sparse(Rtweet,Rrtweet,LeadGraph)
-print("Writing Som to out...")
-with open("weibo_input/Som.txt", "w") as out:
-    for key in Som:
-        out.write("{} {}\n".format(key, Som[key]))
+# print("Writing Som to out...")
+# with open("weibo_input/Som.txt", "w") as out:
+#     for key in Som:
+#         out.write("{} {}\n".format(key, Som[key]))
 
 print("Computing A...")
 A = fill_A_sparse(Rtweet,Rrtweet,LeadGraph,Som)
@@ -137,12 +157,12 @@ with open("weibo_input/A_trans.txt", "w") as out:
         for key2 in A_trans[key1]:
             out.write("{} {} {}\n".format(key1, key2, A_trans[key1][key2]))
 
-print("Computing C...")
-C = fill_C_sparse(Rtweet,Rrtweet)
-print("Writing C to out...")
-with open("weibo_input/C.txt", "w") as out:
-    for key in C:
-        out.write("{} {}\n".format(key, C[key]))
+# print("Computing C...")
+# C = fill_C_sparse(Rtweet,Rrtweet)
+# print("Writing C to out...")
+# with open("weibo_input/C.txt", "w") as out:
+#     for key in C:
+#         out.write("{} {}\n".format(key, C[key]))
 
 print()
 print("FINISH")

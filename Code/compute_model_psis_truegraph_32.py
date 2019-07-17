@@ -84,22 +84,6 @@ Rtweet = { u: Rtweet[u] for u in common_users }
 Rrtweet = { u: Rrtweet[u] for u in common_users }
 LeadGraph = { u: LeadGraph[u].intersection(common_users) for u in common_users }
 FollowGraph = { u: FollowGraph[u].intersection(common_users) for u in common_users }
-
-# save lambdas, mus, user graph to out! for common users only
-lambdas = open("weibo_input/lambdas.txt", "w")
-mus = open("weibo_input/mus.txt", "w")
-lead2follow = open("weibo_input/leadgraph.txt", "w")
-follow2lead = open("weibo_input/followgraph.txt", "w")
-for u in common_users:
-    lambdas.write("{} {}\n".format(u, Rtweet[u]))
-    mus.write("{} {}\n".format(u, Rrtweet[u]))
-    for v in LeadGraph[u]:
-        lead2follow.write("{} {}\n".format(v,u))
-        follow2lead.write("{} {}\n".format(u,v))
-lambdas.close()
-mus.close()
-lead2follow.close()
-follow2lead.close()
 del common_users
 
 # list of users
@@ -308,7 +292,6 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
     return (pNews,qWall,Psi)
 
 
-
 # Calculation of the general input: dictionary Som and the three dictionaries A, A-trans, C for the matrices.
 print("Computing A and C matrices...")
 Som = som_sparse(Rtweet,Rrtweet,LeadGraph)
@@ -316,11 +299,6 @@ A = fill_A_sparse(Rtweet,Rrtweet,LeadGraph,Som)
 A_trans = fill_A_trans_sparse(Rtweet,Rrtweet,LeadGraph,Som)
 C = fill_C_sparse(Rtweet,Rrtweet)
 
-# save to out!
-out_som = open("weibo_input/Som.txt", "w")
-out_A = open("weibo_input/A.txt", "w")
-out_Atrans = open("weibo_input/Atrans.txt", "w")
-out_C = open("weibo_input/C.txt", "w")
 
 # This routine just calculates the influence of a specific user on the Wall and Newsfeed of others as well as its Influence metric \Psi[user].
 @jit

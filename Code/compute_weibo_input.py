@@ -10,6 +10,7 @@ from numba import jit
 # INIT
 data_path = str(sys.argv[1])
 adjList_path = str(sys.argv[2])
+cascade = False
 
 # Author dict creation if not RTU
 print("Author dict creation...")

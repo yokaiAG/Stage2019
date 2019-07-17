@@ -187,7 +187,7 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,fpsi,iter_infos,i
         if user not in best_users_emul:
             continue
         sys.stdout.flush()
-        sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l+1, end-begin))
+        sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l+1, best_end - best_start))
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)

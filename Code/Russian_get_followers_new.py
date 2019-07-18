@@ -16,13 +16,10 @@ OAUTH_TOKEN_SECRET = "iiD75H9ERtkATnd74pVRBfM7TI189BSmDasYzN2uUO123"
 
 # Get user set from rtu data.
 print("Getting users and errors...")
-user2cursor = dict()
+user_cursor = set()
 for line in open("../Datasets/russian_getfollowers_error_logs.txt"):
-    u, err = int(line.split()[0]), int(line.split()[1])
-    if u in user2cursor:
-        user2cursor[u].add(err)
-    else:
-        user2cursor[u] = err
+    user, cursor = int(line.split()[0]), int(line.split()[1])
+    user_cursor[u].add((user,cursor))
 
 # init
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
@@ -31,7 +28,7 @@ outfile = "../Datasets/russian_adjList_new.txt"
 errorfile = "../Datasets/russian_errors_new.txt"
 
 # iterate
-for u,cursor in user2cursor.items():
+for u,cursor in user_cursor:
         
     try:
         # get followers

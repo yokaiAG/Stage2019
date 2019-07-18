@@ -115,49 +115,82 @@ def fill_di_sparse_v2(useri,Lvec,Mvec):
 def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 1000, eps = .001):
     # v2: This method resolves the fixed-point exploiting vector sparsity.
     #
+    print("ok 2.1")
     bi = fill_bi_sparse_v2(useri,Lvec,Som,Follow)
+    print("ok 2.2")
     #
     # Initialisation (the result should be independent of initialisation vector)
     #
     p_new = bi
+    print("ok 2.3")
     p_old = {}
+    print("ok 2.4")
     #
     normdiff = np.float32(2*eps)
+    print("ok 2.5")
     #
     t = int(0)
+    print("ok 2.6")
     while (t<it) & (normdiff>eps):
+        print("ok 2.6.1")
         normdiff = np.float32(0)
+        print("ok 2.6.2")
         p_old = p_new.copy()
+        print("ok 2.6.3")
         p_new = {}
+        print("ok 2.6.4")
         # We search the lines of A which contain non-zero entries coinciding with the non-zero
         # entries of p_old.
         mlines = set()
+        print("ok 2.6.5")
         for key in p_old:
+            print("ok 2.6.5.1")
             for tutu in A_trans[key]:
+                print("ok 2.6.5.1.1")
                 mlines.add(tutu)
+                print("ok 2.6.5.1.2")
             #mlines = mlines.union(set(A_trans[key].keys()))
         #print("p_old",p_old)
+        print("ok 2.6.6")
         for tutu in bi:
+            print("ok 2.6.6.1")
             mlines.add(tutu)
         #mlines = mlines.union(set(bi.keys()))
         #print("mlines",mlines)
+        print("ok 2.6.7")
         for user in mlines:
+            print("ok 2.6.7.1")
             p_new[user] = np.float32(0)
+            print("ok 2.6.7.2")
             for leader in Lead[user]:
+                print("ok 2.6.7.2.1")
                 if leader in p_old:
+                    print("ok 2.6.7.2.2")
                     p_new[user] += np.float32(A[user][leader]*p_old[leader])
+                    print("ok 2.6.7.2.3")
+                print("ok 2.6.7.2.4")
             if user in bi.keys():
+                print("ok 2.6.7.2.5")
                 p_new[user]+=np.float32(bi[user])
+                print("ok 2.6.7.2.6")
             # Norm 1 criterion:
             #normdiff += abs(p_old[user]-p_new[user])
             # Norm INF criterion:
+            print("ok 2.6.7.3")
             if user in p_old.keys():
+                print("ok 2.6.4")
                 if abs(p_old[user]-p_new[user])>normdiff:
+                    print("ok 2.6.7.5")
                     normdiff = np.float32(abs(p_old[user]-p_new[user]))
+                    print("ok 2.6.7.6")
             else:
+                print("ok 2.6.7.7")
                 if abs(0-p_new[user])>normdiff:
+                    print("ok 2.6.7.8")
                     normdiff = np.float32(abs(0-p_new[user]))
+                    print("ok 2.6.7.9")
         t += 1
+        print("ok 2.6.7.10")
         #Tracer()()
         #print("p_new",p_new)
     iter_infos.write("user {}: nb iter {}\n".format(useri,t))
@@ -184,7 +217,6 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,fpsi,iter_infos,i
     l = 0 # counter
     for i in range(N):
         user = Lusers[i]
-        print("ok1")
         if user not in best_users_emul:
             continue
         print("ok2")

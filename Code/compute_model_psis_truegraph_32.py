@@ -39,7 +39,7 @@ ibegin = int(sys.argv[5])
 iend = int(sys.argv[6])
 out_path = str(sys.argv[7])
 
-debug.write("\n"); debug.write("Cascade : ", cascade)
+debug.write("\n"); debug.write("Cascade : {}".format(cascade))
 
 # to compute psi only for the nb_best most influent users from emul
 best_from_emul = bool(int(sys.argv[8]))

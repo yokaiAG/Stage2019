@@ -17,7 +17,7 @@ OAUTH_TOKEN_SECRET = "iiD75H9ERtkATnd74pVRBfM7TI189BSmDasYzN2uUO123"
 # Get user set from rtu data.
 print("Getting users and errors...")
 user2cursor = dict()
-for line in open("../Datasets/russian_getfollowers_error_logs.txt")
+for line in open("../Datasets/russian_getfollowers_error_logs.txt"):
     u, err = int(line.split()[0]), int(line.split()[1])
     if u in user2cursor:
         user2cursor[u].add(err)

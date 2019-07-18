@@ -57,6 +57,8 @@ for u,cursor in user2error.items():
                 elapsed_time = time.time() - start
                 
     except Exception as e:
+        error_string = "{} {} {}\n".format(u, cursor, e)
+        print(error_string)
         with open(errorfile, 'a') as out:
-            out.write("{} {} {}\n".format(u, cursor, e))
+            out.write(error_string)
         continue

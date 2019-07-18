@@ -184,30 +184,46 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,fpsi,iter_infos,i
     l = 0 # counter
     for i in range(N):
         user = Lusers[i]
+        print("ok1")
         if user not in best_users_emul:
             continue
+        print("ok2")
         sys.stdout.flush()
         sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l+1, best_end - best_start))
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
+        print("ok3")
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)
+        print("ok4")
         qWall[user]=dict()
+        print("ok5")
         Psi[user] = np.float32(0)
+        print("ok6")
         for userj in pNews[user]:
             qWall[user][userj] = np.float32(C[userj]*pNews[user][userj])
+            print("ok7")
             if userj==user:
+                print("ok8")
                 qWall[user][userj]+=np.float32(di)
+                print("ok9")
             Psi[user] += np.float32(qWall[user][userj])
+            print("ok9")
         if user not in pNews[user]:
+            print("ok10")
             qWall[user][user] = np.float32(di)
+            print("ok11")
             Psi[user] += np.float32(qWall[user][user])
+            print("ok12")
         Psi[user] = np.float32((Psi[user]-qWall[user][user])/(N-1))
+        print("ok13")
         #if command can be used to break the routine at l==1000 or some other number.
         #if l == 1000:
         #    return (pNews,qWall,Psi)
         fpsi.write("%d %g\n"%(user,Psi[user]))
         fpsi.flush()
+        print("ok14")
         l += 1 # up counter
+        print("ok15")
     #
     return (pNews,qWall,Psi)
 

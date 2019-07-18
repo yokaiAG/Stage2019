@@ -26,7 +26,7 @@ from numba import jit
 from time import time
 
 # for debugging
-debug = open("debugging_weibo.txt")
+debug = open("debugging_weibo.txt", "w")
 
 
 # INIT

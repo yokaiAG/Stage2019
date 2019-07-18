@@ -19,7 +19,7 @@ print("Getting users and errors...")
 user_cursor = set()
 for line in open("../Datasets/russian_getfollowers_error_logs.txt"):
     user, cursor = int(line.split()[0]), int(line.split()[1])
-    user_cursor[u].add((user,cursor))
+    user_cursor.add( (user, cursor) )
 
 # init
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)

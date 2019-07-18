@@ -23,6 +23,7 @@ import math
 import numpy as np
 import sys
 from numba import jit
+from time import time
 
 # INIT
 print("init...")
@@ -60,14 +61,22 @@ else:
 Author = util.get_authors(data_path)
 
 
-# GET LAMBDAS MUS AND GRAPH
+# GET LAMBDAS MUS 
 print("Getting lambdas and mus...")
+start = time()
 Rtweet, Rrtweet, total_time = util.get_activity(data_path, cascade, Author, divide_by_time=True, retweeted=False)
+print("Done in {:.3f}s.".format(time()-start))
+
+# get leaders followers
 print("Getting leaders and followers...")
+start = time()
 LeadGraph, FollowGraph = util.graph_from_adjList(adjList_path)
+print("Done in {:.3f}s.".format(time()-start))
 
 # get common users between trace and real graph
 # we remove users with 0 activity or 0 edges
+print("Searching for common users...")
+start = time()
 common_users_old = set(Rtweet.keys()).intersection(set(LeadGraph.keys()))
 common_users = set()
 for u in common_users_old:
@@ -78,13 +87,17 @@ for u in common_users_old:
     else:
         common_users.add(u)
 del common_users_old
+print("Done in {:.3f}s.".format(time()-start))
 
 # eliminate users that are not common between graph and twitter trace
+print("Filtering common users...")
+start = time()
 Rtweet = { u: Rtweet[u] for u in common_users }
 Rrtweet = { u: Rrtweet[u] for u in common_users }
 LeadGraph = { u: LeadGraph[u].intersection(common_users) for u in common_users }
 FollowGraph = { u: FollowGraph[u].intersection(common_users) for u in common_users }
 del common_users
+print("Done in {:.3f}s.".format(time()-start))
 
 # list of users
 Lusers = list(Rtweet.keys())
@@ -183,7 +196,10 @@ def fill_di_sparse_v2(useri,Lvec,Mvec):
 def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 1000, eps = .001):
     # v2: This method resolves the fixed-point exploiting vector sparsity.
     #
+    print("fill bi sparse...")
+    start = time()
     bi = fill_bi_sparse_v2(useri,Lvec,Som,Follow)
+    print("Done in {:.3f}s.".format(time()-start))
     #
     # Initialisation (the result should be independent of initialisation vector)
     #
@@ -194,37 +210,50 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 
     #
     t = int(0)
     while (t<it) & (normdiff>eps):
+        print("iteration #{}...".format(t+1))
         normdiff = np.float32(0)
         p_old = p_new.copy()
         p_new = {}
         # We search the lines of A which contain non-zero entries coinciding with the non-zero
         # entries of p_old.
+        print("mlines...")
+        start = time()
         mlines = set()
         for key in p_old:
             for tutu in A_trans[key]:
                 mlines.add(tutu)
+        print("Done in {:.3f}s.".format(time()-start))
             #mlines = mlines.union(set(A_trans[key].keys()))
         #print("p_old",p_old)
+        print("tutu...")
+        start = time()
         for tutu in bi:
             mlines.add(tutu)
+        print("Done in {:.3f}s.".format(time()-start))
         #mlines = mlines.union(set(bi.keys()))
         #print("mlines",mlines)
         for user in mlines:
             p_new[user] = np.float32(0)
+            print("for leader in Lead[user]...")
+            start = time()
             for leader in Lead[user]:
                 if leader in p_old:
                     p_new[user] += np.float32(A[user][leader]*p_old[leader])
             if user in bi.keys():
                 p_new[user]+=np.float32(bi[user])
+            print("Done in {:.3f}s.".format(time()-start))
             # Norm 1 criterion:
             #normdiff += abs(p_old[user]-p_new[user])
             # Norm INF criterion:
+            print("if user in p_old keys...")
+            start = time()
             if user in p_old.keys():
                 if abs(p_old[user]-p_new[user])>normdiff:
                     normdiff = np.float32(abs(p_old[user]-p_new[user]))
             else:
                 if abs(0-p_new[user])>normdiff:
                     normdiff = np.float32(abs(0-p_new[user]))
+            print("Done in {:.3f}s.".format(time()-start))
         t += 1
         #Tracer()()
         #print("p_new",p_new)
@@ -257,23 +286,37 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
                 continue
         sys.stdout.flush()
         sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l+1, end-begin))
+        print("pi method sparse...")
+        start = time()
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
+        print("Done in {:.3f}s.".format(time()-start))
         #
+        print("fill di sparse...")
+        start = time()
         di = fill_di_sparse_v2(user,Lvec,Mvec)
+        print("Done in {:.3f}s.".format(time()-start))
         qWall[user]=dict()
         Psi[user] = np.float32(0)
+        print("for userj in pNews[user]...")
+        start = time()
         for userj in pNews[user]:
             qWall[user][userj] = np.float32(C[userj]*pNews[user][userj])
             if userj==user:
                 qWall[user][userj]+=np.float32(di)
             Psi[user] += np.float32(qWall[user][userj])
+        print("Done in {:.3f}s.".format(time()-start))
+        print("if user not in pNews[user]...")
+        start = time()
         if user not in pNews[user]:
             qWall[user][user] = np.float32(di)
             Psi[user] += np.float32(qWall[user][user])
         Psi[user] = np.float32((Psi[user]-qWall[user][user])/(N-1))
+        print("Done in {:.3f}s.".format(time()-start))
         #if command can be used to break the routine at l==1000 or some other number.
         #if l == 1000:
         #    return (pNews,qWall,Psi)
+        print("save news wall...")
+        start = time()
         if save_news_wall:
             fp.write("%d "%user)
             for news in pNews[user]:
@@ -288,17 +331,31 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
         fpsi.write("%d %g\n"%(user,Psi[user]))
         fpsi.flush()
         l += 1 # up counter
+        print("Done in {:.3f}s.".format(time()-start))
     #
     return (pNews,qWall,Psi)
 
 
 # Calculation of the general input: dictionary Som and the three dictionaries A, A-trans, C for the matrices.
-print("Computing A and C matrices...")
+print("Computing Som...")
+start = time()
 Som = som_sparse(Rtweet,Rrtweet,LeadGraph)
-A = fill_A_sparse(Rtweet,Rrtweet,LeadGraph,Som)
-A_trans = fill_A_trans_sparse(Rtweet,Rrtweet,LeadGraph,Som)
-C = fill_C_sparse(Rtweet,Rrtweet)
+print("Done in {:.3f}s.".format(time()-start))
 
+print("Computing A...")
+start = time()
+A = fill_A_sparse(Rtweet,Rrtweet,LeadGraph,Som)
+print("Done in {:.3f}s.".format(time()-start))
+
+print("Computing A_trans...")
+start = time()
+A_trans = fill_A_trans_sparse(Rtweet,Rrtweet,LeadGraph,Som)
+print("Done in {:.3f}s.".format(time()-start))
+
+print("Computing C...")
+start = time()
+C = fill_C_sparse(Rtweet,Rrtweet)
+print("Done in {:.3f}s.".format(time()-start))
 
 # This routine just calculates the influence of a specific user on the Wall and Newsfeed of others as well as its Influence metric \Psi[user].
 @jit

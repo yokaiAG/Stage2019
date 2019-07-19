@@ -1,0 +1,11 @@
+user 32129: nb iter 1
+user 65105: nb iter 1
+user 71148: nb iter 3
+user 241029: nb iter 1
+user 492141: nb iter 1
+user 538412: nb iter 1
+user 908450: nb iter 1
+user 1339835: nb iter 2
+user 1511198: nb iter 1
+user 1622871: nb iter 1
+user 1647744: nb iter 1

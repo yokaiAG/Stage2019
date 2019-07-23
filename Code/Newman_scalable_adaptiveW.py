@@ -28,11 +28,6 @@ max_iter = int(sys.argv[6])
 # open out
 out = open(out_path + "Newman_results.txt", "w")
 
-# authors
-print("Getting authors...")
-Author = util.get_authors(trace_path)
-users = set(Author.values())
-
 # Useful function to flatten a list of lists or values from dict of dicts.
 def flatten(obj):
     if type(obj) == list:
@@ -40,14 +35,9 @@ def flatten(obj):
     if type(obj) == dict:
         return [l for i in obj for l in obj[i].values()]
 
-# Number of nodes $n$ and list of all node pairs.
-n = len(users)
-node_pairs = list()
-for i in range(n):
-    for j in range(n):
-        if i != j:
-            node_pairs.append((i,j))
-
+# authors
+print("Getting authors...")
+Author = util.get_authors(trace_path)
 
 # Compute E and N.
 print("Computing E and N...")
@@ -69,8 +59,13 @@ for i,line in enumerate(open(trace_path)):
                     E[uid][rtu] = 1
             else:
                 E[uid] = {rtu: 1}
-
-N = {u: max(flatten(E)) for u in users}
+# N
+N = dict()
+max_E_ = max(flatten(E))
+for u in Author.values():
+    if u not N:
+        N[u] = max_E_
+del Author
 out.write("N = {}".format(set(N.values())))
 
 

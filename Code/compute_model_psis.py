@@ -34,11 +34,11 @@ iend = int(sys.argv[5])
 out_path = str(sys.argv[6])
 
 # to compute psi only for the nb_best most influent users from emul
-best_from_emul = bool(int(sys.argv[8]))
+best_from_emul = bool(int(sys.argv[7]))
 if best_from_emul:
-    best_start = int(sys.argv[9])
-    best_end = int(sys.argv[10])
-    emul_path = str(sys.argv[11])
+    best_start = int(sys.argv[8])
+    best_end = int(sys.argv[9])
+    emul_path = str(sys.argv[10])
     # save id of best users from emul
     best_users_emul = set()
     for i,line in enumerate(open(emul_path)):

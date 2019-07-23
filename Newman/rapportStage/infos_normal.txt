@@ -1,0 +1,7 @@
+N = 100
+lambda  = normal 10,2
+mu = normal 10,2
+w = 0.05 erdos-rényi
+nb edges = 485
+strongly FALSE, weakly TRUE
+10000 events

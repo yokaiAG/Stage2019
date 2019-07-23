@@ -207,8 +207,8 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 
     normdiff = np.float32(2*eps)
     #
     t = int(0)
-    # while (t<it) & (normdiff>eps):
-    while False: # no loop
+    while (t<it) & (normdiff>eps):
+    # while False: # no loop
         normdiff = np.float32(0)
         p_old = p_new.copy()
         p_new = {}
@@ -272,7 +272,8 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
                 continue
         sys.stdout.flush()
         sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l+1, end-begin))
-        pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
+        # pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos)
+        pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som,iter_infos,it=2) # 2 iter max
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)
         qWall[user]=dict()

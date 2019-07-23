@@ -207,7 +207,8 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,iter_infos, it = 
     normdiff = np.float32(2*eps)
     #
     t = int(0)
-    while (t<it) & (normdiff>eps):
+    # while (t<it) & (normdiff>eps):
+    while False: # no loop
         normdiff = np.float32(0)
         p_old = p_new.copy()
         p_new = {}

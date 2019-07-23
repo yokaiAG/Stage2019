@@ -3,7 +3,7 @@
 
 # # <center> Newman on custom trace and user graph </center>
 
-# In[60]:
+# In[2]:
 
 
 import sys
@@ -14,27 +14,24 @@ import random as random
 from time import time
 from operator import itemgetter
 import matplotlib.pyplot as plt
+from math import log
 
 
-# argvs
+# args
 trace_path = str(sys.argv[1])
-realGraph_path = str(sys.argv[2])
-out_path = str(sys.argv[3])
-n_samples = int(sys.argv[4])
-verbose = bool(int(sys.argv[5]))
+out_path = str(sys.argv[2])
+maxE = int(sys.argv[3])
+eps = float(sys.argv[4])
+repetitions = int(sys.argv[5])
+max_iter = int(sys.argv[6])
 
-print("trace_path : ", trace_path)
-print("real graph path : ", realGraph_path)
-print("out path : ", out_path)
-print("n samples : ", n_samples)
-print("verbose : ", verbose)
+# open out
+out = open(out_path + "Newman_results.txt", "w")
 
-# create outfile txt for printing infos
-outfile = open(out_path + "newman_results.txt", "w")
-
-# Get authors
+# authors
 print("Getting authors...")
 Author = util.get_authors(trace_path)
+users = set(Author.values())
 
 # Useful function to flatten a list of lists or values from dict of dicts.
 def flatten(obj):
@@ -43,17 +40,21 @@ def flatten(obj):
     if type(obj) == dict:
         return [l for i in obj for l in obj[i].values()]
 
-# Number of nodes n
-n = len(set(Author.values()))
+# Number of nodes $n$ and list of all node pairs.
+n = len(users)
+node_pairs = list()
+for i in range(n):
+    for j in range(n):
+        if i != j:
+            node_pairs.append((i,j))
 
-#### Compute E and N.
+
+# Compute E and N.
 print("Computing E and N...")
-
-# init
 E = dict()
 
 # read tweets
-for line in open(trace_path):
+for i,line in enumerate(open(trace_path)):
     line = line.split()
     uid, rtid = int(line[2]), int(line[3])
     
@@ -62,27 +63,19 @@ for line in open(trace_path):
         rtu = Author[rtid]
         if rtu != uid: # no self-edges
             if uid in E:
-                if rtu in E[uid] and E[uid][rtu]<30:
+                if rtu in E[uid] and E[uid][rtu] < maxE:
                     E[uid][rtu] += 1
                 else:
                     E[uid][rtu] = 1
             else:
                 E[uid] = {rtu: 1}
-                
-# compute N
-N = {u: max(flatten(E)) for u in E}
+
+N = {u: max(flatten(E)) for u in users}
+out.write("N = {}".format(set(N.values())))
 
 
 # ## 2. Iterations
-print("Iterations...")
-
-# Choose parameters.
-eps = 0.001
-repetitions = 100
-max_iter = 100
-
-##### Proceed NEW VERSION SPARSE.
-
+verbose = False
 # at each repetition we save the values of w, a and b
 results = {'w':list(), 'a':list(), 'b':list()}
 
@@ -94,8 +87,11 @@ for k in range(repetitions):
     
         # random initialization of the parameters
         w = random.uniform(0, 0.2)
-        a = random.uniform(0, 1)
-        b = random.uniform(0, 1)
+        a = random.uniform(0.5, 1)
+        b = random.uniform(0, 0.5)
+#         w = random.random()
+#         a = random.random()
+#         b = random.random()
         if verbose:
             print("init values ", w, a, b)
             print()
@@ -105,8 +101,10 @@ for k in range(repetitions):
             
             # print state
             sys.stdout.flush()
-            sys.stdout.write("repetition {}/{} --- iteration {}/{} --- elapsed time {:.3f}\r"
-                             .format(k+1, repetitions, l+1, max_iter, time()-start))
+#             sys.stdout.write("repetition {}/{} --- iteration {}/{} --- elapsed time {:.3f}\r"
+#                              .format(k+1, repetitions, l+1, max_iter, time()-start))
+            sys.stdout.write("repetition {}/{} --- elapsed time {:.3f}\r"
+                             .format(k+1, repetitions, time()-start))
 
             old_w, old_a, old_b = w, a, b
 
@@ -156,37 +154,22 @@ for k in range(repetitions):
         results['a'].append(a)
         results['b'].append(b)
         
-    except:
+    except Exception as e:
         continue
 
-
-# Print results.
-
-# plot the results
-print("Plotting histograms of results...")
-plt.rcParams["figure.figsize"] = [10,2]
-fig, ax = plt.subplots(1, 3, sharey=True)
-for i,(key,values) in enumerate(results.items()):
-    values = sorted(values)
-    ax[i].hist(values, label=key, facecolor='yellow', edgecolor='red')
-    ax[i].set_xlabel(key)  
-plt.savefig(out_path + "results_hist.pdf")
-plt.close()
-
 # print results
-print("Getting top values...")
 for key,val in results.items():
-    outfile.write("top 5 values for {} and proportion\n".format(key))
+    out.write("top 5 values for {} and proportion\n".format(key))
     val = [round(v,3) for v in val]
     valcount = list()
     for v in set(val):
         valcount.append((v, val.count(v)/len(val)))
     valcount = sorted(valcount, key=itemgetter(1), reverse=True)
     for x in valcount[:5]:
-        outfile.write("{} {}\n".format(x[0], x[1]))
-    outfile.write('\n')
+        out.write("{}, {}\n".format(x[0], x[1]))
+    out.write("\n")
     
-outfile.write("top 5 values for (w,a,b) and proportion\n")
+out.write("top 5 values for (w,a,b) and proportion\n")
 val = list()
 for i in range(len(results['w'])):
     val.append((round(results['w'][i],3), round(results['a'][i],3), round(results['b'][i],3)))
@@ -195,154 +178,252 @@ for v in set(val):
     valcount.append((v, val.count(v)/len(val)))
 valcount = sorted(valcount, key=itemgetter(1), reverse=True)
 for x in valcount[:5]:
-    outfile.write("{} {}\n".format(x[0], x[1]))
-outfile.write('\n')
-
-
-# Set w,a,b to the most observed values and compute Q accordingly.
-w, a, b = max([(v, val.count(v)/len(val)) for v in set(val)], key=itemgetter(1))[0]
-
-# compute Q
-Q = dict()
-for i in E:
-    ni = N[i]
-    Q[i] = dict()
-    for j in E[i]:
-        eij = E[i][j]
-        qij = w * a**eij * (1-a)**(ni-eij)
-        qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
-        Q[i][j] = qij
-        
-# plot
-outfile.write("w, a, b = {} {} {}\n".format(w,a,b))
-plt.hist(flatten(Q), facecolor='yellow', edgecolor='red')
-plt.xlabel("Q distrib")
-plt.savefig(out_path + "Q_distrib.pdf")
-plt.close()
-
-
-# ## 3. Result analysis
-
-# ### 3.1 Plots
-
-# Plot E/N vs Q.
-plt.rcParams["figure.figsize"] = [6,4]
-x2plot = flatten(E)
-y2plot = flatten(Q)
-plt.scatter(x2plot, y2plot, color='blue', marker='x', alpha=.5)
-plt.xlabel("E [edge]")
-plt.ylabel("Q [edge]")
-plt.savefig(out_path + "EvsQ.pdf")
-plt.close()
-
-
-# Get real graph.
-print("Getting real graph...")
-
-G = nx.DiGraph()
-G.add_nodes_from(set(Author.values()))
-for line in open(realGraph_path):
-    line = line.split()
-    user = int(line[0])
-    for leader in line[1:]:
-        leader = int(leader)
-        G.add_edge(leader, user)
-
-
-# Compare expected degrees.
-print("Comparing expected degrees...")
-expected_deg = 2*sum(flatten(Q)) / n
-var = 4*sum([q*(1-q) for q in flatten(Q)]) / n**2
-std = np.sqrt(var)
-outfile.write("Expected degree observed : {:.3f} with variance {:.3f} and std_dev {:.3f}\n".format(expected_deg, var, std))
-outfile.write("Expected degree estimated from real graph : {:.3f}\n".format(np.mean(G.degree())))
-
-
-# ## 4. Compare real graph, oursin, cascade and Newman
-
-# Get oursin graph.
-print("Getting oursin and cascade graph...")
-G_oursin = util.nxgraph_from_trace(trace_path, False, Author)
-G_cascade = util.nxgraph_from_trace(trace_path, True, Author)
-
-
-# Compare nb edges among all graphs.
-print("Comparing nb of edges between graphs...")
-outfile.write("Mean nb edges in Newman graph : {}\n".format(0.5*expected_deg*n))
-outfile.write("Nb edges in oursin graph : {}\n".format(G_oursin.number_of_edges()))
-outfile.write("Nb edges in cascade graph : {}\n".format(G_cascade.number_of_edges()))
-outfile.write("Real nb edges : {}\n".format(G.number_of_edges()))
-
-
-# Compare proportion of common edges.
-print("Comparing proportion of common edges between graphs...")
-
-sample_in_real = list()
-real_in_sample = list()
-sample_in_oursin = list()
-oursin_in_sample = list()
-sample_in_cascade = list()
-cascade_in_sample = list()
-
-# edges lists
-oursin_edges = set(G_oursin.edges)
-cascade_edges = set(G_cascade.edges)
-real_edges = set(G.edges)
-
-for k in range(n_samples):
-    
-    # sample graph
-    G_sample = nx.DiGraph()
-    G_sample.add_nodes_from(set(Author.values()))
-    for i in range(n):
-        for j in range(n):
-            if i in Q:
-                if j in Q[i] and random.random() < Q[i][j]:
-                    G_sample.add_edge(j,i)
-    sample_edges = set(G_sample.edges)
-            
-    # compare edges in sample with real graph
-    nb_common_edges = len(sample_edges.intersection(real_edges))
-    sample_in_real = nb_common_edges / len(sample_edges)
-    real_in_sample = nb_common_edges / len(real_edges)
-    
-    # compare edges in sample with oursin graph
-    nb_common_edges = len(sample_edges.intersection(oursin_edges))
-    sample_in_oursin = nb_common_edges / len(sample_edges)
-    oursin_in_sample = nb_common_edges / len(oursin_edges)
-    
-    # compare edges in sample with cascade graph
-    nb_common_edges = len(sample_edges.intersection(cascade_edges))
-    sample_in_cascade = nb_common_edges / len(sample_edges)
-    cascade_in_sample = nb_common_edges / len(cascade_edges)
-    
-# compare oursin and cascade with real
-oursin_in_real = len(oursin_edges.intersection(real_edges)) / len(oursin_edges)
-real_in_oursin = len(oursin_edges.intersection(real_edges)) / len(real_edges)
-cascade_in_real = len(cascade_edges.intersection(real_edges)) / len(cascade_edges)
-real_in_cascade = len(cascade_edges.intersection(real_edges)) / len(real_edges)
-oursin_in_cascade = len(oursin_edges.intersection(cascade_edges)) / len(oursin_edges)
-cascade_in_oursin = len(oursin_edges.intersection(cascade_edges)) / len(cascade_edges)
-
-# print results
-outfile.write("Mean prop of sample edges that are in real graph : {}\n".format(np.mean(sample_in_real)))
-outfile.write("Mean prop of real edges that are in sample graph : {}\n".format(np.mean(real_in_sample)))
-outfile.write('\n')
-outfile.write("Mean prop of sample edges that are in oursin graph : {}\n".format(np.mean(sample_in_oursin)))
-outfile.write("Mean prop of oursin edges that are in sample graph : {}\n".format(np.mean(oursin_in_sample)))
-outfile.write('\n')
-outfile.write("Mean prop of sample edges that are in cascade graph : {}\n".format(np.mean(sample_in_cascade)))
-outfile.write("Mean prop of cascade edges that are in sample graph : {}\n".format(np.mean(cascade_in_sample)))
-outfile.write('\n')
-outfile.write("Prop of oursin edges that are in real graph : {}\n".format(oursin_in_real))
-outfile.write("Prop of real edges that are in oursin graph : {}\n".format(real_in_oursin))
-outfile.write('\n')
-outfile.write("Prop of cascade edges that are in real graph : {}\n".format(cascade_in_real))
-outfile.write("Prop of real edges that are in cascade graph : {}\n".format(real_in_cascade))
-outfile.write('\n')
-outfile.write("Prop of oursin edges that are in cascade graph : {}\n".format(oursin_in_cascade))
-outfile.write("Prop of cascade edges that are in oursin graph : {}\n".format(cascade_in_oursin))
+    out.write("{}, {}\n".format(x[0], x[1]))
+out.write("\n")
 
 # close outfile
-print("Done !")
-outfile.close()
+out.close
+
+
+############################################ COMMENT THE REST FOR NOW ######################################################
+
+# # Set w,a,b to the most observed values and compute Q accordingly.
+
+# # In[16]:
+
+
+# w, a, b = max([(v, val.count(v)/len(val)) for v in set(val)], key=itemgetter(1))[0]
+
+# # compute Q
+# Q = dict()
+# for i in E:
+#     ni = N[i]
+#     Q[i] = dict()
+#     for j in E[i]:
+#         eij = E[i][j]
+#         qij = w * a**eij * (1-a)**(ni-eij)
+#         qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
+#         Q[i][j] = qij
+        
+# # plot
+# print("w, a, b = ", w,a,b)
+# plt.rcParams["figure.figsize"] = [6,4]
+# plt.hist(flatten(Q), facecolor='yellow', edgecolor='red')
+# plt.xlabel("Edge probability a posteriori")
+# plt.ylabel("Number of occurences")
+# plt.savefig(out_path + "Q_distrib.pdf")
+# plt.show()
+# plt.close()
+
+
+# # ## 3. Result analysis
+
+# # ### 3.1 Plots
+
+# # Plot E/N vs Q.
+
+# # In[17]:
+
+
+# plt.rcParams["figure.figsize"] = [6,4]
+# x2plot = flatten(E)
+# y2plot = flatten(Q)
+# plt.scatter(x2plot, y2plot, color='blue', marker='x', alpha=.5)
+# plt.xlabel("Number of retweets")
+# plt.ylabel("Edge proba a posteriori")
+# plt.savefig(out_path + "EvsQ.pdf")
+# plt.show()
+
+
+# # Get real graph.
+
+# # In[18]:
+
+
+# G = nx.read_edgelist(graph_path, nodetype=int, create_using=nx.DiGraph())
+
+
+# # Plot real graph ?
+
+# # In[73]:
+
+
+# # nx.draw_kamada_kawai(G, node_size=[G.degree[x]**2.3 for x in G.nodes], arrowstyle='->',width=.5,  with_labels=False)
+# # plt.savefig("simu_userGraph.pdf")
+# nx.draw(G, node_size=[20*G.out_degree(k) for k in range(n)], width=.5)
+# plt.savefig(out_path + "graph_random.pdf")
+
+
+# # Compare expected degrees.
+
+# # In[19]:
+
+
+# expected_deg = 2*sum(flatten(Q)) / n
+# var = 4*sum([q*(1-q) for q in flatten(Q)]) / n**2
+# std = np.sqrt(var)
+# print("Expected degree observed : {:.3f} with variance {:.10f} and std_dev {:.3f}".format(expected_deg, var, std))
+# print("Expected degree estimated from real graph : {:.3f}".format(np.mean([G.degree[n] for n in G.nodes])))
+
+
+# # Compare estimates a,b with real values alpha,beta.
+
+# # In[20]:
+
+
+# alpha, beta= list(), list()
+# for e in node_pairs:
+#     if e in G.edges:
+#         try:
+#             alpha.append(E[e[1]][e[0]]/30)
+#         except:
+#             alpha.append(0)
+#     else:
+#         try:
+#             beta.append(E[e[1]][e[0]]/30)
+#         except:
+#             beta.append(0)
+# alpha, beta = np.mean(alpha), np.mean(beta)
+# print("a = {}, alpha = {}".format(a, alpha))
+# print("b = {}, beta = {}".format(b, beta))
+
+
+# # ## 4. Compare real graph, oursin, cascade and Newman
+
+# # Get oursin and cascade graph.
+
+# # In[21]:
+
+
+# G_oursin = util.nxgraph_from_trace(trace_path, False, Author)
+# G_cascade = util.nxgraph_from_trace(trace_path, True, Author)
+
+
+# # Compare nb edges among all graphs.
+
+# # In[22]:
+
+
+# print("Mean nb edges in Newman graph : ", 0.5*expected_deg*n)
+# print("Nb edges in oursin graph : ", G_oursin.number_of_edges())
+# print("Nb edges in cascade graph : ", G_cascade.number_of_edges())
+# print("Real nb edges : ", G.number_of_edges())
+
+
+# # Compare proportion of common edges.
+
+# # In[23]:
+
+
+# n_samples = 1000
+# sample_in_real = list()
+# real_in_sample = list()
+# sample_in_oursin = list()
+# oursin_in_sample = list()
+# sample_in_cascade = list()
+# cascade_in_sample = list()
+
+# # edges lists
+# oursin_edges = set(G_oursin.edges)
+# cascade_edges = set(G_cascade.edges)
+# real_edges = set(G.edges)
+
+# for k in range(n_samples):
+    
+#     # sample graph
+#     G_sample = nx.DiGraph()
+#     G_sample.add_nodes_from(users)
+#     for (i,j) in node_pairs:
+#         if i in Q:
+#             if j in Q[i] and random.random() < Q[i][j]:
+#                 G_sample.add_edge(j,i)
+#     sample_edges = set(G_sample.edges)
+            
+#     # compare edges in sample with real graph
+#     nb_common_edges = len(sample_edges.intersection(real_edges))
+#     sample_in_real = nb_common_edges / len(sample_edges)
+#     real_in_sample = nb_common_edges / len(real_edges)
+    
+#     # compare edges in sample with oursin graph
+#     nb_common_edges = len(sample_edges.intersection(oursin_edges))
+#     sample_in_oursin = nb_common_edges / len(sample_edges)
+#     oursin_in_sample = nb_common_edges / len(oursin_edges)
+    
+#     # compare edges in sample with cascade graph
+#     nb_common_edges = len(sample_edges.intersection(cascade_edges))
+#     sample_in_cascade = nb_common_edges / len(sample_edges)
+#     cascade_in_sample = nb_common_edges / len(cascade_edges)
+    
+# # compare oursin and cascade with real
+# oursin_in_real = len(oursin_edges.intersection(real_edges)) / len(oursin_edges)
+# real_in_oursin = len(oursin_edges.intersection(real_edges)) / len(real_edges)
+# cascade_in_real = len(cascade_edges.intersection(real_edges)) / len(cascade_edges)
+# real_in_cascade = len(cascade_edges.intersection(real_edges)) / len(real_edges)
+# oursin_in_cascade = len(oursin_edges.intersection(cascade_edges)) / len(oursin_edges)
+# cascade_in_oursin = len(oursin_edges.intersection(cascade_edges)) / len(cascade_edges)
+
+# # print results
+# print("Mean prop of sample edges that are in real graph : ", np.mean(sample_in_real))
+# print("Mean prop of real edges that are in sample graph : ", np.mean(real_in_sample))
+# print()
+# print("Mean prop of sample edges that are in oursin graph : ", np.mean(sample_in_oursin))
+# print("Mean prop of oursin edges that are in sample graph : ", np.mean(oursin_in_sample))
+# print()
+# print("Mean prop of sample edges that are in cascade graph : ", np.mean(sample_in_cascade))
+# print("Mean prop of cascade edges that are in sample graph : ", np.mean(cascade_in_sample))
+# print()
+# print("Prop of oursin edges that are in real graph : ", oursin_in_real)
+# print("Prop of real edges that are in oursin graph : ", real_in_oursin)
+# print()
+# print("Prop of cascade edges that are in real graph : ", cascade_in_real)
+# print("Prop of real edges that are in cascade graph : ", real_in_cascade)
+# print()
+# print("Prop of oursin edges that are in cascade graph : ", oursin_in_cascade)
+# print("Prop of cascade edges that are in oursin graph : ", cascade_in_oursin)
+
+
+# # ## MISC (useless)
+
+# # Rescale E and set N=maxE.
+
+# # In[193]:
+
+
+# maxE = max(flatten(E))
+# b = maxE**(1/30)
+
+# for u in E:
+#     for v in E[u]:
+#         E[u][v] = log(E[u][v], b)
+# N = {u:30 for u in users}
+
+
+# # In[103]:
+
+
+# nb_retweets_custom = {(i,j):0 for i in users for j in users}
+# for line in open(trace_path):
+#     line = line.split()
+#     uid, rtid = int(line[2]), int(line[3])
+#     if rtid != -1:
+#         nb_retweets_custom[uid, Author[rtid]] += 1
+
+
+# # In[110]:
+
+
+# nb_retweets_official = {(i,j):0 for i in users for j in users}
+# for line in open(trace_path):
+#     line = line.split()
+#     uid, rtid = int(line[2]), int(line[3])
+#     if rtid != -1:
+#         nb_retweets_official[uid, Author[rtid]] += 1
+
+
+# # In[111]:
+
+
+# for i in users:
+#     for j in users:
+#         print(nb_retweets_custom[i,j], nb_retweets_official[i,j])
+

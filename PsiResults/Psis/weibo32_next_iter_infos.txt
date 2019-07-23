@@ -7,3 +7,14 @@ user 2609: nb iter 1
 user 2636: nb iter 1
 user 3967: nb iter 1
 user 4017: nb iter 1
+user 4717: nb iter 2
+user 5496: nb iter 2
+user 6938: nb iter 1
+user 8069: nb iter 1
+user 10015: nb iter 1
+user 10804: nb iter 1
+user 11485: nb iter 1
+user 11593: nb iter 2
+user 12327: nb iter 1
+user 12598: nb iter 1
+user 12627: nb iter 1

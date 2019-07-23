@@ -63,7 +63,7 @@ for i,line in enumerate(open(trace_path)):
 N = dict()
 max_E_ = max(flatten(E))
 for u in Author.values():
-    if u not N:
+    if u not in N:
         N[u] = max_E_
 del Author
 out.write("N = {}".format(set(N.values())))

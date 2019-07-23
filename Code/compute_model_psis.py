@@ -173,7 +173,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
     normdiff = 2*eps
     #
     t = 0
-    while t<2 or normdiff>eps: # on force au moins 2 iter
+    while t<5 or normdiff>eps: # on force au moins 2 iter
     # while (t<it) & (normdiff>eps):
         normdiff = 0
         p_old = p_new.copy()
@@ -235,7 +235,7 @@ def solution_sparse_v2(N,A,A_trans,C,Lvec,Mvec,Lead,Follow,Som,begin,end,fp,fq,f
             if user not in best_users_emul:
                 continue
         sys.stdout.flush()
-        sys.stdout.write("Computing p,q,PSi for user {} / {}...\r".format(l, end-begin))
+        sys.stdout.write("Computing p,q,Psi for user {} / {}...\r".format(l, end-begin))
         pNews[user] = pi_method_sparse_v2(N,user,A,A_trans,Lvec,Lead,Follow,Som)
         #
         di = fill_di_sparse_v2(user,Lvec,Mvec)

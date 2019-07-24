@@ -27,8 +27,8 @@ max_iter = int(sys.argv[6])
 verbose = bool(sys.argv[7])
 
 # open out
-out = open(out_path + "Newman_results.txt", "w")
-error = open(out_path + "Newman_errorlog.txt", "w")
+out = open(out_path + "results.txt", "w")
+error = open(out_path + "errorlog.txt", "w")
 
 # Useful function to flatten a list of lists or values from dict of dicts.
 def flatten(obj):
@@ -72,114 +72,115 @@ n = len(N) # nb users
 out.write("N = {}\n".format(set(N.values())))
 
 
-# ## 2. Iterations
-# at each repetition we save the values of w, a and b
-results = {'w':list(), 'a':list(), 'b':list()}
+# # ## 2. Iterations
+# # at each repetition we save the values of w, a and b
+# results = {'w':list(), 'a':list(), 'b':list()}
 
-start = time()
-for k in range(repetitions):
+# start = time()
+# for k in range(repetitions):
     
-    # we may have divisions by zero
-    try:
+#     # we may have divisions by zero
+#     try:
     
-        # random initialization of the parameters
-        w = random.uniform(0, 0.2)
-        a = random.uniform(0.5, 1)
-        b = random.uniform(0, 0.5)
-#         w = random.random()
-#         a = random.random()
-#         b = random.random()
-        if verbose:
-            print("init values ", w, a, b)
-            print()
+#         # random initialization of the parameters
+#         w = random.uniform(0, 0.2)
+#         a = random.uniform(0.5, 1)
+#         b = random.uniform(0, 0.5)
+# #         w = random.random()
+# #         a = random.random()
+# #         b = random.random()
+#         if verbose:
+#             print("init values ", w, a, b)
+#             print()
 
-        # iter
-        for l in range(max_iter):
+#         # iter
+#         for l in range(max_iter):
             
-            # print state
-            sys.stdout.flush()
-#             sys.stdout.write("repetition {}/{} --- iteration {}/{} --- elapsed time {:.3f}\r"
-#                              .format(k+1, repetitions, l+1, max_iter, time()-start))
-            sys.stdout.write("repetition {}/{} --- elapsed time {:.3f}\r"
-                             .format(k+1, repetitions, time()-start))
+#             # print state
+#             sys.stdout.flush()
+# #             sys.stdout.write("repetition {}/{} --- iteration {}/{} --- elapsed time {:.3f}\r"
+# #                              .format(k+1, repetitions, l+1, max_iter, time()-start))
+#             sys.stdout.write("repetition {}/{} --- elapsed time {:.3f}\r"
+#                              .format(k+1, repetitions, time()-start))
 
-            old_w, old_a, old_b = w, a, b
+#             old_w, old_a, old_b = w, a, b
 
-            # compute Qij
-            Q = dict()
-            for i in E:
-                ni = N[i]
-                Q[i] = dict()
-                for j in E[i]:
-                    eij = E[i][j]
-                    qij = w * a**eij * (1-a)**(ni-eij)
-                    qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
-                    Q[i][j] = qij
+#             # compute Qij
+#             Q = dict()
+#             for i in E:
+#                 ni = N[i]
+#                 Q[i] = dict()
+#                 for j in E[i]:
+#                     eij = E[i][j]
+#                     qij = w * a**eij * (1-a)**(ni-eij)
+#                     qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
+#                     Q[i][j] = qij
             
-            # update w,a,b
-            w = sum(flatten(Q)) / (n*(n-1))
-            numerator_a, numerator_b = 0, 0
-            denominator_a, denominator_b = 0, 0
-            for i in E:
-                ni = N[i]
-                for j in E[i]:
-                    eij = E[i][j]
-                    qij = Q[i][j]
-                    numerator_a += qij * eij
-                    numerator_b += (1-qij) * eij
-                    denominator_a += qij * ni
-                    denominator_b += (1-qij) * ni
-            a = numerator_a / denominator_a
-            b = numerator_b / denominator_b
-            if verbose:
-                print(w,a,b)
-                print()
+#             # update w,a,b
+#             w = sum(flatten(Q)) / (n*(n-1))
+#             numerator_a, numerator_b = 0, 0
+#             denominator_a, denominator_b = 0, 0
+#             for i in E:
+#                 ni = N[i]
+#                 for j in E[i]:
+#                     eij = E[i][j]
+#                     qij = Q[i][j]
+#                     numerator_a += qij * eij
+#                     numerator_b += (1-qij) * eij
+#                     denominator_a += qij * ni
+#                     denominator_b += (1-qij) * ni
+#             a = numerator_a / denominator_a
+#             b = numerator_b / denominator_b
+#             if verbose:
+#                 print(w,a,b)
+#                 print()
             
-            # break if no sufficient evolution after at least one iteration
-            # INCOMPLETE
-            new_q = np.array(flatten(Q))
-            if l>0 and np.linalg.norm(new_q - old_q) < eps:
-                if verbose:
-                    print(np.abs([a-old_a, b-old_b, w-old_w]))
-                break
+#             # break if no sufficient evolution after at least one iteration
+#             # INCOMPLETE
+#             new_q = np.array(flatten(Q))
+#             if l>0 and np.linalg.norm(new_q - old_q) < eps:
+#                 if verbose:
+#                     print(np.abs([a-old_a, b-old_b, w-old_w]))
+#                 break
             
-            # register old_q
-            old_q = new_q
+#             # register old_q
+#             old_q = new_q
             
-        # add results to results dict
-        results['w'].append(w)
-        results['a'].append(a)
-        results['b'].append(b)
+#         # add results to results dict
+#         results['w'].append(w)
+#         results['a'].append(a)
+#         results['b'].append(b)
         
-    except Exception as e:
-        error.write("{}\n".format(e))
-        continue
+#     except Exception as e:
+#         error.write("{}\n".format(e))
+#         continue
 
-# print results
-for key,val in results.items():
-    out.write("top 5 values for {} and proportion\n".format(key))
-    val = [round(v,3) for v in val]
-    valcount = list()
-    for v in set(val):
-        valcount.append((v, val.count(v)/len(val)))
-    valcount = sorted(valcount, key=itemgetter(1), reverse=True)
-    for x in valcount[:5]:
-        out.write("{}, {}\n".format(x[0], x[1]))
-    out.write("\n")
-    
-out.write("top 5 values for (w,a,b) and proportion\n")
-val = list()
-for i in range(len(results['w'])):
-    val.append((round(results['w'][i],3), round(results['a'][i],3), round(results['b'][i],3)))
-valcount = list()
-for v in set(val):
-    valcount.append((v, val.count(v)/len(val)))
-valcount = sorted(valcount, key=itemgetter(1), reverse=True)
-for x in valcount[:5]:
-    out.write("{}, {}\n".format(x[0], x[1]))
-out.write("\n")
+# set w,a b
+w, a, b = 5.4614*10**(-8), 0.5753, 0.4652
 
-# close outfile
+# compute Qij
+Q = dict()
+for i in E:
+    ni = N[i]
+    Q[i] = dict()
+    for j in E[i]:
+        eij = E[i][j]
+        qij = w * a**eij * (1-a)**(ni-eij)
+        qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
+        Q[i][j] = qij
+
+# sample graph and write to out
+FollowGraph = {u: set() for u in N}
+for i in Q:
+    for j in Q[i]:
+        if random.random() < Q[i][j]:
+            FollowGraph[j].add(i)
+with open(out_path + "sample_graph.txt", 'w') as out:
+    for u in FollowGraph:
+        for v in FollowGraph[u]:
+            out.write("{} {}\n".format(u,v))
+
+# close
 out.close()
 error.close()
 

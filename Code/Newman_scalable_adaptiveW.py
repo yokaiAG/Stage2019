@@ -27,6 +27,7 @@ max_iter = int(sys.argv[6])
 
 # open out
 out = open(out_path + "Newman_results.txt", "w")
+error = open(out_path + "Newman_errorlog.txt", "w")
 
 # Useful function to flatten a list of lists or values from dict of dicts.
 def flatten(obj):
@@ -66,7 +67,7 @@ for u in Author.values():
     if u not in N:
         N[u] = max_E_
 del Author
-out.write("N = {}".format(set(N.values())))
+out.write("N = {}\n".format(set(N.values())))
 
 
 # ## 2. Iterations
@@ -150,6 +151,7 @@ for k in range(repetitions):
         results['b'].append(b)
         
     except Exception as e:
+        error.write("{}\n".format(e))
         continue
 
 # print results
@@ -177,7 +179,8 @@ for x in valcount[:5]:
 out.write("\n")
 
 # close outfile
-out.close
+out.close()
+error.close()
 
 
 ############################################ COMMENT THE REST FOR NOW ######################################################

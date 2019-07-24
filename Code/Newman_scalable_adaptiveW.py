@@ -168,22 +168,30 @@ for i in E:
         qij = w * a**eij * (1-a)**(ni-eij)
         qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
         Q[i][j] = qij
-        print(qij)
 
 # sample graph and write to out
-LeadGraph = {u: set() for u in Q}
-for i in Q:
-    for j in Q[i]:
-        if random.random() < Q[i][j]:
-            LeadGraph[i].add(j)
-with open(out_path + "sample_graph.txt", 'w') as out:
-    for u in LeadGraph:
-        for v in LeadGraph[u]:
-            out.write("{} {}\n".format(v,u))
+# les aretes qu'on n'a pas observé apparaissent avec proba w
+out_graph = open(out_path + "sample_graph.txt", 'w')
+for i in N:
+    if i in E:
+        for j in N:
+            if j != i:
+                if j in E and random.random() < Q[i][j]:
+                    out_graph.write("{} {}\n".format(j,i))
+                    print("edge added from Eij")
+                elif j not in E and random.random() < w:
+                    out_graph.write("{} {}\n".format(j,i))
+                    print("edge added from w")
+    else:
+        for j in N:
+            if j != i and random.random() < w:
+                out_graph.write("{} {}\n".format(j,i))
+                print("edge added from w")
 
 # close
 out.close()
 error.close()
+out_graph.close()
 
 
 ############################################ COMMENT THE REST FOR NOW ######################################################

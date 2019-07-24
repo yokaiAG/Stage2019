@@ -24,6 +24,7 @@ maxE = int(sys.argv[3])
 eps = float(sys.argv[4])
 repetitions = int(sys.argv[5])
 max_iter = int(sys.argv[6])
+verbose = bool(sys.argv[7])
 
 # open out
 out = open(out_path + "Newman_results.txt", "w")
@@ -72,7 +73,6 @@ out.write("N = {}\n".format(set(N.values())))
 
 
 # ## 2. Iterations
-verbose = False
 # at each repetition we save the values of w, a and b
 results = {'w':list(), 'a':list(), 'b':list()}
 

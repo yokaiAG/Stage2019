@@ -176,10 +176,10 @@ for i in N:
     if i in E:
         for j in N:
             if j != i:
-                if j in E and random.random() < Q[i][j]:
+                if j in E[i] and random.random() < Q[i][j]:
                     out_graph.write("{} {}\n".format(j,i))
                     print("edge added from Eij")
-                elif j not in E and random.random() < w:
+                elif j not in E[i] and random.random() < w:
                     out_graph.write("{} {}\n".format(j,i))
                     print("edge added from w")
     else:

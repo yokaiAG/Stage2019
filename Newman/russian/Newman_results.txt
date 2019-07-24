@@ -1,13 +1,1 @@
-N = {99}
-top 5 values for w and proportion
-0.0, 1.0
-
-top 5 values for a and proportion
-0.228, 1.0
-
-top 5 values for b and proportion
-0.014, 1.0
-
-top 5 values for (w,a,b) and proportion
-(0.0, 0.228, 0.014), 1.0
-
+N = {30}

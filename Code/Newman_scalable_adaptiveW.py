@@ -67,6 +67,7 @@ for u in Author.values():
     if u not in N:
         N[u] = max_E_
 del Author
+n = len(N) # nb users
 out.write("N = {}\n".format(set(N.values())))
 
 

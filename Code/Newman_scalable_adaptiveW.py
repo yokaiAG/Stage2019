@@ -168,17 +168,18 @@ for i in E:
         qij = w * a**eij * (1-a)**(ni-eij)
         qij /= w * a**eij * (1-a)**(ni-eij) + (1-w) * b**eij * (1-b)**(ni-eij)
         Q[i][j] = qij
+        print(qij)
 
 # sample graph and write to out
-FollowGraph = {u: set() for u in N}
+LeadGraph = {u: set() for u in Q}
 for i in Q:
     for j in Q[i]:
         if random.random() < Q[i][j]:
-            FollowGraph[j].add(i)
+            LeadGraph[i].add(j)
 with open(out_path + "sample_graph.txt", 'w') as out:
-    for u in FollowGraph:
-        for v in FollowGraph[u]:
-            out.write("{} {}\n".format(u,v))
+    for u in LeadGraph:
+        for v in LeadGraph[u]:
+            out.write("{} {}\n".format(v,u))
 
 # close
 out.close()

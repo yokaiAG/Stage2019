@@ -1,0 +1,8 @@
+N = {50}top 5 values for w and proportion
+
+top 5 values for a and proportion
+
+top 5 values for b and proportion
+
+top 5 values for (w,a,b) and proportion
+

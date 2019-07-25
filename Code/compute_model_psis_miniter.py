@@ -32,13 +32,14 @@ save_news_wall = bool(int(sys.argv[3]))
 ibegin = int(sys.argv[4])
 iend = int(sys.argv[5])
 out_path = str(sys.argv[6])
+min_iter = int(sys.argv[7])
 
 # to compute psi only for the nb_best most influent users from emul
-best_from_emul = bool(int(sys.argv[7]))
+best_from_emul = bool(int(sys.argv[8]))
 if best_from_emul:
-    best_start = int(sys.argv[8])
-    best_end = int(sys.argv[9])
-    emul_path = str(sys.argv[10])
+    best_start = int(sys.argv[9])
+    best_end = int(sys.argv[10])
+    emul_path = str(sys.argv[11])
     # save id of best users from emul
     best_users_emul = set()
     for i,line in enumerate(open(emul_path)):
@@ -173,7 +174,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
     normdiff = 2*eps
     #
     t = 0
-    while t < 15 or normdiff > eps: # on force au moins 15 iterations
+    while t < min_iter or normdiff > eps: # on force au moins min_iter iterations
     # while (t<it) & (normdiff>eps):
         normdiff = 0
         p_old = p_new.copy()

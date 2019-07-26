@@ -173,7 +173,8 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
     normdiff = 2*eps
     #
     t = 0
-    while t < 15 or normdiff > eps: # on force au moins 15 iterations
+    while False: # 0 iter
+    # while t < 15 or normdiff > eps: # on force au moins 15 iterations
     # while (t<it) & (normdiff>eps):
         normdiff = 0
         p_old = p_new.copy()

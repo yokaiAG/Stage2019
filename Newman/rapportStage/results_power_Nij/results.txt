@@ -1,0 +1,7 @@
+w, a, b = 0.006, 0.525, 0.072
+
+Mean nb edges in Newman graph :  54.08768536452082
+Real nb edges :  288
+
+Mean prop of sample edges that are in real graph :  0.7321428571428571
+Mean prop of real edges that are in sample graph :  0.1423611111111111

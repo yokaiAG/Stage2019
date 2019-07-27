@@ -59,14 +59,14 @@ with open(psimodel) as psi_list:
         line = line.split()
         current_user = int(line[0])
         current_psi = float(line[1])
-        if current_psi==0:
-            continue
-        if only_first_n_emul_users and current_user not in Psi:
-            continue
+        # if current_psi==0:
+        #     continue
+        # if only_first_n_emul_users and current_user not in Psi:
+        #     continue
         if current_user in Psi.keys():
             Psi[current_user][-1] = current_psi
-        else:
-            Psi[current_user] = [0, current_psi]
+        # else:
+        #     Psi[current_user] = [0, current_psi]
         
             
 # to arrays

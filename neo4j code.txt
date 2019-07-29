@@ -1,4 +1,0 @@
-USING PERIODIC COMMIT
-LOAD CSV FROM "file:///adjacenct_wcano.csv" AS line FIELDTERMINATOR " "
-CREATE (u:User {id: line[0]}), (v:User {id: line[1]})
-CREATE u-[r:leads]->v

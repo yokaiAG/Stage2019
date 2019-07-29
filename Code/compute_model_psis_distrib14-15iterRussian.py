@@ -39,12 +39,6 @@ if best_from_emul:
     best_start = int(sys.argv[8])
     best_end = int(sys.argv[9])
     emul_path = str(sys.argv[10])
-    not_wanted = bool(sys.argv[11]) # bool
-    not_wanted_path = str(sys.argv[12]) # list of psis with already computed users ie not wanted
-    if not_wanted:
-        not_wanted_set = set()
-        for line in open(not_wanted):
-            not_wanted_set.add(int(line.split()[0]))
     # save id of best users from emul
     best_users_emul = set()
     for i,line in enumerate(open(emul_path)):
@@ -52,9 +46,6 @@ if best_from_emul:
             continue
         else:
             user = int(line.split()[0])
-            if not_wanted:
-                if user in not_wanted_set:
-                    continue
             best_users_emul.add(user)
             if i >= best_end:
                 break

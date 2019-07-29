@@ -311,9 +311,8 @@ print("Computing p, q and psi...")
 if iend==-1:
     iend = N
 
-if save_news_wall:
-    fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
-    fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
+fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
+fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
 fpsi = open(out_path + "Psi_model_%d_%d.txt" %(ibegin,iend), 'w')
 
 distrib_1415 = open(out_path + "distrib14-15iter.txt", 'w')
@@ -322,9 +321,7 @@ distrib_1415 = open(out_path + "distrib14-15iter.txt", 'w')
 
 distrib_1415.close()
 fpsi.close()
-
-if save_news_wall:
-    fq.close()
-    fp.close()
+fq.close()
+fp.close()
 
 print("\nSuccess !")

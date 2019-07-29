@@ -356,18 +356,16 @@ print("Computing p, q and psi...")
 if iend==-1:
     iend = N
 
-if save_news_wall:
-    fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
-    fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
+fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
+fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
 fpsi = open(out_path + "Psi_model_%d_%d.txt" %(ibegin,iend), 'w')
 iter_infos = open(out_path + "iter_infos.txt", 'w')
 
 (pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,ibegin,iend,fp,fq,fpsi,iter_infos)
 
 fpsi.close()
-if save_news_wall:
-    fq.close()
-    fp.close()
+fq.close()
+fp.close()
 iter_infos.close()
 
 print("\nSuccess !")

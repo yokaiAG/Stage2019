@@ -12,14 +12,12 @@ import pandas as pd
 import numpy as np
 from operator import itemgetter
 from scipy.stats import kendalltau
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
 
 
 # Où sont les listes de psis ?
 psiemul = str(sys.argv[1])
 psimodel = str(sys.argv[2])
-outpath = str(sys.argv[3])
+outfile = str(sys.argv[3]) # filename to write results
 only_first_n_emul_users = bool(int(sys.argv[4]))
 if only_first_n_emul_users:
     n_emul_users = int(sys.argv[5])
@@ -83,62 +81,7 @@ print("Tps ex : ", time()-start)
 
 # save len emul
 N = len(emul)
-
-
 del line, current_user, current_psi, psi_list
-
-
-
-# ## $\Psi_{model}$ en fonction de $\Psi_{emul}$
-# Exceptionnellement on prend tous les utilisateurs. On fait une régression.
-
-# In[9]:
-
-
-print("Psimodel en fct de Psiemul")
-start = time()
-
-# cut extreme values
-emul_to_plot = emul[:N]
-model_to_plot = model_sortby_emul[:N]
-
-# regression
-reg = LinearRegression().fit(emul_to_plot.reshape(-1,1), model_to_plot.reshape(-1,1))
-
-# print regression coeffs
-intercept_str = str(np.abs(reg.intercept_[0]))[-4:]
-if reg.intercept_[0] > 0:
-    title = "Droite de régression : y = {:.5f}*x + {}".format(reg.coef_[0][0], intercept_str)
-else:
-    title = "Droite de régression : y = {:.5f}*x - {}".format(reg.coef_[0][0], intercept_str)
-print(title)
-
-# regression function for plot
-def regression(x):
-    return x*reg.coef_[0][0] + reg.intercept_[0]
-
-print("Tps ex : ", time()-start)
-
-
-# In[10]:
-
-
-start = time()
-
-plt.scatter(emul_to_plot, model_to_plot, marker='.', alpha=0.1, label="measured values")
-plt.plot(emul_to_plot, regression(emul_to_plot), c='r', ls=':', label="regression line")
-# plt.xlim(0, 0.001)
-# plt.ylim(0, 0.005)
-# plt.xticks([k/10000 for k in range(0,21,5)])
-plt.xlabel("Psi emul")
-plt.ylabel("Psi model")
-plt.legend(loc='best', shadow=True)
-plt.title(title)
-plt.savefig(outpath + "Psi_model_fct_psi_emul.png")
-plt.show()
-plt.close()
-
-print("Tps ex : ", time()-start)
 
 
 # ## Dataframe pour comparaison
@@ -183,36 +126,7 @@ df['kendall'] = kendall_tau
 print("Tps ex : ", time()-start)
 
 
-# In[ ]:
-
-
 del i, kendall_tau
-
-
-# Plot.
-
-# In[33]:
-
-
-print("Plot kendall tau...")
-
-plt.semilogx(range(2, N+1), df['kendall'], label="Kendall tau")
-# plt.plot(range(2, N+1), [0.7]*(N-1), ls='-.', label="y = 0.7")
-plt.title("Kendall tau sur les N premiers users")
-plt.legend(loc='best', shadow=True)
-plt.xlabel("log(N)")
-plt.savefig(outpath + "kendall_tau_log.pdf")
-plt.show()
-plt.close()
-
-plt.plot(range(2, N+1), df['kendall'], label="Kendall tau")
-# plt.plot(range(2, N+1), [0.7]*(N-1), ls='-.', label="y = 0.7")
-plt.title("Kendall tau sur les N premiers users")
-plt.legend(loc='best', shadow=True)
-plt.xlabel("N")
-plt.savefig(outpath + "kendall_tau.pdf")
-plt.show()
-plt.close()
 
 
 # ## Mean distance
@@ -292,28 +206,6 @@ df['mean_dist'] = mean_dist
 del user, rank, d, k, dist, mean_dist
 
 
-# Plot.
-
-# In[31]:
-
-
-print("Plot mean distance...")
-
-plt.plot(range(2, N+1), df['mean_dist'])
-plt.title("Mean distance between emul_rank and model_rank")
-plt.xlabel("N")
-plt.savefig(outpath + "mean_dist.pdf")
-plt.show()
-plt.close()
-
-plt.semilogx(range(2, N+1), df['mean_dist'])
-plt.title("Mean distance between emul_rank and model_rank")
-plt.xlabel("log(N)")
-plt.savefig(outpath + "mean_dist_log.pdf")
-plt.show()
-plt.close()
-
-
 # ## Common users proportion
 
 # In[39]:
@@ -369,50 +261,9 @@ print("Tps ex : ", time()-start)
 
 # update df and del vars
 df['common_users_prop'] = common_users_prop
-
-
-# In[40]:
-
-
 del n, common_users_prop, seen_users_emul, seen_users_model, current_intersect
 
 
-# In[41]:
-
-
-df.head()
-
-
-# Plot.
-
-# In[42]:
-
-
-print("Plot common users proportion...")
-
-plt.plot(range(2, N+1), df['common_users_prop'], label="common users prop.")
-# plt.plot(range(2, N+1), [0.75]*(N-1), ls='-.', label="y = 0.75")
-plt.title("Proportion of common users between emul and model psi lists")
-plt.legend(loc='best', shadow=True)
-plt.xlabel("N")
-plt.savefig(outpath + "common_users_prop.pdf")
-plt.show()
-plt.close()
-
-plt.semilogx(range(2, N+1), df['common_users_prop'], label="common users prop.")
-# plt.plot(range(2, N+1), [0.75]*(N-1), ls='-.', label="y = 0.75")
-plt.title("Proportion of common users between emul and model psi lists")
-plt.legend(loc='best', shadow=True)
-plt.xlabel("log(N)")
-plt.savefig(outpath + "common_users_prop_log.pdf")
-plt.show()
-plt.close()
-
-
 # ## Export dataframe
-
-# In[43]:
-
-
-print("Export dataframe...")
-df.to_csv(outpath + "compare_lists_df.txt", sep=",", index=False)
+print("Exporting dataframe...")
+df.to_csv(outfile, sep=",", index=False)

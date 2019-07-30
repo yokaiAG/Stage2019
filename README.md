@@ -55,8 +55,8 @@ All arguments and outputs for each code are explained in details at the very beg
 
 ### Jupyter notebooks (.ipynb)
 - `Journal_plots.ipynb` code for 
-  1. plotting kendall tau and common users proportion. Uses a file such as created by `compare_psis.py`.
-  2. plotting psi scatter plot and cumulative distribution. Uses lists of psis.
+  1. plotting kendall tau and common users proportion. Uses a file such as created by `compare_psis.py` (see PsiResults/ComparePsis/ for such files with our datasets).
+  2. plotting psi scatter plot and cumulative distribution. Uses lists of psis (such as those in PsiResults/Psis/).
   3. plotting lambda,mu cumulative distribution
   4. computing correlations between out-degree and psi, lambda and psi, etc.
   5. computing stats table for top influencers (same as `top_influencers_table.py`)
@@ -95,5 +95,7 @@ Here for each file I precise which lists of psis are compared (the lists of psis
 - `russian_emul_cascade.txt` ---> comparing `russian_emul.txt` with `russian_cascade.txt`.
 - WEIBO TO DO
 
+Those are used to do the kendall tau and common users prop with `Code/Journal_plots.ipynb`.
+
 ### PsiResults/Plots/
-Here are the plots obtained with `Code/Journal_plots.ipynb` ie kendall tau, common users prop, psi scatter plot, etc. Except for the psi scatter plot, the results for the different user graphs (star, cascade, real) are plotted on the same figure). We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `russian_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in russian. It will contain cumulative distribution for emulator as well as model with star and cascade graph.
+Here are the plots obtained with `Code/Journal_plots.ipynb`. Except for the psi scatter plot, the results for the different user graphs (star, cascade, real) are plotted on the same figure). We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `russian_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in russian. It will contain cumulative distribution for emulator as well as model with star and cascade graph.

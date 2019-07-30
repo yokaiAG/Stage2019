@@ -1,3 +1,14 @@
+"""
+arg1 (string): psi emul path (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_emul.txt)
+arg2 (string): psi real path (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_real_top10000emul.txt)
+arg3 (string): psi star path (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_oursin.txt)
+arg4 (string): trace path (ex: /home/vendeville/Stage2019/Datasets/weibo_rtid.txt)
+arg5 (string): adjcacency list path (ex: /home/vendeville/Stage2019/Datasets/weibo_adjList.txt)
+arg6 (string): out_path (ex: /home/vendeville/Stage2019/DataAnalysis/weibo_).
+        ---> outputed file: out_path + toptable.txt
+arg7 (int): number of top users to consider.
+"""
+
 import sys
 import util
 from operator import itemgetter
@@ -8,6 +19,7 @@ psi_star = str(sys.argv[3])
 trace_path = str(sys.argv[4])
 adjlist_path = str(sys.argv[5])
 out_path = str(sys.argv[6])
+k = int(sys.argv[7])
 
 # load psis
 Psi = {'emulator':dict(), 'real':dict(), 'star':dict()}
@@ -65,10 +77,10 @@ for line in open(adjlist_path):
 
 # write table
 print("Writing to out...")
-out = open(out_path + "top10table.txt", "w")
+out = open(out_path + "toptable.txt", "w")
 i = 0
 out.write("uid,psi_emul,psi_real,psi_star,rank_emul,rank_real,rank_star,outdeg_real,outdeg_star,lambda\n")
-for user,psi_emul in sorted(Psi['emulator'].items(), key=itemgetter(1), reverse=True)[:10]:
+for user,psi_emul in sorted(Psi['emulator'].items(), key=itemgetter(1), reverse=True)[:k]:
     rank_emul = i+1
     psi_real = Psi['real'][user]
     psi_star = Psi['star'][user]

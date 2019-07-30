@@ -1,10 +1,13 @@
 
 # coding: utf-8
 
-# ## Imports et preprocessing
-
-# In[37]:
-
+"""
+arg1 (string): psi emul path (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_emul.txt)
+arg2 (string): psi model path (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_oursin.txt)
+arg3 (string): outfile. where to write results (ex: /home/vendeville/Stage2019/PsiResults/ComparePsis/weibo_emul_oursin.txt).
+arg4 (int 0 ou 1): do you want to consider only the first n users according to psi_emul? 0=no, 1=yes.
+    --->arg5 (int) (only if arg4=1): number of top users to consider
+"""
 
 import sys
 from time import time

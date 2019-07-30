@@ -2,10 +2,26 @@
 # coding: utf-8
 
 """
-Syntax : ~/anaconda3/bin/python3 clem-numba_allusers.py dataset cascade ibegin iend
-with : dataset to choose between wcano, weibo_rtu, weibo_rtid, russian_rtu, russian_rtid, tdn10, tdn11
-    cascade = 0 or 1
-    iend = -1 if all users wanted
+arg1 (string): trace path (ex: /home/vendeville/Stage2019/Datasets/wcano_rtid.txt)
+arg2 (int 0 ou 1): cascade (1 for cascade, 0 for star)
+arg3 (int 0 ou 1): save p and q? 1=yes, 0=no (if 0, files for p and q will still be created but let empty)
+arg4 (int), arg5 (int): ibegin, iend
+    --->ranking users with increasing ids, the program will compute psi for users ranked in [ibegin, iend]. 
+        . iend = -1 ==> [ibegin, number of users]
+        . if you want psi for everyone: ibegin=0, iend=-1
+        . if using best from emul: ibegin=0, iend=-1 (see args 7 to 10)
+arg6 (string): out path. (ex: /home/vendeville/Stage2019/PsiResults/Psis/wcano_oursin/)
+    --->p will be saved in out_path + pNews_ibegin_iend.txt
+        q will be saved in out_path + qWall_ibegin_iend.txt
+        psi will be saved in out_path + Psi_model_ibegin_iend.txt
+        oldp and newp will be saved in out_path + oldp_newp.txt
+arg7 (int 0 ou 1): best from emul (1 if you want to compute psi for some interval of users ranked according to their Psi_emul, 0 otherwise)
+    --->if =1:
+        . arg8 (int): best_start. User ranked #best_start in the emulator will be the first for who we compute psi model.
+        . arg9 (int): best_end. User ranked #best_end in the emulator will be the last for who we compute psi model.
+        . we compute psi model for every user ranked between best_start and best_end according to Psi_emul. 
+                (ex: best_start=0, best_end=100 will compute psi_model for top 100 users according to Psi_emul)
+        . arg10 (string): emul path. Where is the list containing the psi_emul located ? (ex: /home/vendeville/Stage2019/PsiResults/Psis/wcano_emul.txt)
 """
 
 # ## Implementation
@@ -175,8 +191,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
     normdiff = 2*eps
     #
     t = 0
-    while t < 15: # on force au moins 15 iterations
-    # while (t<it) & (normdiff>eps):
+    while (t<it) & (normdiff>eps):
         normdiff = 0
         p_old = p_new.copy()
         p_new = dict()
@@ -209,7 +224,7 @@ def pi_method_sparse_v2(N,useri,A,A_trans,Lvec,Lead,Follow,Som,it = 1000, eps = 
                 if abs(0-p_new[user])>normdiff:
                     normdiff = abs(0-p_new[user])
         t += 1
-    distrib_1415.write("{} {}\n".format(p_old[user], p_new[user]))
+    oldp_newp.write("{} {}\n".format(p_old[user], p_new[user]))
         #Tracer()()
         #print("p_new",p_new)
     #
@@ -315,11 +330,11 @@ fp = open(out_path + "pNews_%d_%d.txt" %(ibegin,iend), 'w')
 fq = open(out_path + "qWall_%d_%d.txt" %(ibegin,iend), 'w')
 fpsi = open(out_path + "Psi_model_%d_%d.txt" %(ibegin,iend), 'w')
 
-distrib_1415 = open(out_path + "distrib14-15iter.txt", 'w')
+oldp_newp = open(out_path + "oldp_newp.txt", 'w')
 
 (pNews_v2,qWall_v2,Psi_v2) = solution_sparse_v2(N,A,A_trans,C,Rtweet,Rrtweet,LeadGraph,FollowGraph,Som,ibegin,iend,fp,fq,fpsi)
 
-distrib_1415.close()
+oldp_newp.close()
 fpsi.close()
 fq.close()
 fp.close()

@@ -1,5 +1,10 @@
-
 # coding: utf-8
+
+"""
+arg1 (string): psi list to sort (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_emul.txt). 
+arg2 (string): outputed file (ex: /home/vendeville/Stage2019/PsiResults/Psis/weibo_emul_sorted.txt).
+"""
+
 import sys
 from operator import itemgetter
 

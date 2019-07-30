@@ -2,10 +2,27 @@
 # coding: utf-8
 
 """
-Syntax : ~/anaconda3/bin/python3 clem-numba_allusers.py dataset cascade ibegin iend
-with : dataset to choose between wcano, weibo_rtu, weibo_rtid, russian_rtu, russian_rtid, tdn10, tdn11
-    cascade = 0 or 1
-    iend = -1 if all users wanted
+arg1 (string): trace path (ex: /home/vendeville/Stage2019/Datasets/wcano_rtid.txt)
+arg2 (string): adjacency list path (ex: /home/vendeville/Stage2019/Datasets/wcano_adjList.txt). Format "leader follower" for each line.
+arg3 (int 0 ou 1): cascade (1 for cascade, 0 for star)
+arg4 (int 0 ou 1): save p and q? 1=yes, 0=no (if 0, files for p and q will still be created but let empty)
+arg5 (int), arg6 (int): ibegin, iend
+    --->ranking users with increasing ids, the program will compute psi for users ranked in [ibegin, iend]. 
+        . iend = -1 ==> [ibegin, number of users]
+        . if you want psi for everyone: ibegin=0, iend=-1
+        . if using best from emul: ibegin=0, iend=-1 (see args 7 to 10)
+arg7 (string): out path. (ex: /home/vendeville/Stage2019/PsiResults/Psis/wcano_oursin/)
+    --->p will be saved in out_path + pNews_ibegin_iend.txt
+        q will be saved in out_path + qWall_ibegin_iend.txt
+        psi will be saved in out_path + Psi_model_ibegin_iend.txt
+        iter infos (ie nb iterations for each user) will be saved in out_path + iter_infos.txt
+arg8 (int 0 ou 1): best from emul (1 if you want to compute psi for some interval of users ranked according to their Psi_emul, 0 otherwise)
+    --->if =1:
+        . arg9 (int): best_start. User ranked #best_start in the emulator will be the first for who we compute psi model.
+        . arg10 (int): best_end. User ranked #best_end in the emulator will be the last for who we compute psi model.
+        . we compute psi model for every user ranked between best_start and best_end according to Psi_emul. 
+                (ex: best_start=0, best_end=100 will compute psi_model for top 100 users according to Psi_emul)
+        . arg11 (string): emul path. Where is the list containing the psi_emul located ? (ex: /home/vendeville/Stage2019/PsiResults/Psis/wcano_emul.txt)
 """
 
 # ## Implementation

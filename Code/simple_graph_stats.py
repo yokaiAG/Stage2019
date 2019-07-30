@@ -1,6 +1,15 @@
 import sys
 import util
 
+"""
+arg1 (string): data path (ex: /home/vendeville/Stage2019/Datasets/weibo_rtid.txt). 
+    ---> Must be a twitter trace (lines: twid ts uid rtid) or an adjacency list (lines: leader_id follower_id).
+arg2 (string): out path (ex: /home/vendeville/Stage2019/DataAnalysis/weibo_oursin/). 
+    ---> Outputed file: out_path + simple_graph_stats.txt
+arg3 (int 0 ou 1): 0 for cascade graph, 1 for star graph. No impact if the data is an adjacency list.
+arg4 (int 0 ou 1): 0 if the data is a twitter trace, 1 if it is an adjacency list
+"""
+
 # argvs
 data_path = str(sys.argv[1])
 out_path = str(sys.argv[2])

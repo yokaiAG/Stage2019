@@ -1,3 +1,12 @@
+"""
+arg1 (string): trace path (ex: /home/vendeville/Stage2019/Datasets/weibo_rtid.txt)
+arg2 (string): adjcaency list path (ex: /home/vendeville/Stage2019/Datasets/weibo_adjList.txt)
+arg3 (string): out_path. where to write results (ex: /home/vendeville/Stage2019/DataAnalysis/weibo). 
+Outputed files are: 
+    1) out_path + _outdeg_cumdistrib.eps (cumulative distribution for out-degrees)
+    2) out_path + _indeg_cumdistrib.eps (cumulative distribution for in-degrees)
+"""
+
 import sys
 import util
 import matplotlib as mpl

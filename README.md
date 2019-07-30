@@ -3,11 +3,25 @@
 This repository contains files used during my internship.
 
 ## Overview
-- Code: contains all python codes and jupyter notebooks.
 - DataAnalysis: some stats on the datasets.
+- Code: contains all python codes and jupyter notebooks.
 - PsiResults: results on the different datasets (psi model, psi emul, and comparisons between them). Also contains plots used for the journal and the internship report.
 
-Lastly i will introduce the datasets (available on khiva at /home/vendeville/Stage2019/Datasets/). They are not uploaded on github due to their size.
+First I introduce the datasets (available on khiva at /home/vendeville/Stage2019/Datasets/). They are not uploaded on github due to their size.
+
+
+## Datasets
+You will find those on khiva at /home/vendeville/Stage2019/Datasets/.
+- `wcano_rtid.txt` twitter trace for wcano (twid ts uid rtid). Exactly as you provided it to me at the beginning of the internship (i.e. the end of the trace has been cut because no retweets)
+- `russian_rtid.txt` twitter trace for russian (twid ts uid rtid).
+- `weibo_rtid.txt` trace for weibo (twid ts uid rtid).
+- `weibo_adjList.txt` complete adjacency list for weibo's real graph. Each line is: leader_id follower_id.
+- `weibo_filtered_adjList.txt` adjacency list for weibo's real graph except users that are not present in the trace have been excluded. This is the one to use when computing the model psis.
+
+
+## DataAnalysis
+The names of the folders and files pretty much speak for themselves. Generally for each dataset you will find statistics about the distribution of lambda,mu and the graph structure (for star, cascade).
+
 
 ## Code
 
@@ -54,10 +68,6 @@ All arguments and outputs for each code are explained in details at the very beg
 - `Simulator_official_NEW.ipynb` for simulating the model. It is the same notebook which is on Anastasios's page for the project (https://github.com/yokaiAG/social-platform-model).
 
 
-## DataAnalysis
-The names of the folders and files pretty much speak for themselves. Generally for each dataset you will find statistics about the distribution of lambda,mu and the graph structure (for star, cascade).
-
-
 ## PsiResults
 
 ### PsiResults/Psis/
@@ -87,12 +97,3 @@ Here for each file I precise which lists of psis are compared (the lists of psis
 
 ### PsiResults/Plots/
 Here are the plots obtained with `Code/Journal_plots.ipynb` ie kendall tau, common users prop, psi scatter plot, etc. Except for the psi scatter plot, the results for the different user graphs (star, cascade, real) are plotted on the same figure). We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `russian_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in russian. It will contain cumulative distribution for emulator as well as model with star and cascade graph.
-
-
-## Datasets
-You will find those on khiva at /home/vendeville/Stage2019/Datasets/.
-- `wcano_rtid.txt` twitter trace for wcano (twid ts uid rtid). Exactly as you provided it to me at the beginning of the internship (i.e. the end of the trace has been cut because no retweets)
-- `russian_rtid.txt` twitter trace for russian (twid ts uid rtid).
-- `weibo_rtid.txt` trace for weibo (twid ts uid rtid).
-- `weibo_adjList.txt` complete adjacency list for weibo's real graph. Each line is: leader_id follower_id.
-- `weibo_filtered_adjList.txt` adjacency list for weibo's real graph except users that are not present in the trace have been excluded. This is the one to use when computing the model psis.

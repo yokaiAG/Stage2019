@@ -78,9 +78,14 @@ Contains comparison between psi emul and model lists obtained via `Code/compare_
 
 where N is the number of top users we are considering, min_psi_emul is the minimum value of psi_emul among those, min_psi_model the minimum value of psi_model among those, kendall is the value of kendall_tau for those, mean_dist is the mean distance for each of those users between psi_emul and psi_model (absolute value) and common_users_prop is the proportion of common users between psi_emul and psi_model.
 
-Each file indicates in its name what psi lists we are comparing (the psis lists are from PsiResults/Psis/).
-- `wcano_emu_oursin.txt` ---> comparing `wcano_emul.txt` with `wcano_oursin.txt`.
-- 
+Here for each file I precise which lists of psis are compared (the lists of psis are from PsiResults/Psis/).
+- `wcano_emul_oursin.txt` ---> comparing `wcano_emul.txt` with `wcano_oursin.txt`.
+- `russian_emul_oursin.txt` ---> comparing `russian_emul.txt` with `russian_oursin.txt`.
+- `russian_emul_cascade.txt` ---> comparing `russian_emul.txt` with `russian_cascade.txt`.
+- WEIBO TO DO
+
+### PsiResults/Plots/
+Here are the plots obtained with `Code/Journal_plots.ipynb` ie kendall tau, common users prop, psi scatter plot, etc. We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `wcano_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in wcano.
 
 
 ## Datasets

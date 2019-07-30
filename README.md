@@ -75,9 +75,13 @@ Here you will find list of psis for wcano, russian, weibo with star, cascade, an
 ### PsiResults/ComparePsis/
 Contains comparison between psi emul and model lists obtained via `Code/compare_psis.py`. Sample:
 > N,min_psi_emul,min_psi_model,kendall,mean_dist,common_users_prop
+
 2,0.00792176,0.0103674,1.0,3420.0,0.5
+
 3,0.00643008,0.00788391,1.0,3420.3333333333335,0.3333333333333333
+
 4,0.00641819,0.00677407,0.3333333333333334,3419.75,0.75
+
 5,0.00602457,0.0062115,0.0,3419.0,1.0
 
 

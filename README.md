@@ -7,6 +7,8 @@ This repository contains files used during my internship.
 - DataAnalysis: some stats on the datasets.
 - PsiResults: results on the different datasets (psi model, psi emul, and comparisons between them). Also contains plots used for the journal and the internship report.
 
+Lastly i will introduce the datasets (available on khiva at /home/vendeville/Stage2019/Datasets/). They are not uploaded on github due to their size.
+
 ## Code
 
 ### Python files (.py)
@@ -56,4 +58,14 @@ All arguments and outputs for each code are explained in details at the very beg
 The names of the folders and files pretty much speak for themselves. Generally for each dataset you will find statistics about the distribution of lambda,mu and the graph structure (for star, cascade).
 
 
-## PsiResults
+## PsiResults/Psis/
+Here you will find list of psis for wcano, russian, weibo with star, cascade, and real graph (only weibo). The lists are ordered by decreasing psi. The convergence criterion is $\Vert p_old - p_new$
+- `wcano_oursin.txt` psis for wcano with oursin graph. 
+
+## Datasets
+You will find those on khiva at /home/vendeville/Stage2019/Datasets/.
+- `wcano_rtid.txt` twitter trace for wcano (twid ts uid rtid). Exactly as you provided it to me at the beginning of the internship (i.e. the end of the trace has been cut because no retweets)
+- `russian_rtid.txt` twitter trace for russian (twid ts uid rtid).
+- `weibo_rtid.txt` trace for weibo (twid ts uid rtid).
+- `weibo_adjList.txt` complete adjacency list for weibo's real graph. Each line is: leader_id follower_id.
+- `weibo_filtered_adjList.txt` adjacency list for weibo's real graph except users that are not present in the trace have been excluded. This is the one to use when computing the model psis.

@@ -59,8 +59,17 @@ The names of the folders and files pretty much speak for themselves. Generally f
 
 
 ## PsiResults/Psis/
-Here you will find list of psis for wcano, russian, weibo with star, cascade, and real graph (only weibo). The lists are ordered by decreasing psi. The convergence criterion is $\Vert p_old - p_new$
-- `wcano_oursin.txt` psis for wcano with oursin graph. 
+Here you will find list of psis for wcano, russian, weibo with star, cascade, and real graph (only weibo). The lists are ordered by decreasing psi. Except stated otherwise, the convergence criterion is ||p_old - p_new|| < 10^(-3) where ||.|| denotes infinity norm.
+- `wcano_emul.txt` psis emul for wcano.
+- `wcano_oursin.txt` psis model for wcano with oursin graph. AMong users with psi_emul < 10^(-7), 77000 have been forced to do at least 5 iterations when computing p (i stopped at 77000 because it was too long and took a lot of RAM on the server). For other users it is the usual convergence criterion explained above.
+- `russian_cascade.txt` psis model cascade for russian with cascade graph.
+- `russian_oursin_full0.txt` psis model for russian with oursin graph. We made 0 iterations for users with psi_emul <10^(-6). For other users it is the usual convergence criterion.
+- `russian_oursin_full15.txt` psis model for russian with oursin graph. We forced 15 iterations for users with psi_emul <10^(-6). For other users it is the usual convergence criterion.
+- `weibo_emul.txt` psis emul for weibo.
+- `weibo_oursin.txt` psis model for weibo with oursin graph.
+- `weibo_real_top10000emul.txt` psi model for weibo with real graph. Only top 10 000 users according to `weibo_emul.txt`.
+- `weibo_cascade_top10000emul.txt` psi model for weibo with cascade graph. Only top 10 000 users according to `weibo_emul.txt`.
+
 
 ## Datasets
 You will find those on khiva at /home/vendeville/Stage2019/Datasets/.

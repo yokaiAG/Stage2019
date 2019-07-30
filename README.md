@@ -1,13 +1,13 @@
 # Stage2019
 
-This repository contains files used during my internship.
+This repository contains files used during my internship. You will find an exact copy of this repository on khiva at /home/vendeville/Stage2019/. The latter also contains the datasets. They are not uploaded on github due to their  very large size. Do not remove `.gitignore` files, otherwise github might try to upload too large files such as the datasets which will causes complications :)
 
 ## Overview
 - DataAnalysis: some stats on the datasets.
 - Code: contains all python codes and jupyter notebooks.
 - PsiResults: results on the different datasets (psi model, psi emul, and comparisons between them). Also contains plots used for the journal and the internship report.
 
-First I introduce the datasets (available on khiva at /home/vendeville/Stage2019/Datasets/). They are not uploaded on github due to their size.
+First I introduce the datasets, available on khiva at /home/vendeville/Stage2019/Datasets/.
 
 
 ## Datasets

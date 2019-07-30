@@ -8,6 +8,8 @@ This repository contains files used during my internship.
 - PsiResults: results on the different datasets (psi model, psi emul, and comparisons between them). Also contains plots used for the journal and the internship report.
 
 ## Code
+
+### Python files (.py)
 All arguments and outputs for each code are explained in details at the very beginning of the python file.
 - `util.py`: contains a few useful functions that are used by a lot of other programs. That is why you will see "import util" in most of the programs. Each function takes the path to an adjacency list or a twitter trace as argument, plus sometimes a boolean indicating if we are in Cascade mode and an Author dictionary (as return by the first function `get_authors`). There are some more explanations in the file itself but to summarize:
   - `get_authors`: returns an author dict (star) or a last publisher dict (cascade) from twitter trace. Format: Author[twid] = uid or LastPublisher[twid] = uid. Such a dictionary is needed for a majority of the following functions.
@@ -34,7 +36,8 @@ All arguments and outputs for each code are explained in details at the very beg
 
 - `top_influencers_table.py`: table for top influencers (contains psi, outdeg, lambda, rank, etc.)
 
-Jupyter notebooks:
+
+### Jupyter notebooks (.ipynb)
 - `Journal_plots.ipynb`: code for 
   1. plotting kendall tau and common users proportion. Uses a file such as created by `compare_psis.py`.
   2. plotting psi scatter plot and cumulative distribution. Uses lists of psis.

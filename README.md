@@ -8,7 +8,9 @@ This repository contains files used during my internship.
 - PsiResults: results on the different datasets (psi model, psi emul, and comparisons between them). Also contains plots used for the journal and the internship report.
 
 ### Code
-- util.py: contains a few useful functions that are used by a lot of other programs. That is why you will see "import util" in most of the programs. `get_authors` returns an
+- `util.py`: contains a few useful functions that are used by a lot of other programs. That is why you will see "import util" in most of the programs. 
+  - `get_authors` returns an
+  - blaba
 
 
 ### PsiResults

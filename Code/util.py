@@ -34,8 +34,8 @@ def get_authors(data_path):
 def get_activity(data_path, cascade, Author, divide_by_time=True, retweeted=False):
     
     """ returns lambda, mu, total_time
-    if retweeted : returns lambda, mu, nu, total_time
-    if not divide_by_time : ntweet, nrtweet, nrtweetd instead of lambda, mu, nu """
+    if retweeted : returns lambda, mu, nu (rate at which user IS RETWEETED), total_time (duration of the trace)
+    if not divide_by_time : ntweet, nrtweet, nrtweetd (nb times user has been retweeted) instead of lambda, mu, nu """
     
     users = set()
     count = {'tweets':dict(), 'retweets':dict(), 'retweeted':dict()}

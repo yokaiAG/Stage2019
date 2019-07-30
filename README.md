@@ -73,16 +73,14 @@ Here you will find list of psis for wcano, russian, weibo with star, cascade, an
 - `weibo_cascade_top10000emul.txt` psi model for weibo with cascade graph. Only top 10 000 users according to `weibo_emul.txt`.
 
 ### PsiResults/ComparePsis/
-Contains comparison between psi emul and model lists obtained via `Code/compare_psis.py`. Sample:
+Contains comparison between psi emul and model lists obtained via `Code/compare_psis.py`. Each line is
 > N,min_psi_emul,min_psi_model,kendall,mean_dist,common_users_prop
 
-2,0.00792176,0.0103674,1.0,3420.0,0.5
+where N is the number of top users we are considering, min_psi_emul is the minimum value of psi_emul among those, min_psi_model the minimum value of psi_model among those, kendall is the value of kendall_tau for those, mean_dist is the mean distance for each of those users between psi_emul and psi_model (absolute value) and common_users_prop is the proportion of common users between psi_emul and psi_model.
 
-3,0.00643008,0.00788391,1.0,3420.3333333333335,0.3333333333333333
-
-4,0.00641819,0.00677407,0.3333333333333334,3419.75,0.75
-
-5,0.00602457,0.0062115,0.0,3419.0,1.0
+Each file indicates in its name what psi lists we are comparing (the psis lists are from PsiResults/Psis/).
+- `wcano_emu_oursin.txt` ---> comparing `wcano_emul.txt` with `wcano_oursin.txt`.
+- 
 
 
 ## Datasets

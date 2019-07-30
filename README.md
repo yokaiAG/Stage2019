@@ -71,6 +71,7 @@ Here you will find list of psis for wcano, russian, weibo with star, cascade, an
 - `weibo_oursin.txt` psis model for weibo with oursin graph.
 - `weibo_real_top10000emul.txt` psi model for weibo with real graph. Only top 10 000 users according to `weibo_emul.txt`.
 - `weibo_cascade_top10000emul.txt` psi model for weibo with cascade graph. Only top 10 000 users according to `weibo_emul.txt`.
+Note that there is no file for Cascade in wcano because the computation was very very slow. Thus you will find no other results nor plots for wcano with cascade graph.
 
 ### PsiResults/ComparePsis/
 Contains comparison between psi emul and model lists obtained via `Code/compare_psis.py`. Each line is
@@ -85,7 +86,7 @@ Here for each file I precise which lists of psis are compared (the lists of psis
 - WEIBO TO DO
 
 ### PsiResults/Plots/
-Here are the plots obtained with `Code/Journal_plots.ipynb` ie kendall tau, common users prop, psi scatter plot, etc. We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `wcano_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in wcano.
+Here are the plots obtained with `Code/Journal_plots.ipynb` ie kendall tau, common users prop, psi scatter plot, etc. Except for the psi scatter plot, the results for the different user graphs (star, cascade, real) are plotted on the same figure). We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `russian_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in russian. It will contain cumulative distribution for emulator as well as model with star and cascade graph.
 
 
 ## Datasets

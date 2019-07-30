@@ -1,6 +1,6 @@
 # Stage2019
 
-This repository contains files used during my internship. You will find an exact copy of this repository on khiva at /home/vendeville/Stage2019/. The latter also contains the datasets. They are not uploaded on github due to their  very large size. Do not remove `.gitignore` files, otherwise github might try to upload too large files such as the datasets which will causes complications :)
+This repository contains files used during my internship. You will find an exact copy of this repository on khiva at /home/vendeville/Stage2019/. The latter also contains the datasets. They are not uploaded on github due to their  very large size. Do not remove `.gitignore` files, otherwise github might try to upload too large files such as the datasets, which will cause complications :)
 
 ## Overview
 - DataAnalysis: some stats on the datasets.

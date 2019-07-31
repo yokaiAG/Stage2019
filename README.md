@@ -42,7 +42,7 @@ All arguments and outputs for each code are explained in details at the very beg
 
 - `compute_psis_truegraph.py` to compute psi model with Real graph (ex: weibo). 
 
-- `compute_psis_truegraph_32.py` to compute psi model with Real graph (ex: weibo) with float32 instead of float64. Lighter in RAM but maybe less precise? Also outputs number of iterations for each user.
+- `compute_psis_truegraph_32.py` to compute psi model with Real graph (ex: weibo) with float32 instead of float64. Lighter in RAM but maybe less precise? Also outputs number of iterations for each user. An example is provided in the header of the file.
 
 - `degree_distrib.py` to plot cumulative distribution of degrees for star, cascade and real graph.
 

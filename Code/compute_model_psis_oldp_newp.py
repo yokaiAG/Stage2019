@@ -6,8 +6,8 @@ arg1 (string): trace path (ex: /home/vendeville/Stage2019/Datasets/wcano_rtid.tx
 arg2 (int 0 ou 1): cascade (1 for cascade, 0 for star)
 arg3 (int 0 ou 1): save p and q? 1=yes, 0=no (if 0, files for p and q will still be created but let empty)
 arg4 (int), arg5 (int): ibegin, iend
-    --->ranking users with increasing ids, the program will compute psi for users ranked in [ibegin, iend]. 
-        . iend = -1 ==> [ibegin, number of users]
+    --->ranking users with increasing ids, the program will compute psi for users ranked in [ibegin, iend[. 
+        . iend = -1 ==> [ibegin, number of users[
         . if you want psi for everyone: ibegin=0, iend=-1
         . if using best from emul: ibegin=0, iend=-1 (see args 7 to 10)
 arg6 (string): out path. (ex: /home/vendeville/Stage2019/PsiResults/Psis/wcano_oursin/)

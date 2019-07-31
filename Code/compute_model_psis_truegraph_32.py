@@ -25,7 +25,7 @@ arg8 (int 0 ou 1): best from emul (1 if you want to compute psi for some interva
         . arg11 (string): emul path. Where is the list containing the psi_emul located ? (ex: /home/vendeville/Stage2019/PsiResults/Psis/wcano_emul.txt)
 
 EXAMPLE
-time python compute_model_psis_truegraph_32.py /home/vendeville/Stage2019/Datasets/weibo_rtid.txt /home/vendeville/Stage2019/Datasets/weibo_adjList.txt 
+time python compute_model_psis_truegraph_32.py /home/vendeville/Stage2019/Datasets/weibo_rtid.txt /home/vendeville/Stage2019/Datasets/weibo_filtered_adjList.txt 
 0 0 0 -1 /home/vendeville/Stage2019/PsiResults/Psis/weibo32_next_ 1 9000 10000 /home/vendeville/Stage2019/PsiResults/Psis/weibo_emul.txt   
 ---> computes psi model with real graph for weibo, for users ranked #9000 to #10000 according to psi emul. Doesn't save p and q.
 """

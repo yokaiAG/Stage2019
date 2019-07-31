@@ -78,7 +78,7 @@ Here you will find list of psis for wcano, russian, weibo with star, cascade, an
 - `russian_oursin_full0.txt` psis model for russian with oursin graph. We made 0 iterations for users with psi_emul <10^(-6). For other users it is the usual convergence criterion.
 - `russian_oursin_full15.txt` psis model for russian with oursin graph. We forced 15 iterations for users with psi_emul <10^(-6). For other users it is the usual convergence criterion.
 - `weibo_emul.txt` psis emul for weibo.
-- `weibo_oursin.txt` psis model for weibo with oursin graph.
+- `weibo_oursin_top10000emul.txt` psis model for weibo with oursin graph. Only top 10 000 users according to psi_emul (`weibo_emul.txt`).
 - `weibo_real_top10000emul.txt` psi model for weibo with real graph. Only top 10 000 users according to psi_emul (`weibo_emul.txt`).
 - `weibo_cascade_top10000emul.txt` psi model for weibo with cascade graph. Only top 10 000 users according to psi_emul (`weibo_emul.txt`).
 Note that there is no file for Cascade in wcano because the computation was very very slow. Thus you will find no other results nor plots for wcano with cascade graph.

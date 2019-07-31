@@ -42,7 +42,7 @@ All arguments and outputs for each code are explained in details at the very beg
 
 - `compute_psis_truegraph.py` to compute psi model with Real graph (ex: weibo). To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function. By default it is 1000 iterations maximum and epsilon=10^(-3).
 
-- `compute_psis_truegraph_32.py` to compute psi model with Real graph (ex: weibo) with float32 instead of float64. Lighter in RAM but maybe less precise? Also outputs number of iterations for each user. An example is provided in the header of the file. To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function. By default it is 1000 iterations maximum and epsilon=10^(-3).
+- `compute_psis_truegraph_32.py` to compute psi model with Real graph (ex: weibo) with float32 instead of float64. Lighter in RAM but maybe less precise? Also outputs number of iterations for each user. To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function. By default it is 1000 iterations maximum and epsilon=10^(-3).
 
 - `degree_distrib.py` to plot cumulative distribution of degrees for star, cascade and real graph.
 

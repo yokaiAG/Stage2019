@@ -36,13 +36,13 @@ All arguments and outputs for each code are explained in details at the very beg
   
 - `compare_psis.py` takes two psi list as arguments and outputs a txt file with (among others) kendall tau, common users proportion, mean distance considering only top2 emul users, top3, top4, ... the outputed list can be used in `Journal_plots.ipynb` to plot kendall tau and common users prop. I used this code to obtain the txt files located in `PsiResults/ComparePsis/` (more on that below).
 
-- `compute_model_psis.py` to compute psi_model with Star or Cascade graph. Note that the number of iterations can be modified in the `pi_method_sparse_v2` function.
+- `compute_model_psis.py` to compute psi_model with Star or Cascade graph. To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function (line 180). By default it is 1000 iterations maximum and epsilon=10^(-3).
 
-- `compute_model_psis_oldp_newp.py` to compute psi_model with Star or Cascade graph. Additionally saves the last two values of p in another file to compare the evolution between the last two iterations.
+- `compute_model_psis_oldp_newp.py` to compute psi_model with Star or Cascade graph. Additionally saves the last two values of p in another file to compare the evolution between the last two iterations. To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function. By default it is 1000 iterations maximum and epsilon=10^(-3).
 
-- `compute_psis_truegraph.py` to compute psi model with Real graph (ex: weibo). 
+- `compute_psis_truegraph.py` to compute psi model with Real graph (ex: weibo). To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function. By default it is 1000 iterations maximum and epsilon=10^(-3).
 
-- `compute_psis_truegraph_32.py` to compute psi model with Real graph (ex: weibo) with float32 instead of float64. Lighter in RAM but maybe less precise? Also outputs number of iterations for each user. An example is provided in the header of the file.
+- `compute_psis_truegraph_32.py` to compute psi model with Real graph (ex: weibo) with float32 instead of float64. Lighter in RAM but maybe less precise? Also outputs number of iterations for each user. An example is provided in the header of the file. To modify the number of iterations or the convergence criterion, modify `pi_method_sparse_v2` function. By default it is 1000 iterations maximum and epsilon=10^(-3).
 
 - `degree_distrib.py` to plot cumulative distribution of degrees for star, cascade and real graph.
 
@@ -73,14 +73,23 @@ All arguments and outputs for each code are explained in details at the very beg
 ### PsiResults/Psis/
 Here you will find list of psis for wcano, russian, weibo with star, cascade, and real graph (only weibo). The lists are ordered by decreasing psi. Except stated otherwise, the convergence criterion is ||p_old - p_new|| < 10^(-3) where ||.|| denotes infinity norm. Each file is a .txt where each line is: uid psi.
 - `wcano_emul.txt` psis emul for wcano.
+
 - `wcano_oursin.txt` psis model for wcano with oursin graph. AMong users with psi_emul < 10^(-7), 77000 have been forced to do at least 5 iterations when computing p (i stopped at 77000 because it was too long and took a lot of RAM on the server). For other users it is the usual convergence criterion explained above.
+
 - `russian_cascade.txt` psis model cascade for russian with cascade graph.
+
 - `russian_oursin_full0.txt` psis model for russian with oursin graph. We made 0 iterations for users with psi_emul <10^(-6). For other users it is the usual convergence criterion.
+
 - `russian_oursin_full15.txt` psis model for russian with oursin graph. We forced 15 iterations for users with psi_emul <10^(-6). For other users it is the usual convergence criterion.
-- `weibo_emul.txt` psis emul for weibo.
+
+- `weibo_emul.txt` psis emul for weibo
+
 - `weibo_oursin_top10000emul.txt` psis model for weibo with oursin graph. Only top 10 000 users according to psi_emul (`weibo_emul.txt`).
+
 - `weibo_real_top10000emul.txt` psi model for weibo with real graph. Only top 10 000 users according to psi_emul (`weibo_emul.txt`).
+
 - `weibo_cascade_top10000emul.txt` psi model for weibo with cascade graph. Only top 10 000 users according to psi_emul (`weibo_emul.txt`).
+
 Note that there is no file for Cascade in wcano because the computation was very very slow. Thus you will find no other results nor plots for wcano with cascade graph.
 
 ### PsiResults/ComparePsis/

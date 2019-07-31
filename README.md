@@ -31,7 +31,7 @@ All arguments and outputs for each code are explained in details at the very beg
   - `get_authors` returns an author dict (star) or a last publisher dict (cascade) from twitter trace. Format: Author[twid] = uid or LastPublisher[twid] = uid. Such a dictionary is needed for a majority of the following functions.
   - `get_activity` returns dictionary of lambdas, dictionary of mus, and total duration of trace.
   - `nxgraph_from_` returns a networkx graph from a twitter trace (`nxgraph_from_trace`) or an adjacency list (`nxgraph_from_adjList`).
-  - `graph_from_` returns a leadgraph and a followgraph as dictionaries. LeadGraph[user] = {follwoer1, follower2, ...} and analogously for FollowGraph. Can be from a twitter trace (`graph_from_trace`) or an adjacency list (`graph_fgrom_adjList`).
+  - `graph_from_` returns a leadgraph and a followgraph as dictionaries. LeadGraph[user] = {follower1, follower2, ...} and analogously for FollowGraph. Can be from a twitter trace (`graph_from_trace`) or an adjacency list (`graph_from_adjList`).
   - `leadgraph_from_` same but returns only the leadgraph (useful when light on RAM).
   
 - `compare_psis.py` takes two psi list as arguments and outputs a txt file with (among others) kendall tau, common users proportion, mean distance considering only top2 emul users, top3, top4, ... the outputed list can be used in `Journal_plots.ipynb` to plot kendall tau and common users prop. I used this code to obtain the txt files located in `PsiResults/ComparePsis/` (more on that below).
@@ -107,4 +107,4 @@ Here for each file I precise which lists of psis are compared (the lists of psis
 Those are used to do the kendall tau and common users prop with `Code/Journal_plots.ipynb`.
 
 ### PsiResults/Plots/
-Here are the plots obtained with `Code/Journal_plots.ipynb`. Except for the psi scatter plot, the results for the different user graphs (star, cascade, real) are plotted on the same figure). We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `russian_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in russian. It will contain cumulative distribution for emulator as well as model with star and cascade graph.
+Here are the plots obtained with `Code/Journal_plots.ipynb`. Except for the psi scatter plot, the results for the different user graphs (star, cascade, real) are plotted on the same figure. We also have small txt files with values of correlations between out-degree and psis, lambda and psis, etc. The names are rather explicit. Example: `russian_psi_cumul_distrib.pdf` is the plot for cumulative distribution of psis in russian. It will contain cumulative distribution for emulator as well as model with star and cascade graph.

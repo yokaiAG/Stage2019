@@ -71,7 +71,7 @@ All arguments and outputs for each code are explained in details at the very beg
 ## PsiResults
 
 ### PsiResults/Psis/
-Here you will find list of psis for wcano, russian, weibo with star, cascade, and real graph (only weibo). The lists are ordered by decreasing psi. Except stated otherwise, the convergence criterion is ||p_old - p_new|| < 10^(-3) where ||.|| denotes infinity norm. EAch file is a .txt where each line is: uid psi.
+Here you will find list of psis for wcano, russian, weibo with star, cascade, and real graph (only weibo). The lists are ordered by decreasing psi. Except stated otherwise, the convergence criterion is ||p_old - p_new|| < 10^(-3) where ||.|| denotes infinity norm. Each file is a .txt where each line is: uid psi.
 - `wcano_emul.txt` psis emul for wcano.
 - `wcano_oursin.txt` psis model for wcano with oursin graph. AMong users with psi_emul < 10^(-7), 77000 have been forced to do at least 5 iterations when computing p (i stopped at 77000 because it was too long and took a lot of RAM on the server). For other users it is the usual convergence criterion explained above.
 - `russian_cascade.txt` psis model cascade for russian with cascade graph.

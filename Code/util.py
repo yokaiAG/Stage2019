@@ -48,7 +48,7 @@ def get_activity(data_path, cascade, Author, divide_by_time=True, retweeted=Fals
     # parcourt tweets
     for i,tweet in enumerate(open(data_path)):
         tweet = tweet.split()
-        ts, uid, rtid = int(tweet[1]), int(tweet[2]), int(tweet[-1])
+        ts, uid, rtid = float(tweet[1]), int(tweet[2]), int(tweet[-1])
 
         # si user non connu on crée des nouvelles entrées de dictionnaire
         if uid not in users:
